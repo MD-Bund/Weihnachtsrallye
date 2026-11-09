@@ -3,12 +3,17 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
+
   <meta name="theme-color" content="#004b6e">
 
   <title>Weihnachtsrallye des MD Bund</title>
 
+  <!-- Leaflet für die interaktive Karte -->
   <link
     rel="stylesheet"
     href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -29,10 +34,6 @@
       box-sizing: border-box;
     }
 
-    html {
-      scroll-behavior: smooth;
-    }
-
     body {
       margin: 0;
       font-family: Calibri, Arial, sans-serif;
@@ -44,6 +45,17 @@
       font-family: inherit;
       cursor: pointer;
     }
+
+    button:focus-visible {
+      outline: 3px solid var(--gruen);
+      outline-offset: 3px;
+    }
+
+    .versteckt {
+      display: none !important;
+    }
+
+    /* HAUPTSEITE */
 
     .app {
       width: 100%;
@@ -63,10 +75,12 @@
       height: clamp(150px, 22svh, 220px);
     }
 
+    /* KARTEN-BUTTON AUF DER RALLYESEITE */
+
     .karte-button {
       position: sticky;
       top: 12px;
-      z-index: 10;
+      z-index: 20;
       float: right;
       margin-top: 12px;
       padding: 11px 15px;
@@ -86,6 +100,8 @@
     .karte-abstand {
       clear: both;
     }
+
+    /* INHALTSKARTEN */
 
     .kasten {
       margin-bottom: 16px;
@@ -125,6 +141,8 @@
     p:last-child {
       margin-bottom: 0;
     }
+
+    /* ROUTENAUSWAHL */
 
     .routen {
       display: grid;
@@ -178,6 +196,8 @@
       color: var(--tuerkis);
       font-size: 26px;
     }
+
+    /* STATIONEN */
 
     .fortschritt {
       margin-bottom: 12px;
@@ -236,15 +256,13 @@
       color: var(--dunkelblau);
     }
 
-    .versteckt {
-      display: none !important;
-    }
+    /* KARTENFENSTER */
 
     .karte {
       display: none;
       position: fixed;
       inset: 0;
-      z-index: 100;
+      z-index: 1000;
       background: white;
     }
 
@@ -257,43 +275,88 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
-      padding: 14px;
+      flex-shrink: 0;
+      gap: 10px;
+
+      padding: 12px 14px;
+      padding-top: max(
+        12px,
+        env(safe-area-inset-top)
+      );
+
       background: var(--dunkelblau);
       color: white;
-      font-weight: bold;
     }
 
-    .karte-kopf button {
-      padding: 9px 13px;
-      border: 1px solid white;
+    .karte-titel {
+      font-size: 15px;
+      font-weight: bold;
+      line-height: 1.25;
+    }
+
+    .karte-schliessen {
+      flex-shrink: 0;
+      padding: 12px 13px;
+      border: 0;
       border-radius: 10px;
-      background: transparent;
-      color: white;
-      font: inherit;
+      background: white;
+      color: var(--dunkelblau);
+      font-size: 14px;
+      font-weight: bold;
     }
 
     #kartenflaeche {
       flex: 1;
-      min-height: 250px;
+      min-height: 0;
+      width: 100%;
+    }
+
+    .karte-fuss {
+      flex-shrink: 0;
+      padding: 12px 14px;
+      padding-bottom: max(
+        12px,
+        env(safe-area-inset-bottom)
+      );
+
+      background: white;
+      border-top: 1px solid var(--hellblau);
+    }
+
+    .karte-zurueck {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      border: 0;
+      border-radius: 12px;
+      background: var(--dunkelblau);
+      color: white;
+      font-size: 17px;
+      font-weight: bold;
     }
 
     .kartenhinweis {
-      padding: 9px 14px;
-      background: #eaf6fa;
-      color: var(--dunkelblau);
-      font-size: 13px;
-      line-height: 1.4;
-    }
-
-    button:focus-visible {
-      outline: 3px solid var(--gruen);
-      outline-offset: 3px;
+      margin-top: 8px;
+      color: var(--blau);
+      font-size: 12px;
+      line-height: 1.35;
+      text-align: center;
     }
 
     @media (min-width: 600px) {
       .app {
         box-shadow: 0 0 35px #004b6e22;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .karte-titel {
+        font-size: 13px;
+      }
+
+      .karte-schliessen {
+        font-size: 12px;
+        padding: 11px 9px;
       }
     }
   </style>
@@ -302,6 +365,8 @@
 <body>
 
   <main class="app">
+
+    <!-- BUTTON ZUM ÖFFNEN DER KARTE -->
 
     <button
       id="karteButton"
@@ -339,6 +404,7 @@
             <span class="route-name">
               Die kurze Runde
             </span>
+
             <span class="route-info">
               620 m · ca. 20 Min.
             </span>
@@ -358,6 +424,7 @@
             <span class="route-name">
               Die mittlere Runde
             </span>
+
             <span class="route-info">
               1,08 km · ca. 30 Min.
             </span>
@@ -377,6 +444,7 @@
             <span class="route-name">
               Die lange Runde
             </span>
+
             <span class="route-info">
               2,3 km · ca. 60 Min.
             </span>
@@ -389,9 +457,12 @@
 
     </section>
 
-    <!-- WARTESEITE -->
+    <!-- WARTESEITE FÜR MITTEL UND LANG -->
 
-    <section id="warteseite" class="versteckt">
+    <section
+      id="warteseite"
+      class="versteckt"
+    >
 
       <div class="kasten zentriert">
 
@@ -414,9 +485,12 @@
 
     </section>
 
-    <!-- STATIONEN -->
+    <!-- STATIONSSEITE -->
 
-    <section id="stationsseite" class="versteckt">
+    <section
+      id="stationsseite"
+      class="versteckt"
+    >
 
       <div class="kasten">
 
@@ -452,7 +526,14 @@
 
   </main>
 
-  <!-- KARTENFENSTER -->
+  <!--
+    INTERAKTIVE KARTE
+
+    WICHTIG:
+    Die Schließen-Buttons liegen außerhalb
+    der Leaflet-Karte. Dadurch bleiben sie
+    jederzeit anklickbar.
+  -->
 
   <div
     id="kartenfenster"
@@ -460,31 +541,49 @@
     role="dialog"
     aria-modal="true"
     aria-label="Streckenkarte"
+    aria-hidden="true"
   >
 
     <div class="karte-kopf">
 
-      <span>
-        🗺 Kurze Runde · Streckenkarte
+      <span class="karte-titel">
+        🗺 Kurze Runde<br>
+        Streckenkarte
       </span>
 
       <button
+        id="karteSchliessenOben"
+        class="karte-schliessen"
         type="button"
         onclick="karteSchliessen()"
       >
-        ✕ Schließen
+        ✕ Zurück zur Rallye
       </button>
 
     </div>
 
     <div id="kartenflaeche"></div>
 
-    <div class="kartenhinweis">
-      Die eingezeichnete Strecke dient zur Orientierung.
-      Bitte vor Ort auf Wege und Umgebung achten.
+    <div class="karte-fuss">
+
+      <button
+        class="karte-zurueck"
+        type="button"
+        onclick="karteSchliessen()"
+      >
+        ← Zurück zur Rallye
+      </button>
+
+      <div class="kartenhinweis">
+        Die Karte dient zur Orientierung.
+        Bitte vor Ort auf die Wege achten.
+      </div>
+
     </div>
 
   </div>
+
+  <!-- LEAFLET -->
 
   <script
     src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
@@ -525,6 +624,7 @@
           >
 
           <div class="fakt">
+
             <strong>
               Wer war eigentlich Werner Müller?
             </strong>
@@ -538,6 +638,7 @@
             Strukturwandel im Ruhrgebiet und
             den sozialverträglichen Ausstieg
             aus dem Steinkohlenbergbau.
+
           </div>
 
           <div class="aufgabe">
@@ -593,8 +694,8 @@
             <p>
               Fotografiert eure Gruppe mit dem Modell.
               Wer möchte, kann so tun, als würde
-              gerade die Flugroute für den
-              Schlitten geplant.
+              er gerade die Flugroute für den
+              Schlitten planen.
             </p>
 
           </div>
@@ -802,8 +903,6 @@
     // FORTSCHRITT SPEICHERN
     // ==========================================
 
-    // Dieser Schlüssel identifiziert die
-    // gespeicherten Daten im Browser.
     const SPEICHER_SCHLUESSEL =
       "md-bund-weihnachtsrallye-2026";
 
@@ -822,11 +921,14 @@
       };
 
       try {
+
         localStorage.setItem(
           SPEICHER_SCHLUESSEL,
           JSON.stringify(daten)
         );
+
       } catch (fehler) {
+
         console.warn(
           "Fortschritt konnte nicht gespeichert werden:",
           fehler
@@ -884,7 +986,6 @@
 
           document.getElementById("karteButton")
             .hidden = true;
-
         }
 
         return true;
@@ -892,7 +993,7 @@
       } catch (fehler) {
 
         console.warn(
-          "Gespeicherter Fortschritt ist ungültig:",
+          "Gespeicherter Fortschritt ungültig:",
           fehler
         );
 
@@ -975,8 +1076,6 @@
       document.getElementById("karteButton")
         .hidden = false;
 
-      // Den aktuellen Stand bei jedem
-      // Stationswechsel speichern.
       fortschrittSpeichern();
 
       window.scrollTo(0, 0);
@@ -1013,17 +1112,24 @@
 
     function zurStartseite() {
 
+      if (karteIstOffen()) {
+        karteSchliessen();
+      }
+
       aktuelleRoute = null;
       aktuelleStation = 0;
 
       // Nur bei bewusster Rückkehr zur
-      // Streckenauswahl wird der
-      // gespeicherte Fortschritt gelöscht.
+      // Streckenauswahl wird der Stand gelöscht.
+
       try {
+
         localStorage.removeItem(
           SPEICHER_SCHLUESSEL
         );
+
       } catch (fehler) {
+
         console.warn(fehler);
       }
 
@@ -1047,20 +1153,70 @@
     let streckeGeladen = false;
     let streckeWirdGeladen = false;
 
+    // Merkt sich die Scrollposition,
+    // damit die Rallye genau dort
+    // weitergeht, wo sie verlassen wurde.
+
+    let scrollpositionVorKarte = 0;
+
+    // Merkt sich, ob für die Karte ein
+    // zusätzlicher Browser-Verlaufseintrag
+    // angelegt wurde.
+
+    let kartenVerlaufAktiv = false;
+
+    function karteIstOffen() {
+
+      return document.getElementById(
+        "kartenfenster"
+      ).classList.contains("offen");
+    }
+
     async function karteOeffnen() {
+
+      if (karteIstOffen()) {
+        return;
+      }
+
+      scrollpositionVorKarte = window.scrollY;
 
       const fenster =
         document.getElementById("kartenfenster");
 
       fenster.classList.add("offen");
 
+      fenster.setAttribute(
+        "aria-hidden",
+        "false"
+      );
+
       document.body.style.overflow = "hidden";
+
+      // Ein zusätzlicher Verlaufseintrag sorgt
+      // dafür, dass die Zurück-Taste des Handys
+      // zunächst die Karte schließt.
+
+      if (!kartenVerlaufAktiv) {
+
+        history.pushState(
+          { weihnachtsrallyeKarte: true },
+          "",
+          window.location.href
+        );
+
+        kartenVerlaufAktiv = true;
+      }
+
+      document.getElementById(
+        "karteSchliessenOben"
+      ).focus();
 
       if (typeof L === "undefined") {
 
         alert(
-          "Die Kartenbibliothek konnte nicht geladen werden. " +
-          "Bitte die Internetverbindung prüfen."
+          "Die Kartenbibliothek konnte nicht " +
+          "geladen werden. Bitte die " +
+          "Internetverbindung prüfen."
         );
 
         return;
@@ -1078,7 +1234,8 @@
           }
         ).addTo(karte);
 
-        // Ausgangsansicht: Zeche Zollverein
+        // Ausgangsansicht: Zollverein
+
         karte.setView(
           [51.486, 7.043],
           16
@@ -1086,8 +1243,10 @@
       }
 
       setTimeout(() => {
+
         karte.invalidateSize();
-      }, 100);
+
+      }, 150);
 
       if (
         streckeGeladen ||
@@ -1106,6 +1265,7 @@
         );
 
         if (!antwort.ok) {
+
           throw new Error(
             "GPX-Datei nicht erreichbar: HTTP " +
             antwort.status
@@ -1125,14 +1285,14 @@
             "parsererror"
           ).length > 0
         ) {
+
           throw new Error(
             "Die GPX-Datei enthält ungültiges XML."
           );
         }
 
-        // GPX-Tracks verwenden trkpt.
-        // GPX-Routen verwenden rtept.
-        // Beide Formate werden unterstützt.
+        // GPX-Tracks: trkpt
+        // GPX-Routen: rtept
 
         let elemente = Array.from(
           xml.getElementsByTagName("trkpt")
@@ -1158,10 +1318,12 @@
 
           ])
           .filter(punkt =>
+
             Number.isFinite(punkt[0]) &&
             Number.isFinite(punkt[1]) &&
             Math.abs(punkt[0]) <= 90 &&
             Math.abs(punkt[1]) <= 180
+
           );
 
         if (punkte.length < 2) {
@@ -1191,9 +1353,7 @@
           }
         )
         .addTo(karte)
-        .bindPopup(
-          "Start: The Mine"
-        );
+        .bindPopup("Start: The Mine");
 
         L.circleMarker(
           punkte[punkte.length - 1],
@@ -1205,9 +1365,7 @@
           }
         )
         .addTo(karte)
-        .bindPopup(
-          "Ziel der Route"
-        );
+        .bindPopup("Ziel der Route");
 
         karte.fitBounds(
           linie.getBounds(),
@@ -1238,14 +1396,96 @@
       }
     }
 
-    function karteSchliessen() {
+    // Schließt die Karte optisch,
+    // ohne die aktuelle Station zu ändern.
 
-      document.getElementById(
-        "kartenfenster"
-      ).classList.remove("offen");
+    function kartenansichtAusblenden() {
+
+      const fenster =
+        document.getElementById("kartenfenster");
+
+      fenster.classList.remove("offen");
+
+      fenster.setAttribute(
+        "aria-hidden",
+        "true"
+      );
 
       document.body.style.overflow = "";
+
+      window.scrollTo(
+        0,
+        scrollpositionVorKarte
+      );
+
+      document.getElementById(
+        "karteButton"
+      ).focus();
     }
+
+    // Wird durch die beiden Buttons aufgerufen.
+
+    function karteSchliessen() {
+
+      if (!karteIstOffen()) {
+        return;
+      }
+
+      kartenansichtAusblenden();
+
+      // Den beim Öffnen erzeugten
+      // Verlaufseintrag wieder entfernen.
+
+      if (kartenVerlaufAktiv) {
+
+        kartenVerlaufAktiv = false;
+
+        if (
+          history.state &&
+          history.state.weihnachtsrallyeKarte
+        ) {
+
+          history.back();
+        }
+      }
+    }
+
+    // Reagiert auf die Zurück-Taste
+    // des Smartphones beziehungsweise
+    // des Browsers.
+
+    window.addEventListener(
+      "popstate",
+      function () {
+
+        if (karteIstOffen()) {
+
+          kartenVerlaufAktiv = false;
+          kartenansichtAusblenden();
+
+        } else {
+
+          kartenVerlaufAktiv = false;
+        }
+      }
+    );
+
+    // Auf Computern kann die Karte
+    // zusätzlich mit Escape geschlossen werden.
+
+    document.addEventListener(
+      "keydown",
+      function (ereignis) {
+
+        if (
+          ereignis.key === "Escape" &&
+          karteIstOffen()
+        ) {
+
+          karteSchliessen();
+        }
+      }
+    );
 
 
     // ==========================================
@@ -1256,9 +1496,9 @@
       "DOMContentLoaded",
       function () {
 
-        // Gibt es einen gespeicherten Stand,
-        // wird dieser automatisch angezeigt.
-        // Andernfalls bleibt die Startseite offen.
+        // Gespeicherten Fortschritt laden.
+        // Falls nichts gespeichert wurde,
+        // bleibt die Streckenauswahl sichtbar.
 
         fortschrittLaden();
 
