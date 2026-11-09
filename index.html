@@ -11,6 +11,7 @@
 
   <title>Weihnachtsrallye des MD Bund</title>
 
+  <!-- Interaktive Karte -->
   <link
     rel="stylesheet"
     href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -59,12 +60,9 @@
     /*
       HINTERGRUND
 
-      Das Hintergrundbild behält sein
-      ursprüngliches Seitenverhältnis.
-
-      Dadurch wird das Logo nicht mehr
-      gestreckt, wenn eine Station
-      besonders viel Text enthält.
+      Das Hintergrundbild wird proportional
+      angezeigt und nicht mehr in die Länge
+      gezogen, wenn eine Station mehr Text hat.
     */
 
     .app {
@@ -87,7 +85,7 @@
     }
 
     /*
-      KARTEN-BUTTON
+      KARTEN-BUTTON AUF DER RALLYESEITE
     */
 
     .karte-button {
@@ -115,7 +113,7 @@
     }
 
     /*
-      KÄSTEN UND TEXTE
+      KÄSTEN
     */
 
     .kasten {
@@ -172,7 +170,7 @@
     }
 
     /*
-      STARTSEITE
+      ROUTENAUSWAHL
     */
 
     .routen {
@@ -267,10 +265,7 @@
       font-size: 16px;
     }
 
-    .challenge-titel {
-      color: white;
-    }
-
+    .challenge-titel,
     .kasten-challenge p {
       color: white;
     }
@@ -304,7 +299,7 @@
     }
 
     /*
-      INTERAKTIVE KARTE
+      KARTENFENSTER
     */
 
     .karte {
@@ -541,7 +536,8 @@
       class="versteckt"
     >
 
-      <!-- WEISSER KASTEN -->
+      <!-- WEISSER KASTEN:
+           WEG UND FOTO -->
 
       <div class="kasten kasten-weiss">
 
@@ -565,7 +561,8 @@
 
       </div>
 
-      <!-- HELLBLAUER FAKTENKASTEN -->
+      <!-- HELLBLAUER KASTEN:
+           WISSENSFAKT -->
 
       <div
         id="faktKasten"
@@ -581,7 +578,8 @@
 
       </div>
 
-      <!-- TÜRKISFARBENER CHALLENGE-KASTEN -->
+      <!-- TÜRKISFARBENER KASTEN:
+           FOTO-CHALLENGE -->
 
       <div
         id="challengeKasten"
@@ -608,7 +606,7 @@
 
       </div>
 
-      <!-- ZURÜCK -->
+      <!-- ZURÜCK-BUTTON -->
 
       <button
         class="button button-zurueck"
@@ -622,7 +620,7 @@
 
   </main>
 
-  <!-- KARTENFENSTER -->
+  <!-- INTERAKTIVE KARTE -->
 
   <div
     id="kartenfenster"
@@ -672,6 +670,8 @@
 
   </div>
 
+  <!-- LEAFLET -->
+
   <script
     src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
   ></script>
@@ -684,7 +684,10 @@
 
     const stationen = [
 
-      // STATION 1
+      // ========================================
+      // STATION 1: ROLLTREPPE
+      // ========================================
+
       {
         titel: "Die orangefarbene Rolltreppe",
 
@@ -705,7 +708,7 @@
         foto: "rolltreppe.jpg",
 
         fotoAlt:
-          "Orangefarbene Rolltreppe auf Zollverein",
+          "Die orangefarbene Rolltreppe auf Zollverein",
 
         faktTitel:
           "Wer war eigentlich Werner Müller?",
@@ -739,7 +742,10 @@
         `
       },
 
-      // STATION 2
+      // ========================================
+      // STATION 2: GLASMODELL
+      // ========================================
+
       {
         titel: "Zollverein aus der Vogelperspektive",
 
@@ -756,7 +762,11 @@
           </p>
         `,
 
-        foto: "",
+        foto: "glasmodell.jpg",
+
+        fotoAlt:
+          "Gläsernes Modell der Zeche Zollverein",
+
         faktTitel: "",
         fakt: "",
 
@@ -779,7 +789,10 @@
         `
       },
 
-      // STATION 3
+      // ========================================
+      // STATION 3: HISTORISCHE RÄDER
+      // ========================================
+
       {
         titel: "Das Rad nicht neu erfinden",
 
@@ -801,7 +814,11 @@
           </p>
         `,
 
-        foto: "",
+        foto: "rad.jpg",
+
+        fotoAlt:
+          "Große historische Räder auf dem Zollverein-Gelände",
+
         faktTitel: "",
         fakt: "",
 
@@ -826,7 +843,10 @@
         `
       },
 
-      // STATION 4
+      // ========================================
+      // STATION 4: RED DOT
+      // ========================================
+
       {
         titel: "Red Dot Design Museum",
 
@@ -842,7 +862,11 @@
           </p>
         `,
 
-        foto: "",
+        foto: "reddot.jpg",
+
+        fotoAlt:
+          "Red Dot Design Museum auf Zollverein",
+
         faktTitel: "",
         fakt: "",
 
@@ -865,7 +889,10 @@
         `
       },
 
-      // STATION 5
+      // ========================================
+      // STATION 5: ENGEL
+      // ========================================
+
       {
         titel: "Die Engel am Casino",
 
@@ -886,7 +913,11 @@
           </p>
         `,
 
-        foto: "",
+        foto: "engel.jpg",
+
+        fotoAlt:
+          "Zwei kopflose Engelsfiguren am Casino Zollverein",
+
         faktTitel: "",
         fakt: "",
 
@@ -908,7 +939,10 @@
         `
       },
 
-      // STATION 6
+      // ========================================
+      // STATION 6: DOPPELBOCK
+      // ========================================
+
       {
         titel: "Das Doppelbock-Fördergerüst",
 
@@ -925,7 +959,11 @@
           </p>
         `,
 
-        foto: "",
+        foto: "doppelbock.jpg",
+
+        fotoAlt:
+          "Das Doppelbock-Fördergerüst der Zeche Zollverein",
+
         faktTitel: "",
         fakt: "",
 
@@ -949,7 +987,10 @@
         `
       },
 
-      // ZIEL
+      // ========================================
+      // ZIEL: THE MINE
+      // ========================================
+
       {
         titel: "Geschafft! 🎄",
 
@@ -976,8 +1017,11 @@
         `,
 
         foto: "",
+        fotoAlt: "",
+
         faktTitel: "",
         fakt: "",
+
         challengeTitel: "",
         challenge: ""
       }
@@ -1137,6 +1181,8 @@
       const istAbschluss =
         aktuelleStation === stationen.length - 1;
 
+      // TITEL UND STATIONSNUMMER
+
       document.getElementById("stationTitel")
         .textContent = station.titel;
 
@@ -1151,7 +1197,7 @@
       document.getElementById("stationWeg")
         .innerHTML = station.weg;
 
-      // FOTO
+      // STATIONSFOTO
 
       const fotoBereich =
         document.getElementById("stationFoto");
@@ -1170,7 +1216,7 @@
         fotoBereich.appendChild(bild);
       }
 
-      // FAKT
+      // FAKTENKASTEN
 
       const faktKasten =
         document.getElementById("faktKasten");
@@ -1234,7 +1280,7 @@
       document.getElementById("karteButton")
         .hidden = false;
 
-      // SPEICHERN
+      // FORTSCHRITT SPEICHERN
 
       fortschrittSpeichern();
 
@@ -1340,6 +1386,9 @@
 
       document.body.style.overflow = "hidden";
 
+      // Zusätzlicher Verlaufseintrag:
+      // Die Zurück-Taste schließt die Karte.
+
       history.pushState(
         { weihnachtsrallyeKarte: true },
         "",
@@ -1429,6 +1478,8 @@
             "Die GPX-Datei enthält ungültiges XML."
           );
         }
+
+        // GPX-Trackpunkte oder Routenpunkte
 
         let elemente = Array.from(
           xml.getElementsByTagName("trkpt")
