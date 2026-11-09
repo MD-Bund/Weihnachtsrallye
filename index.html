@@ -55,30 +55,108 @@
     }
 
     /*
-      GRUNDLAYOUT
+      ========================================
+      HINTERGRUND MIT ZWEI BILDERN
+      ========================================
+
+      Bild 1:
+      hintergrund.png
+
+      Bild 2:
+      hintergrund-unten.png
+
+      Das erste Bild bleibt oben.
+
+      Das zweite Bild beginnt exakt
+      darunter und wird bei Bedarf
+      nach unten wiederholt.
+
+      Die Höhe des ersten Bildes wird
+      automatisch aus seinen tatsächlichen
+      Bildmaßen berechnet.
     */
 
     .app {
+      position: relative;
+
       width: 100%;
       max-width: 480px;
+
       min-height: 100vh;
       min-height: 100svh;
+
       margin: 0 auto;
       padding: 0 20px 32px;
 
       background-color: #eaf6fa;
-      background-image: url("hintergrund.png");
-      background-repeat: no-repeat;
-      background-position: center top;
-      background-size: 100% auto;
     }
 
     /*
-      Das Logo befindet sich bereits
-      im Hintergrundbild.
+      Beide Hintergrundbilder liegen
+      hinter den eigentlichen Inhalten.
+    */
 
-      Der Abstand ist auf den Stationsseiten
-      bewusst kleiner als zuvor.
+    .hintergrund-oben,
+    .hintergrund-unten {
+      position: absolute;
+      left: 0;
+      right: 0;
+
+      width: 100%;
+
+      pointer-events: none;
+    }
+
+    .hintergrund-oben {
+      top: 0;
+
+      height: var(
+        --hintergrund-hoehe,
+        480px
+      );
+
+      background-image:
+        url("hintergrund.png");
+
+      background-repeat: no-repeat;
+      background-position: top center;
+      background-size: 100% auto;
+
+      z-index: 0;
+    }
+
+    .hintergrund-unten {
+      top: var(
+        --hintergrund-hoehe,
+        480px
+      );
+
+      bottom: 0;
+
+      background-image:
+        url("hintergrund-unten.png");
+
+      background-repeat: repeat-y;
+      background-position: top center;
+      background-size: 100% auto;
+
+      z-index: 0;
+    }
+
+    /*
+      Sämtliche Inhalte liegen
+      über den Hintergrundbildern.
+    */
+
+    .app-inhalt {
+      position: relative;
+      z-index: 1;
+    }
+
+    /*
+      ========================================
+      LOGO-BEREICH
+      ========================================
     */
 
     .kopfbereich {
@@ -88,10 +166,6 @@
 
     /*
       KARTENBUTTON
-
-      Er sitzt unterhalb des Logos.
-      Dadurch wird die Schrift im
-      Hintergrundbild nicht überdeckt.
     */
 
     .karte-button {
@@ -101,6 +175,7 @@
       z-index: 20;
 
       padding: 10px 14px;
+
       border: 0;
       border-radius: 24px;
 
@@ -118,18 +193,24 @@
     }
 
     /*
+      ========================================
       KÄSTEN
+      ========================================
     */
 
     .kasten {
       margin-bottom: 14px;
       padding: 19px 17px;
+
       border-radius: 17px;
+
       box-shadow: 0 3px 12px #004b6e14;
     }
 
     .kasten-weiss {
-      background: rgba(255, 255, 255, 0.97);
+      background: rgba(
+        255, 255, 255, 0.97
+      );
     }
 
     .kasten-fakt {
@@ -152,7 +233,9 @@
     }
 
     /*
+      ========================================
       SCHRIFT
+      ========================================
     */
 
     h1 {
@@ -184,7 +267,9 @@
     }
 
     /*
+      ========================================
       STARTSEITE
+      ========================================
     */
 
     .routen {
@@ -198,12 +283,16 @@
 
       width: 100%;
       min-height: 90px;
+
       padding: 16px;
 
       text-align: left;
       color: var(--dunkelblau);
 
-      background: rgba(255, 255, 255, 0.97);
+      background: rgba(
+        255, 255, 255, 0.97
+      );
+
       border: 2px solid var(--hellblau);
       border-radius: 17px;
 
@@ -218,6 +307,7 @@
 
       width: 48px;
       height: 48px;
+
       margin-right: 14px;
 
       border-radius: 12px;
@@ -232,13 +322,16 @@
 
     .route-name {
       display: block;
+
       margin-bottom: 5px;
+
       font-size: 19px;
       font-weight: bold;
     }
 
     .route-info {
       display: block;
+
       color: var(--blau);
       font-size: 15px;
     }
@@ -249,11 +342,14 @@
     }
 
     /*
-      STATIONSSEITEN
+      ========================================
+      STATIONEN
+      ========================================
     */
 
     .fortschritt {
       margin-bottom: 10px;
+
       color: var(--blau);
       font-size: 14px;
       font-weight: bold;
@@ -274,11 +370,12 @@
 
       width: 100%;
       height: auto;
-      max-height: 310px;
 
+      max-height: 310px;
       object-fit: cover;
 
       margin-top: 17px;
+
       border-radius: 12px;
     }
 
@@ -292,7 +389,9 @@
     }
 
     /*
+      ========================================
       QUIZ
+      ========================================
     */
 
     .quiz-frage {
@@ -347,7 +446,9 @@
     }
 
     /*
+      ========================================
       BUTTONS
+      ========================================
     */
 
     .button {
@@ -382,7 +483,9 @@
     }
 
     /*
+      ========================================
       KARTENFENSTER
+      ========================================
     */
 
     .karte {
@@ -409,6 +512,7 @@
       gap: 10px;
 
       padding: 12px 14px;
+
       padding-top: max(
         12px,
         env(safe-area-inset-top)
@@ -449,12 +553,14 @@
       flex-shrink: 0;
 
       padding: 12px 14px;
+
       padding-bottom: max(
         12px,
         env(safe-area-inset-bottom)
       );
 
       background: white;
+
       border-top: 1px solid var(--hellblau);
     }
 
@@ -482,6 +588,12 @@
       line-height: 1.35;
       text-align: center;
     }
+
+    /*
+      ========================================
+      RESPONSIVES DESIGN
+      ========================================
+    */
 
     @media (min-width: 600px) {
       .app {
@@ -512,235 +624,276 @@
 
 <body>
 
-  <main class="app">
+  <main class="app" id="app">
 
-    <!-- LOGO UND KARTENBUTTON -->
+    <!--
+      BEIDE HINTERGRUNDBILDER
+    -->
 
-    <div class="kopfbereich">
+    <div
+      class="hintergrund-oben"
+      aria-hidden="true"
+    ></div>
 
-      <button
-        id="karteButton"
-        class="karte-button"
-        type="button"
-        onclick="karteOeffnen()"
-        hidden
-      >
-        🗺 Karte
-      </button>
+    <div
+      class="hintergrund-unten"
+      aria-hidden="true"
+    ></div>
 
-    </div>
+    <!--
+      EIGENTLICHER SEITENINHALT
+    -->
 
-    <!-- STARTSEITE -->
+    <div class="app-inhalt">
 
-    <section id="startseite">
+      <!-- LOGO UND KARTENBUTTON -->
 
-      <div class="kasten kasten-weiss zentriert">
-        <h1>
-          Strecke wählen und Weihnachtsrallye starten
-        </h1>
+      <div class="kopfbereich">
+
+        <button
+          id="karteButton"
+          class="karte-button"
+          type="button"
+          onclick="karteOeffnen()"
+          hidden
+        >
+          🗺 Karte
+        </button>
+
       </div>
 
-      <nav class="routen" aria-label="Routenauswahl">
+      <!-- STARTSEITE -->
 
-        <button
-          class="route"
-          type="button"
-          onclick="routeWaehlen('kurz')"
+      <section id="startseite">
+
+        <div class="kasten kasten-weiss zentriert">
+          <h1>
+            Strecke wählen und Weihnachtsrallye starten
+          </h1>
+        </div>
+
+        <nav
+          class="routen"
+          aria-label="Routenauswahl"
         >
-          <span class="symbol">❄️</span>
 
-          <span class="route-text">
-            <span class="route-name">
-              Die kurze Runde
+          <button
+            class="route"
+            type="button"
+            onclick="routeWaehlen('kurz')"
+          >
+
+            <span class="symbol">❄️</span>
+
+            <span class="route-text">
+
+              <span class="route-name">
+                Die kurze Runde
+              </span>
+
+              <span class="route-info">
+                620 m · ca. 20 Min.
+              </span>
+
             </span>
 
-            <span class="route-info">
-              620 m · ca. 20 Min.
+            <span class="pfeil">›</span>
+
+          </button>
+
+          <button
+            class="route"
+            type="button"
+            onclick="routeWaehlen('mittel')"
+          >
+
+            <span class="symbol">🎄</span>
+
+            <span class="route-text">
+
+              <span class="route-name">
+                Die mittlere Runde
+              </span>
+
+              <span class="route-info">
+                1,08 km · ca. 30 Min.
+              </span>
+
             </span>
-          </span>
 
-          <span class="pfeil">›</span>
-        </button>
+            <span class="pfeil">›</span>
 
-        <button
-          class="route"
-          type="button"
-          onclick="routeWaehlen('mittel')"
+          </button>
+
+          <button
+            class="route"
+            type="button"
+            onclick="routeWaehlen('lang')"
+          >
+
+            <span class="symbol">⭐</span>
+
+            <span class="route-text">
+
+              <span class="route-name">
+                Die lange Runde
+              </span>
+
+              <span class="route-info">
+                2,3 km · ca. 60 Min.
+              </span>
+
+            </span>
+
+            <span class="pfeil">›</span>
+
+          </button>
+
+        </nav>
+
+      </section>
+
+      <!-- WARTESEITE -->
+
+      <section
+        id="warteseite"
+        class="versteckt"
+      >
+
+        <div class="kasten kasten-weiss zentriert">
+
+          <h2>❄️ Noch etwas Geduld!</h2>
+
+          <p>
+            Diese Strecke wird noch vom Schnee geräumt.
+            Bitte noch etwas warten.
+          </p>
+
+          <button
+            class="button button-zurueck"
+            type="button"
+            onclick="zurStartseite()"
+          >
+            ← Zur Streckenauswahl
+          </button>
+
+        </div>
+
+      </section>
+
+      <!-- STATIONSSEITE -->
+
+      <section
+        id="stationsseite"
+        class="versteckt"
+      >
+
+        <!-- WEG UND FOTO -->
+
+        <div class="kasten kasten-weiss">
+
+          <div
+            id="fortschritt"
+            class="fortschritt"
+          ></div>
+
+          <h2
+            id="stationTitel"
+            class="station-titel"
+          ></h2>
+
+          <h3 class="weg-titel">
+            🧭 Wegbeschreibung
+          </h3>
+
+          <div id="stationWeg"></div>
+
+          <div id="stationFoto"></div>
+
+        </div>
+
+        <!-- FAKTENKASTEN -->
+
+        <div
+          id="faktKasten"
+          class="kasten kasten-fakt versteckt"
         >
-          <span class="symbol">🎄</span>
 
-          <span class="route-text">
-            <span class="route-name">
-              Die mittlere Runde
-            </span>
+          <h3 id="faktTitel"></h3>
 
-            <span class="route-info">
-              1,08 km · ca. 30 Min.
-            </span>
-          </span>
+          <div id="stationFakt"></div>
 
-          <span class="pfeil">›</span>
-        </button>
+        </div>
 
-        <button
-          class="route"
-          type="button"
-          onclick="routeWaehlen('lang')"
+        <!-- QUIZKASTEN -->
+
+        <div
+          id="quizKasten"
+          class="kasten kasten-quiz versteckt"
         >
-          <span class="symbol">⭐</span>
 
-          <span class="route-text">
-            <span class="route-name">
-              Die lange Runde
-            </span>
+          <h3>❓ Quizfrage</h3>
 
-            <span class="route-info">
-              2,3 km · ca. 60 Min.
-            </span>
-          </span>
+          <p
+            id="quizFrage"
+            class="quiz-frage"
+          ></p>
 
-          <span class="pfeil">›</span>
-        </button>
+          <div id="quizOptionen"></div>
 
-      </nav>
+          <div
+            id="quizErgebnis"
+            class="quiz-ergebnis versteckt"
+            aria-live="polite"
+          ></div>
 
-    </section>
+        </div>
 
-    <!-- WARTESEITE -->
+        <!-- FOTO-CHALLENGE -->
 
-    <section
-      id="warteseite"
-      class="versteckt"
-    >
+        <div
+          id="challengeKasten"
+          class="kasten kasten-challenge"
+        >
 
-      <div class="kasten kasten-weiss zentriert">
+          <h3 id="challengeTitel">
+            📸 Foto-Challenge
+          </h3>
 
-        <h2>❄️ Noch etwas Geduld!</h2>
+          <div id="stationChallenge"></div>
 
-        <p>
-          Diese Strecke wird noch vom Schnee geräumt.
-          Bitte noch etwas warten.
-        </p>
+          <button
+            id="weiterButton"
+            class="button button-weiter"
+            type="button"
+            onclick="naechsteStation()"
+          >
+            📸 Foto gemacht · Weiter
+          </button>
+
+        </div>
+
+        <!-- ZURÜCK -->
 
         <button
           class="button button-zurueck"
           type="button"
-          onclick="zurStartseite()"
+          onclick="vorherigeStation()"
         >
-          ← Zur Streckenauswahl
+          ← Zurück
         </button>
 
-      </div>
+      </section>
 
-    </section>
-
-    <!-- STATIONSSEITE -->
-
-    <section
-      id="stationsseite"
-      class="versteckt"
-    >
-
-      <!-- WEG UND FOTO -->
-
-      <div class="kasten kasten-weiss">
-
-        <div
-          id="fortschritt"
-          class="fortschritt"
-        ></div>
-
-        <h2
-          id="stationTitel"
-          class="station-titel"
-        ></h2>
-
-        <h3 class="weg-titel">
-          🧭 Wegbeschreibung
-        </h3>
-
-        <div id="stationWeg"></div>
-
-        <div id="stationFoto"></div>
-
-      </div>
-
-      <!-- FAKTENKASTEN -->
-
-      <div
-        id="faktKasten"
-        class="kasten kasten-fakt versteckt"
-      >
-
-        <h3 id="faktTitel"></h3>
-
-        <div id="stationFakt"></div>
-
-      </div>
-
-      <!-- QUIZKASTEN -->
-
-      <div
-        id="quizKasten"
-        class="kasten kasten-quiz versteckt"
-      >
-
-        <h3>❓ Quizfrage</h3>
-
-        <p
-          id="quizFrage"
-          class="quiz-frage"
-        ></p>
-
-        <div id="quizOptionen"></div>
-
-        <div
-          id="quizErgebnis"
-          class="quiz-ergebnis versteckt"
-          aria-live="polite"
-        ></div>
-
-      </div>
-
-      <!-- FOTO-CHALLENGE -->
-
-      <div
-        id="challengeKasten"
-        class="kasten kasten-challenge"
-      >
-
-        <h3 id="challengeTitel">
-          📸 Foto-Challenge
-        </h3>
-
-        <div id="stationChallenge"></div>
-
-        <button
-          id="weiterButton"
-          class="button button-weiter"
-          type="button"
-          onclick="naechsteStation()"
-        >
-          📸 Foto gemacht · Weiter
-        </button>
-
-      </div>
-
-      <!-- ZURÜCK -->
-
-      <button
-        class="button button-zurueck"
-        type="button"
-        onclick="vorherigeStation()"
-      >
-        ← Zurück
-      </button>
-
-    </section>
+    </div>
 
   </main>
 
-  <!-- KARTENFENSTER -->
+  <!--
+    ==========================================
+    KARTENFENSTER
+    ==========================================
+  -->
 
   <div
     id="kartenfenster"
@@ -790,13 +943,68 @@
 
   </div>
 
-  <!-- LEAFLET -->
+  <!--
+    ==========================================
+    LEAFLET
+    ==========================================
+  -->
 
   <script
     src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
   ></script>
 
   <script>
+
+    // ==========================================
+    // HINTERGRUNDBILDER ANEINANDERSETZEN
+    // ==========================================
+
+    function hintergrundEinrichten() {
+
+      const bild = new Image();
+
+      bild.onload = function () {
+
+        const app =
+          document.getElementById("app");
+
+        if (!app) {
+          return;
+        }
+
+        /*
+          Das erste Hintergrundbild wird
+          proportional auf die tatsächliche
+          Breite der Website skaliert.
+
+          Aus dem Seitenverhältnis ergibt
+          sich seine korrekte Höhe.
+        */
+
+        const breite =
+          app.getBoundingClientRect().width;
+
+        const hoehe =
+          breite *
+          bild.naturalHeight /
+          bild.naturalWidth;
+
+        app.style.setProperty(
+          "--hintergrund-hoehe",
+          hoehe + "px"
+        );
+      };
+
+      bild.onerror = function () {
+
+        console.warn(
+          "hintergrund.png konnte nicht geladen werden."
+        );
+      };
+
+      bild.src = "hintergrund.png";
+    }
+
 
     // ==========================================
     // STATIONEN DER KURZEN RUNDE
@@ -1852,9 +2060,6 @@
       document.body.style.overflow =
         "hidden";
 
-      // Browser-Zurück schließt
-      // die Kartenansicht.
-
       history.pushState(
         {
           weihnachtsrallyeKarte: true
@@ -1896,8 +2101,6 @@
               "&copy; OpenStreetMap"
           }
         ).addTo(karte);
-
-        // Startansicht Zollverein
 
         karte.setView(
           [51.486, 7.043],
@@ -2032,8 +2235,6 @@
             }
           ).addTo(karte);
 
-        // STARTMARKIERUNG
-
         L.circleMarker(
           punkte[0],
           {
@@ -2047,8 +2248,6 @@
         .bindPopup(
           "Start: The Mine"
         );
-
-        // ZIELMARKIERUNG
 
         L.circleMarker(
           punkte[
@@ -2201,9 +2400,22 @@
       "DOMContentLoaded",
       function () {
 
+        hintergrundEinrichten();
+
         fortschrittLaden();
 
       }
+    );
+
+    /*
+      Falls sich die Breite ändert,
+      werden die Hintergründe neu
+      ausgerichtet.
+    */
+
+    window.addEventListener(
+      "resize",
+      hintergrundEinrichten
     );
 
   </script>
