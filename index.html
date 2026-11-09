@@ -3,17 +3,14 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1"
   >
-
   <meta name="theme-color" content="#004b6e">
 
   <title>Weihnachtsrallye des MD Bund</title>
 
-  <!-- Leaflet für die interaktive Karte -->
   <link
     rel="stylesheet"
     href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -34,11 +31,15 @@
       box-sizing: border-box;
     }
 
+    html {
+      scroll-behavior: auto;
+    }
+
     body {
       margin: 0;
       font-family: Calibri, Arial, sans-serif;
       color: var(--dunkelblau);
-      background: var(--hellblau);
+      background: #eaf6fa;
     }
 
     button {
@@ -55,7 +56,16 @@
       display: none !important;
     }
 
-    /* HAUPTSEITE */
+    /*
+      HINTERGRUND
+
+      Das Hintergrundbild behält sein
+      ursprüngliches Seitenverhältnis.
+
+      Dadurch wird das Logo nicht mehr
+      gestreckt, wenn eine Station
+      besonders viel Text enthält.
+    */
 
     .app {
       width: 100%;
@@ -65,17 +75,20 @@
       margin: 0 auto;
       padding: 0 20px 32px;
 
+      background-color: #eaf6fa;
       background-image: url("hintergrund.png");
       background-repeat: no-repeat;
       background-position: center top;
-      background-size: 100% 100%;
+      background-size: 100% auto;
     }
 
     .logo-abstand {
       height: clamp(150px, 22svh, 220px);
     }
 
-    /* KARTEN-BUTTON AUF DER RALLYESEITE */
+    /*
+      KARTEN-BUTTON
+    */
 
     .karte-button {
       position: sticky;
@@ -101,14 +114,29 @@
       clear: both;
     }
 
-    /* INHALTSKARTEN */
+    /*
+      KÄSTEN UND TEXTE
+    */
 
     .kasten {
-      margin-bottom: 16px;
-      padding: 20px 17px;
-      border-radius: 18px;
-      background: rgba(255, 255, 255, 0.96);
-      box-shadow: 0 3px 14px #004b6e14;
+      margin-bottom: 14px;
+      padding: 19px 17px;
+      border-radius: 17px;
+      box-shadow: 0 3px 12px #004b6e14;
+    }
+
+    .kasten-weiss {
+      background: rgba(255, 255, 255, 0.97);
+    }
+
+    .kasten-fakt {
+      background: #d5ecf4;
+      border-left: 5px solid var(--blau);
+    }
+
+    .kasten-challenge {
+      background: var(--tuerkis);
+      color: white;
     }
 
     .zentriert {
@@ -128,8 +156,9 @@
     }
 
     h3 {
-      margin: 20px 0 8px;
-      font-size: 18px;
+      margin: 0 0 12px;
+      font-size: 19px;
+      line-height: 1.3;
     }
 
     p {
@@ -142,7 +171,9 @@
       margin-bottom: 0;
     }
 
-    /* ROUTENAUSWAHL */
+    /*
+      STARTSEITE
+    */
 
     .routen {
       display: grid;
@@ -157,7 +188,7 @@
       padding: 16px;
       text-align: left;
       color: var(--dunkelblau);
-      background: rgba(255, 255, 255, 0.96);
+      background: rgba(255, 255, 255, 0.97);
       border: 2px solid var(--hellblau);
       border-radius: 17px;
       box-shadow: 0 3px 12px #004b6e14;
@@ -197,66 +228,84 @@
       font-size: 26px;
     }
 
-    /* STATIONEN */
+    /*
+      STATIONSINHALTE
+    */
 
     .fortschritt {
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       color: var(--blau);
       font-size: 14px;
       font-weight: bold;
     }
 
+    .station-titel {
+      margin-bottom: 22px;
+    }
+
+    .weg-titel {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+
     .stationsfoto {
       display: block;
       width: 100%;
-      max-height: 310px;
       height: auto;
+      max-height: 310px;
       object-fit: cover;
-      margin: 14px 0 18px;
-      border-radius: 13px;
+      margin-top: 17px;
+      border-radius: 12px;
     }
 
-    .fakt {
-      margin: 15px 0;
-      padding: 13px;
-      border-left: 4px solid var(--tuerkis);
-      border-radius: 0 10px 10px 0;
-      background: #d5ecf47a;
+    .fakt-titel {
+      color: var(--dunkelblau);
+    }
+
+    .kasten-fakt p {
       font-size: 16px;
-      line-height: 1.45;
     }
 
-    .aufgabe {
-      margin: 17px 0;
-      padding: 15px;
-      border-radius: 13px;
-      background: #eaf6fa;
+    .challenge-titel {
+      color: white;
     }
 
-    .aufgabe h3 {
-      margin-top: 0;
+    .kasten-challenge p {
+      color: white;
     }
+
+    /*
+      BUTTONS
+    */
 
     .button {
       display: block;
       width: 100%;
-      margin-top: 14px;
       padding: 15px 18px;
       border: 0;
-      border-radius: 13px;
-      background: var(--tuerkis);
-      color: white;
+      border-radius: 12px;
       font-size: 17px;
       font-weight: bold;
     }
 
+    .button-weiter {
+      margin-top: 20px;
+      background: white;
+      color: var(--dunkelblau);
+      box-shadow: 0 3px 8px #004b6e20;
+    }
+
     .button-zurueck {
+      margin-top: 14px;
       border: 2px solid var(--hellblau);
       background: white;
       color: var(--dunkelblau);
     }
 
-    /* KARTENFENSTER */
+    /*
+      INTERAKTIVE KARTE
+    */
 
     .karte {
       display: none;
@@ -291,7 +340,7 @@
     .karte-titel {
       font-size: 15px;
       font-weight: bold;
-      line-height: 1.25;
+      line-height: 1.3;
     }
 
     .karte-schliessen {
@@ -355,8 +404,8 @@
       }
 
       .karte-schliessen {
-        font-size: 12px;
         padding: 11px 9px;
+        font-size: 12px;
       }
     }
   </style>
@@ -366,7 +415,7 @@
 
   <main class="app">
 
-    <!-- BUTTON ZUM ÖFFNEN DER KARTE -->
+    <!-- KARTEN-BUTTON -->
 
     <button
       id="karteButton"
@@ -385,7 +434,7 @@
 
     <section id="startseite">
 
-      <div class="kasten zentriert">
+      <div class="kasten kasten-weiss zentriert">
         <h1>
           Strecke wählen und Weihnachtsrallye starten
         </h1>
@@ -457,14 +506,14 @@
 
     </section>
 
-    <!-- WARTESEITE FÜR MITTEL UND LANG -->
+    <!-- WARTESEITE -->
 
     <section
       id="warteseite"
       class="versteckt"
     >
 
-      <div class="kasten zentriert">
+      <div class="kasten kasten-weiss zentriert">
 
         <h2>❄️ Noch etwas Geduld!</h2>
 
@@ -492,48 +541,88 @@
       class="versteckt"
     >
 
-      <div class="kasten">
+      <!-- WEISSER KASTEN -->
+
+      <div class="kasten kasten-weiss">
 
         <div
           id="fortschritt"
           class="fortschritt"
         ></div>
 
-        <h2 id="stationTitel"></h2>
+        <h2
+          id="stationTitel"
+          class="station-titel"
+        ></h2>
 
-        <div id="stationInhalt"></div>
+        <h3 class="weg-titel">
+          🧭 Wegbeschreibung
+        </h3>
+
+        <div id="stationWeg"></div>
+
+        <div id="stationFoto"></div>
+
+      </div>
+
+      <!-- HELLBLAUER FAKTENKASTEN -->
+
+      <div
+        id="faktKasten"
+        class="kasten kasten-fakt versteckt"
+      >
+
+        <h3
+          id="faktTitel"
+          class="fakt-titel"
+        ></h3>
+
+        <div id="stationFakt"></div>
+
+      </div>
+
+      <!-- TÜRKISFARBENER CHALLENGE-KASTEN -->
+
+      <div
+        id="challengeKasten"
+        class="kasten kasten-challenge"
+      >
+
+        <h3
+          id="challengeTitel"
+          class="challenge-titel"
+        >
+          📸 Foto-Challenge
+        </h3>
+
+        <div id="stationChallenge"></div>
 
         <button
           id="weiterButton"
-          class="button"
+          class="button button-weiter"
           type="button"
           onclick="naechsteStation()"
         >
           📸 Foto gemacht · Weiter
         </button>
 
-        <button
-          class="button button-zurueck"
-          type="button"
-          onclick="vorherigeStation()"
-        >
-          ← Zurück
-        </button>
-
       </div>
+
+      <!-- ZURÜCK -->
+
+      <button
+        class="button button-zurueck"
+        type="button"
+        onclick="vorherigeStation()"
+      >
+        ← Zurück
+      </button>
 
     </section>
 
   </main>
 
-  <!--
-    INTERAKTIVE KARTE
-
-    WICHTIG:
-    Die Schließen-Buttons liegen außerhalb
-    der Leaflet-Karte. Dadurch bleiben sie
-    jederzeit anklickbar.
-  -->
+  <!-- KARTENFENSTER -->
 
   <div
     id="kartenfenster"
@@ -583,8 +672,6 @@
 
   </div>
 
-  <!-- LEAFLET -->
-
   <script
     src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
   ></script>
@@ -601,9 +688,7 @@
       {
         titel: "Die orangefarbene Rolltreppe",
 
-        inhalt: `
-          <h3>Wegbeschreibung</h3>
-
+        weg: `
           <p>
             Vom The Mine geht es jetzt quer
             über den Werner-Müller-Platz.
@@ -615,49 +700,42 @@
             zu sehen. Am Fuß der Rolltreppe
             befindet sich unser erster Stopp.
           </p>
+        `,
 
-          <img
-            class="stationsfoto"
-            src="rolltreppe.jpg"
-            alt="Die orangefarbene Rolltreppe auf Zollverein"
-            loading="lazy"
-          >
+        foto: "rolltreppe.jpg",
 
-          <div class="fakt">
+        fotoAlt:
+          "Orangefarbene Rolltreppe auf Zollverein",
 
-            <strong>
-              Wer war eigentlich Werner Müller?
-            </strong>
+        faktTitel:
+          "Wer war eigentlich Werner Müller?",
 
-            <br><br>
-
-            Der Platz wurde 2020 nach dem Essener
-            Werner Müller (1946–2019) benannt.
-            Als Bundeswirtschaftsminister und
-            späterer RAG-Chef prägte er den
-            Strukturwandel im Ruhrgebiet und
-            den sozialverträglichen Ausstieg
+        fakt: `
+          <p>
+            Der Platz wurde 2020 nach dem
+            Essener Werner Müller (1946–2019)
+            benannt. Als Bundeswirtschaftsminister
+            und späterer RAG-Chef prägte er
+            den Strukturwandel im Ruhrgebiet
+            und den sozialverträglichen Ausstieg
             aus dem Steinkohlenbergbau.
+          </p>
+        `,
 
-          </div>
+        challengeTitel: "📸 Foto-Challenge",
 
-          <div class="aufgabe">
+        challenge: `
+          <p>
+            Das Erklimmen der Karriereleiter
+            kann anstrengend sein, nehmen wir
+            lieber die Rolltreppe.
+          </p>
 
-            <h3>📸 Foto-Challenge</h3>
-
-            <p>
-              Das Erklimmen der Karriereleiter
-              kann anstrengend sein, nehmen wir
-              lieber die Rolltreppe.
-            </p>
-
-            <p>
-              <strong>Fotomotiv:</strong>
-              Gruppenfoto auf der Rolltreppe,
-              möglichst auf unterschiedlichen Stufen.
-            </p>
-
-          </div>
+          <p>
+            <strong>Fotomotiv:</strong>
+            Gruppenfoto auf der Rolltreppe,
+            möglichst auf unterschiedlichen Stufen.
+          </p>
         `
       },
 
@@ -665,40 +743,39 @@
       {
         titel: "Zollverein aus der Vogelperspektive",
 
-        inhalt: `
-          <h3>Wegbeschreibung</h3>
-
+        weg: `
           <p>
             Oben angekommen wartet das gläserne
             Modell der Zeche Zollverein.
           </p>
 
           <p>
-            Hier lässt sich das Gelände
-            aus einer ganz anderen Perspektive
+            Hier lässt sich das Gelände aus
+            einer ganz anderen Perspektive
             betrachten.
           </p>
+        `,
 
-          <div class="aufgabe">
+        foto: "",
+        faktTitel: "",
+        fakt: "",
 
-            <h3>
-              📸 Mit den Augen des Weihnachtsmanns
-            </h3>
+        challengeTitel:
+          "📸 Mit den Augen des Weihnachtsmanns",
 
-            <p>
-              So ungefähr sieht der Weihnachtsmann
-              Zollverein, wenn er mit seinem
-              Schlitten darüberfliegt.
-            </p>
+        challenge: `
+          <p>
+            So ungefähr sieht der Weihnachtsmann
+            Zollverein, wenn er mit seinem
+            Schlitten darüberfliegt.
+          </p>
 
-            <p>
-              Fotografiert eure Gruppe mit dem Modell.
-              Wer möchte, kann so tun, als würde
-              er gerade die Flugroute für den
-              Schlitten planen.
-            </p>
-
-          </div>
+          <p>
+            Fotografiert eure Gruppe mit dem
+            Modell. Wer möchte, kann so tun,
+            als würde er gerade die Flugroute
+            für den Schlitten planen.
+          </p>
         `
       },
 
@@ -706,45 +783,46 @@
       {
         titel: "Das Rad nicht neu erfinden",
 
-        inhalt: `
-          <h3>Wegbeschreibung</h3>
-
+        weg: `
           <p>
             Mit der Rolltreppe geht es
             wieder hinunter.
           </p>
 
           <p>
-            Unten links halten, auf das Gebäude
-            zugehen und links daran vorbeilaufen.
+            Unten links halten, auf das
+            Gebäude zugehen und links
+            daran vorbeilaufen.
           </p>
 
           <p>
-            Dort stehen zwei große historische Räder.
+            Dort stehen zwei große
+            historische Räder.
+          </p>
+        `,
+
+        foto: "",
+        faktTitel: "",
+        fakt: "",
+
+        challengeTitel:
+          "📸 Das Rad nicht neu erfinden",
+
+        challenge: `
+          <p>
+            Warum das Rad neu erfinden,
+            wenn hier schon ziemlich
+            beeindruckende Exemplare stehen?
           </p>
 
-          <div class="aufgabe">
-
-            <h3>
-              📸 Das Rad nicht neu erfinden
-            </h3>
-
-            <p>
-              Warum das Rad neu erfinden,
-              wenn hier schon ziemlich
-              beeindruckende Exemplare stehen?
-            </p>
-
-            <p>
-              <strong>Euer Auftrag:</strong>
-              Versammelt euch für ein Gruppenfoto
-              rund um das historische Rad.
-              Wer möchte, kann so tun, als würde
-              er es mit vereinten Kräften
-              in Bewegung setzen.
-            </p>
-
-          </div>
+          <p>
+            <strong>Euer Auftrag:</strong>
+            Versammelt euch für ein Gruppenfoto
+            rund um das historische Rad.
+            Wer möchte, kann so tun,
+            als würde er es mit vereinten
+            Kräften in Bewegung setzen.
+          </p>
         `
       },
 
@@ -752,37 +830,38 @@
       {
         titel: "Red Dot Design Museum",
 
-        inhalt: `
-          <h3>Wegbeschreibung</h3>
-
+        weg: `
           <p>
             Dem Weg bis zum Ende des Gebäudes
             folgen und rechts abbiegen.
           </p>
 
           <p>
-            Auf der linken Seite befindet sich
-            das Red Dot Design Museum.
+            Auf der linken Seite befindet
+            sich das Red Dot Design Museum.
+          </p>
+        `,
+
+        foto: "",
+        faktTitel: "",
+        fakt: "",
+
+        challengeTitel:
+          "📸 Ausgezeichnetes Design",
+
+        challenge: `
+          <p>
+            Für ein gutes Gruppenfoto braucht
+            es nicht unbedingt einen Designpreis.
+            Aber ein bisschen Kreativität
+            schadet nicht.
           </p>
 
-          <div class="aufgabe">
-
-            <h3>📸 Ausgezeichnetes Design</h3>
-
-            <p>
-              Für ein gutes Gruppenfoto braucht
-              es nicht unbedingt einen Designpreis.
-              Aber ein bisschen Kreativität
-              schadet nicht.
-            </p>
-
-            <p>
-              Gestaltet ein Gruppenfoto,
-              das auch in einer Designausstellung
-              bestehen könnte.
-            </p>
-
-          </div>
+          <p>
+            Gestaltet ein Gruppenfoto,
+            das auch in einer Designausstellung
+            bestehen könnte.
+          </p>
         `
       },
 
@@ -790,9 +869,7 @@
       {
         titel: "Die Engel am Casino",
 
-        inhalt: `
-          <h3>Wegbeschreibung</h3>
-
+        weg: `
           <p>
             Weiter geht es bis zur nächsten
             Querstraße.
@@ -807,24 +884,27 @@
             Hier stehen zwei Engelsfiguren
             ohne Köpfe.
           </p>
+        `,
 
-          <div class="aufgabe">
+        foto: "",
+        faktTitel: "",
+        fakt: "",
 
-            <h3>📸 Engel mit Köpfchen</h3>
+        challengeTitel:
+          "📸 Engel mit Köpfchen",
 
-            <p>
-              Die beiden Engel könnten etwas
-              Unterstützung gebrauchen.
-            </p>
+        challenge: `
+          <p>
+            Die beiden Engel könnten etwas
+            Unterstützung gebrauchen.
+          </p>
 
-            <p>
-              Positioniert zwei Personen
-              so hinter den Figuren, dass
-              deren Köpfe auf dem Foto
-              zu den Engelskörpern passen.
-            </p>
-
-          </div>
+          <p>
+            Positioniert zwei Personen so
+            hinter den Figuren, dass deren
+            Köpfe auf dem Foto zu den
+            Engelskörpern passen.
+          </p>
         `
       },
 
@@ -832,9 +912,7 @@
       {
         titel: "Das Doppelbock-Fördergerüst",
 
-        inhalt: `
-          <h3>Wegbeschreibung</h3>
-
+        weg: `
           <p>
             Zurück zur Querstraße und
             dem Weg weiter folgen.
@@ -845,26 +923,29 @@
             Doppelbock-Fördergerüst,
             das Wahrzeichen von Zollverein.
           </p>
+        `,
 
-          <div class="aufgabe">
+        foto: "",
+        faktTitel: "",
+        fakt: "",
 
-            <h3>📸 Ein starkes Team</h3>
+        challengeTitel:
+          "📸 Ein starkes Team",
 
-            <p>
-              Ein gemeinsames Gruppenfoto
-              vor dem berühmtesten Motiv
-              der Zeche darf natürlich
-              nicht fehlen.
-            </p>
+        challenge: `
+          <p>
+            Ein gemeinsames Gruppenfoto
+            vor dem berühmtesten Motiv
+            der Zeche darf natürlich
+            nicht fehlen.
+          </p>
 
-            <p>
-              Sucht euch einen schönen
-              Bildausschnitt, auf dem
-              sowohl die Gruppe als auch
-              das Fördergerüst zu sehen sind.
-            </p>
-
-          </div>
+          <p>
+            Sucht euch einen schönen
+            Bildausschnitt, auf dem sowohl
+            die Gruppe als auch das
+            Fördergerüst zu sehen sind.
+          </p>
         `
       },
 
@@ -872,9 +953,7 @@
       {
         titel: "Geschafft! 🎄",
 
-        inhalt: `
-          <h3>Der Rückweg</h3>
-
+        weg: `
           <p>
             Links am Doppelbock-Fördergerüst
             vorbei geht es zurück zum
@@ -894,7 +973,13 @@
           <p>
             Viel Spaß bei der Weihnachtsfeier!
           </p>
-        `
+        `,
+
+        foto: "",
+        faktTitel: "",
+        fakt: "",
+        challengeTitel: "",
+        challenge: ""
       }
     ];
 
@@ -915,16 +1000,14 @@
         return;
       }
 
-      const daten = {
-        route: aktuelleRoute,
-        station: aktuelleStation
-      };
-
       try {
 
         localStorage.setItem(
           SPEICHER_SCHLUESSEL,
-          JSON.stringify(daten)
+          JSON.stringify({
+            route: aktuelleRoute,
+            station: aktuelleStation
+          })
         );
 
       } catch (fehler) {
@@ -1051,20 +1134,93 @@
 
       const station = stationen[aktuelleStation];
 
-      document.getElementById("stationTitel")
-        .textContent = station.titel;
-
-      document.getElementById("stationInhalt")
-        .innerHTML = station.inhalt;
-
       const istAbschluss =
         aktuelleStation === stationen.length - 1;
+
+      document.getElementById("stationTitel")
+        .textContent = station.titel;
 
       document.getElementById("fortschritt")
         .textContent = istAbschluss
           ? "Ziel erreicht"
           : "Station " + (aktuelleStation + 1) +
             " von " + (stationen.length - 1);
+
+      // WEGBESCHREIBUNG
+
+      document.getElementById("stationWeg")
+        .innerHTML = station.weg;
+
+      // FOTO
+
+      const fotoBereich =
+        document.getElementById("stationFoto");
+
+      fotoBereich.innerHTML = "";
+
+      if (station.foto) {
+
+        const bild = document.createElement("img");
+
+        bild.className = "stationsfoto";
+        bild.src = station.foto;
+        bild.alt = station.fotoAlt || station.titel;
+        bild.loading = "lazy";
+
+        fotoBereich.appendChild(bild);
+      }
+
+      // FAKT
+
+      const faktKasten =
+        document.getElementById("faktKasten");
+
+      if (station.fakt) {
+
+        faktKasten.classList.remove("versteckt");
+
+        document.getElementById("faktTitel")
+          .textContent =
+            "💡 " + station.faktTitel;
+
+        document.getElementById("stationFakt")
+          .innerHTML = station.fakt;
+
+      } else {
+
+        faktKasten.classList.add("versteckt");
+      }
+
+      // FOTO-CHALLENGE
+
+      const challengeTitel =
+        document.getElementById("challengeTitel");
+
+      const challengeInhalt =
+        document.getElementById("stationChallenge");
+
+      if (station.challenge) {
+
+        challengeTitel.textContent =
+          station.challengeTitel ||
+          "📸 Foto-Challenge";
+
+        challengeInhalt.innerHTML =
+          station.challenge;
+
+      } else {
+
+        challengeTitel.textContent =
+          "🎄 Rallye beendet";
+
+        challengeInhalt.innerHTML = `
+          <p>
+            Schön, dass ihr dabei wart!
+          </p>
+        `;
+      }
+
+      // WEITER-BUTTON
 
       const weiter =
         document.getElementById("weiterButton");
@@ -1073,8 +1229,12 @@
         ? "Zur Streckenauswahl"
         : "📸 Foto gemacht · Weiter";
 
+      // KARTEN-BUTTON
+
       document.getElementById("karteButton")
         .hidden = false;
+
+      // SPEICHERN
 
       fortschrittSpeichern();
 
@@ -1119,9 +1279,6 @@
       aktuelleRoute = null;
       aktuelleStation = 0;
 
-      // Nur bei bewusster Rückkehr zur
-      // Streckenauswahl wird der Stand gelöscht.
-
       try {
 
         localStorage.removeItem(
@@ -1153,16 +1310,7 @@
     let streckeGeladen = false;
     let streckeWirdGeladen = false;
 
-    // Merkt sich die Scrollposition,
-    // damit die Rallye genau dort
-    // weitergeht, wo sie verlassen wurde.
-
     let scrollpositionVorKarte = 0;
-
-    // Merkt sich, ob für die Karte ein
-    // zusätzlicher Browser-Verlaufseintrag
-    // angelegt wurde.
-
     let kartenVerlaufAktiv = false;
 
     function karteIstOffen() {
@@ -1192,20 +1340,13 @@
 
       document.body.style.overflow = "hidden";
 
-      // Ein zusätzlicher Verlaufseintrag sorgt
-      // dafür, dass die Zurück-Taste des Handys
-      // zunächst die Karte schließt.
+      history.pushState(
+        { weihnachtsrallyeKarte: true },
+        "",
+        window.location.href
+      );
 
-      if (!kartenVerlaufAktiv) {
-
-        history.pushState(
-          { weihnachtsrallyeKarte: true },
-          "",
-          window.location.href
-        );
-
-        kartenVerlaufAktiv = true;
-      }
+      kartenVerlaufAktiv = true;
 
       document.getElementById(
         "karteSchliessenOben"
@@ -1233,8 +1374,6 @@
             attribution: "&copy; OpenStreetMap"
           }
         ).addTo(karte);
-
-        // Ausgangsansicht: Zollverein
 
         karte.setView(
           [51.486, 7.043],
@@ -1290,9 +1429,6 @@
             "Die GPX-Datei enthält ungültiges XML."
           );
         }
-
-        // GPX-Tracks: trkpt
-        // GPX-Routen: rtept
 
         let elemente = Array.from(
           xml.getElementsByTagName("trkpt")
@@ -1396,9 +1532,6 @@
       }
     }
 
-    // Schließt die Karte optisch,
-    // ohne die aktuelle Station zu ändern.
-
     function kartenansichtAusblenden() {
 
       const fenster =
@@ -1418,12 +1551,13 @@
         scrollpositionVorKarte
       );
 
-      document.getElementById(
-        "karteButton"
-      ).focus();
-    }
+      const kartenButton =
+        document.getElementById("karteButton");
 
-    // Wird durch die beiden Buttons aufgerufen.
+      if (!kartenButton.hidden) {
+        kartenButton.focus();
+      }
+    }
 
     function karteSchliessen() {
 
@@ -1433,35 +1567,35 @@
 
       kartenansichtAusblenden();
 
-      // Den beim Öffnen erzeugten
-      // Verlaufseintrag wieder entfernen.
-
-      if (kartenVerlaufAktiv) {
+      if (
+        kartenVerlaufAktiv &&
+        history.state &&
+        history.state.weihnachtsrallyeKarte
+      ) {
 
         kartenVerlaufAktiv = false;
+        history.back();
 
-        if (
-          history.state &&
-          history.state.weihnachtsrallyeKarte
-        ) {
+      } else {
 
-          history.back();
-        }
+        kartenVerlaufAktiv = false;
       }
     }
 
-    // Reagiert auf die Zurück-Taste
-    // des Smartphones beziehungsweise
-    // des Browsers.
-
     window.addEventListener(
       "popstate",
-      function () {
+      function (ereignis) {
 
         if (karteIstOffen()) {
 
-          kartenVerlaufAktiv = false;
-          kartenansichtAusblenden();
+          if (
+            !ereignis.state ||
+            !ereignis.state.weihnachtsrallyeKarte
+          ) {
+
+            kartenVerlaufAktiv = false;
+            kartenansichtAusblenden();
+          }
 
         } else {
 
@@ -1469,9 +1603,6 @@
         }
       }
     );
-
-    // Auf Computern kann die Karte
-    // zusätzlich mit Escape geschlossen werden.
 
     document.addEventListener(
       "keydown",
@@ -1495,10 +1626,6 @@
     document.addEventListener(
       "DOMContentLoaded",
       function () {
-
-        // Gespeicherten Fortschritt laden.
-        // Falls nichts gespeichert wurde,
-        // bleibt die Streckenauswahl sichtbar.
 
         fortschrittLaden();
 
