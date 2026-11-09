@@ -9,20 +9,28 @@
 
   <title>Weihnachtsrallye des MD Bund</title>
 
-  <link rel="stylesheet"
-        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  >
 
   <style>
     :root {
       --dunkelblau: #004b6e;
       --blau: #06688f;
       --tuerkis: #0099c6;
+      --helltuerkis: #5ec4e1;
       --hellblau: #d5ecf4;
       --gruen: #3e8825;
+      --orange: #d96b24;
     }
 
     * {
       box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
@@ -32,15 +40,20 @@
       background: var(--hellblau);
     }
 
+    button {
+      font-family: inherit;
+      cursor: pointer;
+    }
+
     .app {
       width: 100%;
       max-width: 480px;
       min-height: 100vh;
       min-height: 100svh;
-      margin: auto;
+      margin: 0 auto;
       padding: 0 20px 32px;
 
-      background-image: url('hintergrund.png');
+      background-image: url("hintergrund.png");
       background-repeat: no-repeat;
       background-position: center top;
       background-size: 100% 100%;
@@ -57,73 +70,28 @@
       float: right;
       margin-top: 12px;
       padding: 11px 15px;
-      border: none;
+      border: 0;
       border-radius: 25px;
       background: var(--dunkelblau);
       color: white;
-      font: bold 15px Calibri, Arial, sans-serif;
+      font-size: 15px;
+      font-weight: bold;
       box-shadow: 0 3px 10px #004b6e33;
-      cursor: pointer;
     }
 
     .karte-button[hidden] {
       display: none;
     }
 
-    .karte-button::after {
-      content: "";
-      display: block;
-      clear: both;
-    }
-
     .karte-abstand {
       clear: both;
     }
 
-    .karte {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 100;
-      background: white;
-    }
-
-    .karte.offen {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .karte-kopf {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      padding: 14px;
-      background: var(--dunkelblau);
-      color: white;
-      font-weight: bold;
-    }
-
-    .karte-kopf button {
-      padding: 9px 13px;
-      border: 1px solid white;
-      border-radius: 10px;
-      background: transparent;
-      color: white;
-      font: inherit;
-      cursor: pointer;
-    }
-
-    #kartenflaeche {
-      flex: 1;
-      min-height: 250px;
-    }
-
     .kasten {
-      background: rgba(255,255,255,0.95);
-      border-radius: 18px;
-      padding: 20px 17px;
       margin-bottom: 16px;
+      padding: 20px 17px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.96);
       box-shadow: 0 3px 14px #004b6e14;
     }
 
@@ -132,26 +100,26 @@
     }
 
     h1 {
+      margin: 0;
       font-size: 23px;
       line-height: 1.3;
-      margin: 0;
     }
 
     h2 {
+      margin: 0 0 12px;
       font-size: 23px;
       line-height: 1.25;
-      margin: 0 0 12px;
     }
 
     h3 {
-      font-size: 18px;
       margin: 20px 0 8px;
+      font-size: 18px;
     }
 
     p {
+      margin: 0 0 12px;
       font-size: 17px;
       line-height: 1.5;
-      margin: 0 0 12px;
     }
 
     p:last-child {
@@ -171,12 +139,10 @@
       padding: 16px;
       text-align: left;
       color: var(--dunkelblau);
-      background: rgba(255,255,255,0.95);
+      background: rgba(255, 255, 255, 0.96);
       border: 2px solid var(--hellblau);
       border-radius: 17px;
       box-shadow: 0 3px 12px #004b6e14;
-      font-family: inherit;
-      cursor: pointer;
     }
 
     .symbol {
@@ -197,54 +163,54 @@
 
     .route-name {
       display: block;
+      margin-bottom: 5px;
       font-size: 19px;
       font-weight: bold;
-      margin-bottom: 5px;
     }
 
     .route-info {
       display: block;
-      font-size: 15px;
       color: var(--blau);
+      font-size: 15px;
     }
 
     .pfeil {
-      font-size: 26px;
       color: var(--tuerkis);
+      font-size: 26px;
     }
 
     .fortschritt {
       margin-bottom: 12px;
+      color: var(--blau);
       font-size: 14px;
       font-weight: bold;
-      color: var(--blau);
     }
 
     .stationsfoto {
       display: block;
       width: 100%;
-      height: auto;
       max-height: 310px;
+      height: auto;
       object-fit: cover;
-      border-radius: 13px;
       margin: 14px 0 18px;
+      border-radius: 13px;
     }
 
     .fakt {
-      padding: 13px;
       margin: 15px 0;
+      padding: 13px;
       border-left: 4px solid var(--tuerkis);
-      background: #d5ecf47a;
       border-radius: 0 10px 10px 0;
+      background: #d5ecf47a;
       font-size: 16px;
       line-height: 1.45;
     }
 
     .aufgabe {
-      padding: 15px;
       margin: 17px 0;
-      background: #eaf6fa;
+      padding: 15px;
       border-radius: 13px;
+      background: #eaf6fa;
     }
 
     .aufgabe h3 {
@@ -254,31 +220,75 @@
     .button {
       display: block;
       width: 100%;
-      padding: 15px 18px;
       margin-top: 14px;
-      border: none;
+      padding: 15px 18px;
+      border: 0;
       border-radius: 13px;
       background: var(--tuerkis);
       color: white;
-      font: bold 17px Calibri, Arial, sans-serif;
-      cursor: pointer;
+      font-size: 17px;
+      font-weight: bold;
     }
 
     .button-zurueck {
+      border: 2px solid var(--hellblau);
       background: white;
       color: var(--dunkelblau);
-      border: 2px solid var(--hellblau);
-    }
-
-    .button:focus-visible,
-    .route:focus-visible,
-    .karte-button:focus-visible {
-      outline: 3px solid var(--gruen);
-      outline-offset: 3px;
     }
 
     .versteckt {
       display: none !important;
+    }
+
+    .karte {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: white;
+    }
+
+    .karte.offen {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .karte-kopf {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px;
+      background: var(--dunkelblau);
+      color: white;
+      font-weight: bold;
+    }
+
+    .karte-kopf button {
+      padding: 9px 13px;
+      border: 1px solid white;
+      border-radius: 10px;
+      background: transparent;
+      color: white;
+      font: inherit;
+    }
+
+    #kartenflaeche {
+      flex: 1;
+      min-height: 250px;
+    }
+
+    .kartenhinweis {
+      padding: 9px 14px;
+      background: #eaf6fa;
+      color: var(--dunkelblau);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    button:focus-visible {
+      outline: 3px solid var(--gruen);
+      outline-offset: 3px;
     }
 
     @media (min-width: 600px) {
@@ -290,19 +300,26 @@
 </head>
 
 <body>
+
   <main class="app">
 
-    <button id="karteButton"
-            class="karte-button"
-            onclick="karteOeffnen()"
-            hidden>
+    <button
+      id="karteButton"
+      class="karte-button"
+      type="button"
+      onclick="karteOeffnen()"
+      hidden
+    >
       🗺 Karte
     </button>
 
     <div class="karte-abstand"></div>
     <div class="logo-abstand"></div>
 
+    <!-- STARTSEITE -->
+
     <section id="startseite">
+
       <div class="kasten zentriert">
         <h1>
           Strecke wählen und Weihnachtsrallye starten
@@ -311,9 +328,13 @@
 
       <nav class="routen" aria-label="Routenauswahl">
 
-        <button class="route"
-                onclick="routeWaehlen('kurz')">
+        <button
+          class="route"
+          type="button"
+          onclick="routeWaehlen('kurz')"
+        >
           <span class="symbol">❄️</span>
+
           <span class="route-text">
             <span class="route-name">
               Die kurze Runde
@@ -322,12 +343,17 @@
               620 m · ca. 20 Min.
             </span>
           </span>
+
           <span class="pfeil">›</span>
         </button>
 
-        <button class="route"
-                onclick="routeWaehlen('mittel')">
+        <button
+          class="route"
+          type="button"
+          onclick="routeWaehlen('mittel')"
+        >
           <span class="symbol">🎄</span>
+
           <span class="route-text">
             <span class="route-name">
               Die mittlere Runde
@@ -336,12 +362,17 @@
               1,08 km · ca. 30 Min.
             </span>
           </span>
+
           <span class="pfeil">›</span>
         </button>
 
-        <button class="route"
-                onclick="routeWaehlen('lang')">
+        <button
+          class="route"
+          type="button"
+          onclick="routeWaehlen('lang')"
+        >
           <span class="symbol">⭐</span>
+
           <span class="route-text">
             <span class="route-name">
               Die lange Runde
@@ -350,203 +381,291 @@
               2,3 km · ca. 60 Min.
             </span>
           </span>
+
           <span class="pfeil">›</span>
         </button>
 
       </nav>
+
     </section>
 
+    <!-- WARTESEITE -->
+
     <section id="warteseite" class="versteckt">
+
       <div class="kasten zentriert">
+
         <h2>❄️ Noch etwas Geduld!</h2>
+
         <p>
           Strecke wird noch vom Schnee geräumt.
           Bitte warten Sie noch etwas.
         </p>
 
-        <button class="button button-zurueck"
-                onclick="zurStartseite()">
+        <button
+          class="button button-zurueck"
+          type="button"
+          onclick="zurStartseite()"
+        >
           ← Zur Streckenauswahl
         </button>
+
       </div>
+
     </section>
 
+    <!-- STATIONEN -->
+
     <section id="stationsseite" class="versteckt">
+
       <div class="kasten">
-        <div id="fortschritt" class="fortschritt"></div>
+
+        <div
+          id="fortschritt"
+          class="fortschritt"
+        ></div>
 
         <h2 id="stationTitel"></h2>
 
         <div id="stationInhalt"></div>
 
-        <button id="weiterButton"
-                class="button"
-                onclick="naechsteStation()">
+        <button
+          id="weiterButton"
+          class="button"
+          type="button"
+          onclick="naechsteStation()"
+        >
           📸 Foto gemacht · Weiter
         </button>
 
-        <button class="button button-zurueck"
-                onclick="vorherigeStation()">
+        <button
+          class="button button-zurueck"
+          type="button"
+          onclick="vorherigeStation()"
+        >
           ← Zurück
         </button>
+
       </div>
+
     </section>
 
   </main>
 
-  <div id="kartenfenster"
-       class="karte"
-       role="dialog"
-       aria-modal="true"
-       aria-label="Streckenkarte">
+  <!-- KARTENFENSTER -->
+
+  <div
+    id="kartenfenster"
+    class="karte"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Streckenkarte"
+  >
 
     <div class="karte-kopf">
-      <span>🗺 Kurze Runde · Streckenkarte</span>
-      <button onclick="karteSchliessen()">
+
+      <span>
+        🗺 Kurze Runde · Streckenkarte
+      </span>
+
+      <button
+        type="button"
+        onclick="karteSchliessen()"
+      >
         ✕ Schließen
       </button>
+
     </div>
 
     <div id="kartenflaeche"></div>
+
+    <div class="kartenhinweis">
+      Die eingezeichnete Strecke dient zur Orientierung.
+      Bitte vor Ort auf Wege und Umgebung achten.
+    </div>
+
   </div>
 
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  ></script>
 
   <script>
+
+    // ==========================================
+    // STATIONEN DER KURZEN RUNDE
+    // ==========================================
+
     const stationen = [
+
+      // STATION 1
       {
         titel: "Die orangefarbene Rolltreppe",
+
         inhalt: `
+          <h3>Wegbeschreibung</h3>
+
           <p>
-            Verlassen Sie / verlasst The Mine und
-            überqueren Sie / überquert den
-            Werner-Müller-Platz.
+            Vom The Mine geht es jetzt quer
+            über den Werner-Müller-Platz.
           </p>
 
           <p>
             Auf der gegenüberliegenden Seite
-            sehen Sie / seht Ihr die orangefarbene
-            Rolltreppe. Fahren Sie / fahrt hinauf.
+            ist die orangefarbene Rolltreppe
+            zu sehen. Am Fuß der Rolltreppe
+            befindet sich unser erster Stopp.
           </p>
 
-          <img class="stationsfoto"
-               src="rolltreppe.jpg"
-               alt="Die orange beleuchtete Rolltreppe
-                    am Ruhr Museum">
+          <img
+            class="stationsfoto"
+            src="rolltreppe.jpg"
+            alt="Die orangefarbene Rolltreppe auf Zollverein"
+            loading="lazy"
+          >
 
           <div class="fakt">
-            <strong>Schon gewusst?</strong><br>
-            Die orangefarbene Rolltreppe orientiert
-            sich gestalterisch an den historischen
-            Förderbandbrücken der Zeche. Sie bringt
-            Sie / Euch auf eine Höhe von rund
-            24 Metern und ist damit selbst ein
-            kleines Stück außergewöhnlicher
-            Industriearchitektur.
+            <strong>
+              Wer war eigentlich Werner Müller?
+            </strong>
+
+            <br><br>
+
+            Der Platz wurde 2020 nach dem Essener
+            Werner Müller (1946–2019) benannt.
+            Als Bundeswirtschaftsminister und
+            späterer RAG-Chef prägte er den
+            Strukturwandel im Ruhrgebiet und
+            den sozialverträglichen Ausstieg
+            aus dem Steinkohlenbergbau.
           </div>
 
           <div class="aufgabe">
-            <h3>📸 Die Karriereleiter</h3>
+
+            <h3>📸 Foto-Challenge</h3>
 
             <p>
-              Wem das Erklimmen der Karriereleiter
-              zu anstrengend ist, der nimmt bitte
-              die Rolltreppe.
+              Das Erklimmen der Karriereleiter
+              kann anstrengend sein, nehmen wir
+              lieber die Rolltreppe.
             </p>
 
             <p>
-              <strong>Foto-Challenge:</strong>
-              Macht ein Gruppenfoto auf der
-              Rolltreppe, möglichst auf
-              unterschiedlichen Stufen.
+              <strong>Fotomotiv:</strong>
+              Gruppenfoto auf der Rolltreppe,
+              möglichst auf unterschiedlichen Stufen.
             </p>
+
           </div>
         `
       },
 
+      // STATION 2
       {
         titel: "Zollverein aus der Vogelperspektive",
+
         inhalt: `
+          <h3>Wegbeschreibung</h3>
+
           <p>
-            Oben angekommen, suchen Sie / sucht
-            das gläserne Modell der Zeche Zollverein.
+            Oben angekommen wartet das gläserne
+            Modell der Zeche Zollverein.
+          </p>
+
+          <p>
+            Hier lässt sich das Gelände
+            aus einer ganz anderen Perspektive
+            betrachten.
           </p>
 
           <div class="aufgabe">
-            <h3>📸 Mit den Augen des Weihnachtsmanns</h3>
+
+            <h3>
+              📸 Mit den Augen des Weihnachtsmanns
+            </h3>
 
             <p>
               So ungefähr sieht der Weihnachtsmann
-              Zollverein, wenn er mit seinem Schlitten
-              darüberfliegt.
+              Zollverein, wenn er mit seinem
+              Schlitten darüberfliegt.
             </p>
 
             <p>
-              Fotografiert Eure Gruppe mit dem
-              Modell. Wer möchte, kann so tun,
-              als würde er gerade die Flugroute
-              für den Schlitten planen.
+              Fotografiert eure Gruppe mit dem Modell.
+              Wer möchte, kann so tun, als würde
+              gerade die Flugroute für den
+              Schlitten geplant.
             </p>
+
           </div>
         `
       },
 
+      // STATION 3
       {
         titel: "Das Rad nicht neu erfinden",
+
         inhalt: `
+          <h3>Wegbeschreibung</h3>
+
           <p>
-            Fahren Sie / fahrt mit der Rolltreppe
+            Mit der Rolltreppe geht es
             wieder hinunter.
           </p>
 
           <p>
-            Halten Sie sich / haltet Euch unten links,
-            laufen Sie / lauft auf das Gebäude zu
-            und links daran vorbei.
+            Unten links halten, auf das Gebäude
+            zugehen und links daran vorbeilaufen.
           </p>
 
           <p>
-            Dort entdecken Sie / entdeckt Ihr
-            zwei große historische Räder.
+            Dort stehen zwei große historische Räder.
           </p>
 
           <div class="aufgabe">
-            <h3>📸 Das Rad nicht neu erfinden</h3>
+
+            <h3>
+              📸 Das Rad nicht neu erfinden
+            </h3>
 
             <p>
-              Warum das Rad neu erfinden, wenn
-              hier schon ein ziemlich
-              beeindruckendes Exemplar steht?
+              Warum das Rad neu erfinden,
+              wenn hier schon ziemlich
+              beeindruckende Exemplare stehen?
             </p>
 
             <p>
               <strong>Euer Auftrag:</strong>
-              Versammelt Euch für ein Gruppenfoto
-              rund um die historischen Räder.
+              Versammelt euch für ein Gruppenfoto
+              rund um das historische Rad.
               Wer möchte, kann so tun, als würde
-              er sie mit vereinten Kräften
+              er es mit vereinten Kräften
               in Bewegung setzen.
             </p>
+
           </div>
         `
       },
 
+      // STATION 4
       {
         titel: "Red Dot Design Museum",
+
         inhalt: `
+          <h3>Wegbeschreibung</h3>
+
           <p>
-            Folgen Sie / folgt dem Weg bis zum
-            Ende des Gebäudes und biegen
-            Sie / biegt rechts ab.
+            Dem Weg bis zum Ende des Gebäudes
+            folgen und rechts abbiegen.
           </p>
 
           <p>
-            Auf der linken Seite sehen
-            Sie / seht Ihr das
-            Red Dot Design Museum.
+            Auf der linken Seite befindet sich
+            das Red Dot Design Museum.
           </p>
 
           <div class="aufgabe">
+
             <h3>📸 Ausgezeichnetes Design</h3>
 
             <p>
@@ -557,34 +676,39 @@
             </p>
 
             <p>
-              Gestaltet ein Gruppenfoto, das
-              auch in einer Designausstellung
+              Gestaltet ein Gruppenfoto,
+              das auch in einer Designausstellung
               bestehen könnte.
             </p>
+
           </div>
         `
       },
 
+      // STATION 5
       {
         titel: "Die Engel am Casino",
+
         inhalt: `
+          <h3>Wegbeschreibung</h3>
+
           <p>
-            Gehen Sie / geht weiter bis zur
-            nächsten Querstraße.
+            Weiter geht es bis zur nächsten
+            Querstraße.
           </p>
 
           <p>
-            Machen Sie / macht einen kurzen
-            Abstecher nach links zum
-            Casino Zollverein.
+            Dort führt ein kurzer Abstecher
+            nach links zum Casino Zollverein.
           </p>
 
           <p>
-            Dort stehen zwei Engelsfiguren
+            Hier stehen zwei Engelsfiguren
             ohne Köpfe.
           </p>
 
           <div class="aufgabe">
+
             <h3>📸 Engel mit Köpfchen</h3>
 
             <p>
@@ -593,31 +717,36 @@
             </p>
 
             <p>
-              Positioniert zwei Personen so
-              hinter den Figuren, dass deren
-              Köpfe auf dem Foto zu den
-              Engelskörpern passen.
+              Positioniert zwei Personen
+              so hinter den Figuren, dass
+              deren Köpfe auf dem Foto
+              zu den Engelskörpern passen.
             </p>
+
           </div>
         `
       },
 
+      // STATION 6
       {
         titel: "Das Doppelbock-Fördergerüst",
+
         inhalt: `
+          <h3>Wegbeschreibung</h3>
+
           <p>
-            Gehen Sie / geht zurück zur
-            Querstraße und folgen Sie / folgt
-            dem Weg weiter.
+            Zurück zur Querstraße und
+            dem Weg weiter folgen.
           </p>
 
           <p>
-            Vor Ihnen / Euch erhebt sich
-            das Doppelbock-Fördergerüst,
+            Vor uns erhebt sich das
+            Doppelbock-Fördergerüst,
             das Wahrzeichen von Zollverein.
           </p>
 
           <div class="aufgabe">
+
             <h3>📸 Ein starkes Team</h3>
 
             <p>
@@ -628,22 +757,27 @@
             </p>
 
             <p>
-              Sucht Euch einen schönen
+              Sucht euch einen schönen
               Bildausschnitt, auf dem
               sowohl die Gruppe als auch
               das Fördergerüst zu sehen sind.
             </p>
+
           </div>
         `
       },
 
+      // ZIEL
       {
         titel: "Geschafft! 🎄",
+
         inhalt: `
+          <h3>Der Rückweg</h3>
+
           <p>
-            Gehen Sie / geht links am
-            Doppelbock-Fördergerüst vorbei
-            zurück zum großen Platz.
+            Links am Doppelbock-Fördergerüst
+            vorbei geht es zurück zum
+            großen Platz.
           </p>
 
           <p>
@@ -663,11 +797,116 @@
       }
     ];
 
+
+    // ==========================================
+    // FORTSCHRITT SPEICHERN
+    // ==========================================
+
+    // Dieser Schlüssel identifiziert die
+    // gespeicherten Daten im Browser.
+    const SPEICHER_SCHLUESSEL =
+      "md-bund-weihnachtsrallye-2026";
+
+    let aktuelleRoute = null;
     let aktuelleStation = 0;
-    let karte = null;
-    let streckeGeladen = false;
+
+    function fortschrittSpeichern() {
+
+      if (!aktuelleRoute) {
+        return;
+      }
+
+      const daten = {
+        route: aktuelleRoute,
+        station: aktuelleStation
+      };
+
+      try {
+        localStorage.setItem(
+          SPEICHER_SCHLUESSEL,
+          JSON.stringify(daten)
+        );
+      } catch (fehler) {
+        console.warn(
+          "Fortschritt konnte nicht gespeichert werden:",
+          fehler
+        );
+      }
+    }
+
+    function fortschrittLaden() {
+
+      try {
+
+        const gespeichert =
+          localStorage.getItem(
+            SPEICHER_SCHLUESSEL
+          );
+
+        if (!gespeichert) {
+          return false;
+        }
+
+        const daten = JSON.parse(gespeichert);
+
+        if (
+          !daten ||
+          !["kurz", "mittel", "lang"].includes(daten.route)
+        ) {
+          return false;
+        }
+
+        aktuelleRoute = daten.route;
+
+        if (aktuelleRoute === "kurz") {
+
+          const nummer = Number(daten.station);
+
+          aktuelleStation =
+            Number.isInteger(nummer)
+              ? Math.max(
+                  0,
+                  Math.min(
+                    nummer,
+                    stationen.length - 1
+                  )
+                )
+              : 0;
+
+          stationAnzeigen();
+
+        } else {
+
+          seitenAusblenden();
+
+          document.getElementById("warteseite")
+            .classList.remove("versteckt");
+
+          document.getElementById("karteButton")
+            .hidden = true;
+
+        }
+
+        return true;
+
+      } catch (fehler) {
+
+        console.warn(
+          "Gespeicherter Fortschritt ist ungültig:",
+          fehler
+        );
+
+        return false;
+      }
+    }
+
+
+    // ==========================================
+    // SEITENSTEUERUNG
+    // ==========================================
 
     function seitenAusblenden() {
+
       document.getElementById("startseite")
         .classList.add("versteckt");
 
@@ -679,14 +918,19 @@
     }
 
     function routeWaehlen(route) {
+
+      aktuelleRoute = route;
+      aktuelleStation = 0;
+
+      fortschrittSpeichern();
       seitenAusblenden();
 
       if (route === "kurz") {
-        aktuelleStation = 0;
+
         stationAnzeigen();
-        document.getElementById("karteButton")
-          .hidden = false;
+
       } else {
+
         document.getElementById("warteseite")
           .classList.remove("versteckt");
 
@@ -698,6 +942,7 @@
     }
 
     function stationAnzeigen() {
+
       seitenAusblenden();
 
       document.getElementById("stationsseite")
@@ -720,7 +965,8 @@
           : "Station " + (aktuelleStation + 1) +
             " von " + (stationen.length - 1);
 
-      const weiter = document.getElementById("weiterButton");
+      const weiter =
+        document.getElementById("weiterButton");
 
       weiter.textContent = istAbschluss
         ? "Zur Streckenauswahl"
@@ -729,28 +975,58 @@
       document.getElementById("karteButton")
         .hidden = false;
 
+      // Den aktuellen Stand bei jedem
+      // Stationswechsel speichern.
+      fortschrittSpeichern();
+
       window.scrollTo(0, 0);
     }
 
     function naechsteStation() {
-      if (aktuelleStation < stationen.length - 1) {
+
+      if (
+        aktuelleStation <
+        stationen.length - 1
+      ) {
+
         aktuelleStation++;
         stationAnzeigen();
+
       } else {
+
         zurStartseite();
       }
     }
 
     function vorherigeStation() {
+
       if (aktuelleStation > 0) {
+
         aktuelleStation--;
         stationAnzeigen();
+
       } else {
+
         zurStartseite();
       }
     }
 
     function zurStartseite() {
+
+      aktuelleRoute = null;
+      aktuelleStation = 0;
+
+      // Nur bei bewusster Rückkehr zur
+      // Streckenauswahl wird der
+      // gespeicherte Fortschritt gelöscht.
+      try {
+        localStorage.removeItem(
+          SPEICHER_SCHLUESSEL
+        );
+      } catch (fehler) {
+        console.warn(fehler);
+      }
+
       seitenAusblenden();
 
       document.getElementById("startseite")
@@ -762,13 +1038,36 @@
       window.scrollTo(0, 0);
     }
 
+
+    // ==========================================
+    // INTERAKTIVE KARTE
+    // ==========================================
+
+    let karte = null;
+    let streckeGeladen = false;
+    let streckeWirdGeladen = false;
+
     async function karteOeffnen() {
-      document.getElementById("kartenfenster")
-        .classList.add("offen");
+
+      const fenster =
+        document.getElementById("kartenfenster");
+
+      fenster.classList.add("offen");
 
       document.body.style.overflow = "hidden";
 
+      if (typeof L === "undefined") {
+
+        alert(
+          "Die Kartenbibliothek konnte nicht geladen werden. " +
+          "Bitte die Internetverbindung prüfen."
+        );
+
+        return;
+      }
+
       if (!karte) {
+
         karte = L.map("kartenflaeche");
 
         L.tileLayer(
@@ -779,77 +1078,194 @@
           }
         ).addTo(karte);
 
-        karte.setView([51.486, 7.043], 16);
+        // Ausgangsansicht: Zeche Zollverein
+        karte.setView(
+          [51.486, 7.043],
+          16
+        );
       }
 
-      setTimeout(() => karte.invalidateSize(), 100);
+      setTimeout(() => {
+        karte.invalidateSize();
+      }, 100);
 
-      if (streckeGeladen) {
+      if (
+        streckeGeladen ||
+        streckeWirdGeladen
+      ) {
         return;
       }
 
+      streckeWirdGeladen = true;
+
       try {
-        const antwort = await fetch("kurz.gpx");
+
+        const antwort = await fetch(
+          "kurz.gpx",
+          { cache: "no-store" }
+        );
 
         if (!antwort.ok) {
-          throw new Error("GPX-Datei nicht gefunden");
+          throw new Error(
+            "GPX-Datei nicht erreichbar: HTTP " +
+            antwort.status
+          );
         }
 
         const gpxText = await antwort.text();
 
         const xml = new DOMParser()
-          .parseFromString(gpxText, "application/xml");
+          .parseFromString(
+            gpxText,
+            "application/xml"
+          );
 
-        if (xml.querySelector("parsererror")) {
-          throw new Error("Ungültige GPX-Datei");
+        if (
+          xml.getElementsByTagName(
+            "parsererror"
+          ).length > 0
+        ) {
+          throw new Error(
+            "Die GPX-Datei enthält ungültiges XML."
+          );
         }
 
-        const punkte = Array.from(
+        // GPX-Tracks verwenden trkpt.
+        // GPX-Routen verwenden rtept.
+        // Beide Formate werden unterstützt.
+
+        let elemente = Array.from(
           xml.getElementsByTagName("trkpt")
-        ).map(punkt => [
-          Number(punkt.getAttribute("lat")),
-          Number(punkt.getAttribute("lon"))
-        ]);
+        );
+
+        if (elemente.length < 2) {
+
+          elemente = Array.from(
+            xml.getElementsByTagName("rtept")
+          );
+        }
+
+        const punkte = elemente
+          .map(element => [
+
+            Number(
+              element.getAttribute("lat")
+            ),
+
+            Number(
+              element.getAttribute("lon")
+            )
+
+          ])
+          .filter(punkt =>
+            Number.isFinite(punkt[0]) &&
+            Number.isFinite(punkt[1]) &&
+            Math.abs(punkt[0]) <= 90 &&
+            Math.abs(punkt[1]) <= 180
+          );
 
         if (punkte.length < 2) {
-          throw new Error("Keine Streckenpunkte gefunden");
+
+          throw new Error(
+            "Die GPX-Datei enthält keine " +
+            "ausreichenden Streckenpunkte."
+          );
         }
 
-        const linie = L.polyline(punkte, {
-          color: "#0099c6",
-          weight: 6,
-          opacity: 0.95
-        }).addTo(karte);
+        const linie = L.polyline(
+          punkte,
+          {
+            color: "#0099c6",
+            weight: 6,
+            opacity: 0.95
+          }
+        ).addTo(karte);
 
-        L.circleMarker(punkte[0], {
-          radius: 8,
-          color: "#004b6e",
-          fillColor: "#3e8825",
-          fillOpacity: 1
-        }).addTo(karte)
-          .bindPopup("Start und Ziel: The Mine");
+        L.circleMarker(
+          punkte[0],
+          {
+            radius: 8,
+            color: "#004b6e",
+            fillColor: "#3e8825",
+            fillOpacity: 1
+          }
+        )
+        .addTo(karte)
+        .bindPopup(
+          "Start: The Mine"
+        );
 
-        karte.fitBounds(linie.getBounds(), {
-          padding: [30, 30]
-        });
+        L.circleMarker(
+          punkte[punkte.length - 1],
+          {
+            radius: 7,
+            color: "#004b6e",
+            fillColor: "#d96b24",
+            fillOpacity: 1
+          }
+        )
+        .addTo(karte)
+        .bindPopup(
+          "Ziel der Route"
+        );
+
+        karte.fitBounds(
+          linie.getBounds(),
+          {
+            padding: [30, 30]
+          }
+        );
 
         streckeGeladen = true;
 
       } catch (fehler) {
-        alert(
-          "Die Streckenkarte konnte nicht geladen werden. " +
-          "Bitte prüfen, ob kurz.gpx im Repository liegt."
+
+        console.error(
+          "Fehler beim Laden der GPX-Strecke:",
+          fehler
         );
-        console.error(fehler);
+
+        alert(
+          "Die Strecke konnte nicht geladen werden.\n\n" +
+          fehler.message +
+          "\n\nBitte prüfen, ob kurz.gpx " +
+          "im GitHub-Repository liegt."
+        );
+
+      } finally {
+
+        streckeWirdGeladen = false;
       }
     }
 
     function karteSchliessen() {
-      document.getElementById("kartenfenster")
-        .classList.remove("offen");
+
+      document.getElementById(
+        "kartenfenster"
+      ).classList.remove("offen");
 
       document.body.style.overflow = "";
     }
+
+
+    // ==========================================
+    // WEBSITE STARTEN
+    // ==========================================
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      function () {
+
+        // Gibt es einen gespeicherten Stand,
+        // wird dieser automatisch angezeigt.
+        // Andernfalls bleibt die Startseite offen.
+
+        fortschrittLaden();
+
+      }
+    );
+
   </script>
+
 </body>
 </html>
