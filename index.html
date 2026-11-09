@@ -3,23 +3,223 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Weihnachtsrallye MD Bund</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#004b6e">
+
+  <title>Weihnachtsrallye des MD Bund</title>
 
   <style>
+    :root {
+      --dunkelblau: #004b6e;
+      --blau: #06688f;
+      --tuerkis: #0099c6;
+      --hellblau: #d5ecf4;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
+      font-family: Calibri, Arial, sans-serif;
+      color: var(--dunkelblau);
+      background: #eaf5fa;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 480px;
       min-height: 100vh;
-      background-color: #eaf5fa;
+      min-height: 100svh;
+      margin: 0 auto;
+      padding: 0 20px 32px;
+
       background-image: url('hintergrund.png');
-      background-position: center top;
       background-repeat: no-repeat;
-      background-size: 100% auto;
-      font-family: Arial, sans-serif;
+      background-position: center top;
+      background-size: 100% 100%;
+    }
+
+    .logo-abstand {
+      height: clamp(150px, 22svh, 220px);
+    }
+
+    .einleitung {
+      text-align: center;
+      background: rgba(255, 255, 255, 0.93);
+      border-radius: 18px;
+      padding: 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 3px 14px rgba(0, 75, 110, 0.08);
+    }
+
+    h1 {
+      font-size: 23px;
+      line-height: 1.2;
+      margin: 0 0 8px;
+    }
+
+    .einleitung p {
+      font-size: 16px;
+      line-height: 1.4;
+      margin: 0;
+    }
+
+    .routen {
+      display: grid;
+      gap: 12px;
+    }
+
+    .route {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      min-height: 90px;
+      padding: 16px;
+      text-align: left;
+      font-family: inherit;
+      color: var(--dunkelblau);
+
+      background: rgba(255, 255, 255, 0.95);
+      border: 2px solid var(--hellblau);
+      border-radius: 17px;
+      box-shadow: 0 3px 12px rgba(0, 75, 110, 0.08);
+
+      cursor: pointer;
+    }
+
+    .route:active {
+      transform: scale(0.99);
+      border-color: var(--tuerkis);
+    }
+
+    .route:focus-visible {
+      outline: 3px solid var(--tuerkis);
+      outline-offset: 3px;
+    }
+
+    .symbol {
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      width: 48px;
+      height: 48px;
+      margin-right: 14px;
+      border-radius: 12px;
+      background: var(--hellblau);
+      font-size: 24px;
+    }
+
+    .route-text {
+      flex: 1;
+    }
+
+    .route-name {
+      display: block;
+      font-size: 19px;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .route-info {
+      display: block;
+      font-size: 15px;
+      color: var(--blau);
+    }
+
+    .pfeil {
+      font-size: 26px;
+      color: var(--tuerkis);
+      margin-left: 8px;
+    }
+
+    .hinweis {
+      margin-top: 18px;
+      text-align: center;
+      font-size: 14px;
+      line-height: 1.4;
+      color: var(--dunkelblau);
+      background: rgba(255, 255, 255, 0.86);
+      border-radius: 12px;
+      padding: 10px;
+    }
+
+    @media (min-width: 600px) {
+      body {
+        background: #d5ecf4;
+      }
+
+      .app {
+        box-shadow: 0 0 35px rgba(0, 75, 110, 0.12);
+      }
     }
   </style>
 </head>
 
 <body>
+  <main class="app">
+    <div class="logo-abstand"></div>
+
+    <section class="einleitung">
+      <h1>Welche Runde darf es sein?</h1>
+      <p>
+        Wählt gemeinsam Eure Strecke und entdeckt
+        Zollverein zur Weihnachtszeit.
+      </p>
+    </section>
+
+    <nav class="routen" aria-label="Routenauswahl">
+
+      <button class="route" onclick="routeWaehlen('kurz')">
+        <span class="symbol">❄️</span>
+        <span class="route-text">
+          <span class="route-name">Die kurze Runde</span>
+          <span class="route-info">620 m · ca. 20 Min.</span>
+        </span>
+        <span class="pfeil">›</span>
+      </button>
+
+      <button class="route" onclick="routeWaehlen('mittel')">
+        <span class="symbol">🎄</span>
+        <span class="route-text">
+          <span class="route-name">Die mittlere Runde</span>
+          <span class="route-info">1,08 km · ca. 30 Min.</span>
+        </span>
+        <span class="pfeil">›</span>
+      </button>
+
+      <button class="route" onclick="routeWaehlen('lang')">
+        <span class="symbol">⭐</span>
+        <span class="route-text">
+          <span class="route-name">Die lange Runde</span>
+          <span class="route-info">2,3 km · ca. 60 Min.</span>
+        </span>
+        <span class="pfeil">›</span>
+      </button>
+
+    </nav>
+
+    <p class="hinweis">
+      Keine Punkte, keine Gewinner.
+      Einfach gemeinsam entdecken,
+      fotografieren und Spaß haben.
+    </p>
+  </main>
+
+  <script>
+    function routeWaehlen(route) {
+      const namen = {
+        kurz: "kurze",
+        mittel: "mittlere",
+        lang: "lange"
+      };
+
+      alert(
+        "Die " + namen[route] +
+        " Route wird als Nächstes eingebaut."
+      );
+    }
+  </script>
 </body>
 </html>
