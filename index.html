@@ -578,7 +578,7 @@
     </div>
   </div>
 
-  <!-- NEU: Vergrößerte Ansicht für Infostand und Halle -->
+  <!-- Bildansicht für die Links in der Wegbeschreibung -->
 
   <div
     id="bildfenster"
@@ -691,11 +691,25 @@
       {
         titel: "Das Rad nicht neu erfinden",
 
+        /*
+          KORREKTUR:
+          Die Links stehen in der Wegbeschreibung.
+          Der Infokasten bleibt unverändert.
+        */
+
         weg:
           "Mit der Rolltreppe geht es wieder hinunter. " +
           "Unten links halten, auf das Gebäude zugehen und " +
           "links daran vorbeilaufen. Dort stehen zwei große " +
-          "historische Räder.",
+          "historische Räder. " +
+          "Zur Orientierung können der " +
+          '<button type="button" class="bildlink" ' +
+          'onclick="bildOeffnen(\'infostand.jpg\', \'Infostand\', this)">' +
+          "Infostand</button> und die " +
+          '<button type="button" class="bildlink" ' +
+          'onclick="bildOeffnen(\'halle.jpg\', \'Halle\', this)">' +
+          "Halle</button> " +
+          "auf den Fotos angesehen werden.",
 
         foto: "rad.jpg",
         fotoAlt: "Zwei große historische Räder auf Zollverein",
@@ -703,30 +717,12 @@
         faktTitel:
           "💡 Wozu brauchte eine Zeche solche riesigen Räder?",
 
-        /*
-          NEU:
-          Die Wörter "Infostand" und "Halle" öffnen
-          die beiden hochgeladenen Fotos.
-
-          infostand.jpg -> Infostand
-          halle.jpg     -> Halle
-        */
-
         fakt:
           "Im Bergbau kamen große Seilscheiben zum Einsatz. " +
           "Über sie liefen die Stahlseile der Förderanlagen. " +
           "Mit dieser Technik wurden Kohle, Material und " +
           "Bergleute zwischen der Tiefe und der Oberfläche " +
-          "transportiert. " +
-          "Weitere Informationen zeigt der " +
-          '<button type="button" class="bildlink" ' +
-          'onclick="bildOeffnen(\'infostand.jpg\', \'Infostand\', this)">' +
-          "Infostand</button>. " +
-          "Ein zusätzlicher Blick in die " +
-          '<button type="button" class="bildlink" ' +
-          'onclick="bildOeffnen(\'halle.jpg\', \'Halle\', this)">' +
-          "Halle</button> " +
-          "ist ebenfalls möglich.",
+          "transportiert.",
 
         quiz: null,
 
@@ -1203,11 +1199,6 @@
       quizAnzeigen(station);
     }
 
-    /*
-      NEU: Bildansicht für die verlinkten Wörter
-      "Infostand" und "Halle".
-    */
-
     function bildOeffnen(dateiname, titel, ausloeser) {
       const erlaubteBilder = {
         "infostand.jpg": "Infostand",
@@ -1257,11 +1248,6 @@
 
       bildAusloeser = null;
     }
-
-    /*
-      Kartenansicht der kurzen Strecke.
-      Die Datei kurz.gpx muss im GitHub-Repository liegen.
-    */
 
     function karteOeffnen() {
       if (aktuelleStrecke !== "kurz") {
