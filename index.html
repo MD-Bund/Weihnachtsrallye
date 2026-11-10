@@ -3,10 +3,15 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
   <meta name="theme-color" content="#004b6e">
+
   <title>Weihnachtsrallye des MD Bund</title>
 
+  <!-- Interaktive Karte -->
   <link
     rel="stylesheet"
     href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -27,120 +32,131 @@
       box-sizing: border-box;
     }
 
-    html,
+    html {
+      scroll-behavior: auto;
+    }
+
     body {
       margin: 0;
-      min-height: 100%;
       font-family: Calibri, Arial, sans-serif;
       color: var(--dunkelblau);
-      background: #d9edf4;
-    }
-
-    button,
-    input {
-      font: inherit;
-    }
-
-    button {
-      cursor: pointer;
-    }
-
-    .app {
-      position: relative;
-      isolation: isolate;
-      width: 100%;
-      max-width: 480px;
-      min-height: 100svh;
-      margin: 0 auto;
-      overflow: hidden;
       background: #eaf6fa;
     }
 
-    .hintergrund-oben,
-    .hintergrund-unten {
-      position: absolute;
-      left: 0;
-      right: 0;
-      z-index: -1;
-      pointer-events: none;
+    button {
+      font-family: inherit;
+      cursor: pointer;
     }
 
-    .hintergrund-oben {
-      top: 0;
-      height: var(--hintergrund-hoehe, 480px);
+    button:focus-visible {
+      outline: 3px solid var(--gruen);
+      outline-offset: 3px;
+    }
+
+    .versteckt {
+      display: none !important;
+    }
+
+    /*
+      HINTERGRUND
+
+      Das Hintergrundbild wird proportional
+      angezeigt und nicht mehr in die Länge
+      gezogen, wenn eine Station mehr Text hat.
+    */
+
+    .app {
+      width: 100%;
+      max-width: 480px;
+      min-height: 100vh;
+      min-height: 100svh;
+      margin: 0 auto;
+      padding: 0 20px 32px;
+
+      background-color: #eaf6fa;
       background-image: url("hintergrund.png");
       background-repeat: no-repeat;
-      background-position: top center;
+      background-position: center top;
       background-size: 100% auto;
     }
 
-    .hintergrund-unten {
-      top: var(--hintergrund-hoehe, 480px);
-      bottom: 0;
-      background-image: url("hintergrund-unten.png");
-      background-repeat: repeat-y;
-      background-position: top center;
-      background-size: 100% auto;
+    .logo-abstand {
+      height: clamp(150px, 22svh, 220px);
     }
 
-    .app-inhalt {
-      position: relative;
-      z-index: 1;
-      padding: 0 16px 35px;
-    }
-
-    .kopfbereich {
-      position: relative;
-      height: 142px;
-    }
+    /*
+      KARTEN-BUTTON AUF DER RALLYESEITE
+    */
 
     .karte-button {
-      position: absolute;
-      top: 91px;
-      right: 0;
-      padding: 9px 12px;
-      border: 2px solid var(--dunkelblau);
-      border-radius: 12px;
-      color: white;
+      position: sticky;
+      top: 12px;
+      z-index: 20;
+      float: right;
+      margin-top: 12px;
+      padding: 11px 15px;
+      border: 0;
+      border-radius: 25px;
       background: var(--dunkelblau);
+      color: white;
+      font-size: 15px;
       font-weight: bold;
-      box-shadow: 0 3px 8px rgba(0, 40, 60, 0.18);
+      box-shadow: 0 3px 10px #004b6e33;
     }
+
+    .karte-button[hidden] {
+      display: none;
+    }
+
+    .karte-abstand {
+      clear: both;
+    }
+
+    /*
+      KÄSTEN
+    */
 
     .kasten {
       margin-bottom: 14px;
-      padding: 19px;
-      border-radius: 18px;
-      background: white;
-      box-shadow: 0 4px 13px rgba(0, 55, 85, 0.12);
+      padding: 19px 17px;
+      border-radius: 17px;
+      box-shadow: 0 3px 12px #004b6e14;
     }
 
-    .kasten.hellblau {
-      background: var(--hellblau);
+    .kasten-weiss {
+      background: rgba(255, 255, 255, 0.97);
     }
 
-    .kasten.tuerkis {
-      color: white;
+    .kasten-fakt {
+      background: #d5ecf4;
+      border-left: 5px solid var(--blau);
+    }
+
+    .kasten-challenge {
       background: var(--tuerkis);
+      color: white;
     }
 
-    .kasten h1,
-    .kasten h2,
-    .kasten h3 {
-      margin: 0 0 12px;
-      line-height: 1.2;
+    .zentriert {
+      text-align: center;
     }
 
     h1 {
-      font-size: 25px;
+      margin: 0;
+      font-size: 23px;
+      line-height: 1.3;
     }
 
     h2 {
-      font-size: 21px;
+      margin: 0 0 12px;
+      font-size: 23px;
+      line-height: 1.25;
     }
 
     h3 {
+      margin: 0 0 12px;
       font-size: 19px;
+      line-height: 1.3;
     }
 
     p {
@@ -153,243 +169,238 @@
       margin-bottom: 0;
     }
 
-    .stationsnummer {
-      margin-bottom: 9px;
+    /*
+      ROUTENAUSWAHL
+    */
+
+    .routen {
+      display: grid;
+      gap: 12px;
+    }
+
+    .route {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      min-height: 90px;
+      padding: 16px;
+      text-align: left;
+      color: var(--dunkelblau);
+      background: rgba(255, 255, 255, 0.97);
+      border: 2px solid var(--hellblau);
+      border-radius: 17px;
+      box-shadow: 0 3px 12px #004b6e14;
+    }
+
+    .symbol {
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      width: 48px;
+      height: 48px;
+      margin-right: 14px;
+      border-radius: 12px;
+      background: var(--hellblau);
+      font-size: 24px;
+    }
+
+    .route-text {
+      flex: 1;
+    }
+
+    .route-name {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 19px;
+      font-weight: bold;
+    }
+
+    .route-info {
+      display: block;
+      color: var(--blau);
+      font-size: 15px;
+    }
+
+    .pfeil {
+      color: var(--tuerkis);
+      font-size: 26px;
+    }
+
+    /*
+      STATIONSINHALTE
+    */
+
+    .fortschritt {
+      margin-bottom: 10px;
       color: var(--blau);
       font-size: 14px;
       font-weight: bold;
-      letter-spacing: 0.4px;
-      text-transform: uppercase;
+    }
+
+    .station-titel {
+      margin-bottom: 22px;
     }
 
     .weg-titel {
-      margin-top: 18px !important;
+      display: flex;
+      align-items: center;
+      gap: 9px;
     }
 
     .stationsfoto {
       display: block;
       width: 100%;
       height: auto;
-      margin-top: 15px;
+      max-height: 310px;
+      object-fit: cover;
+      margin-top: 17px;
       border-radius: 12px;
     }
 
-    .strecken-button,
-    .weiter-button,
-    .zurueck-button,
-    .quiz-button,
-    .upload-button {
+    .fakt-titel {
+      color: var(--dunkelblau);
+    }
+
+    .kasten-fakt p {
+      font-size: 16px;
+    }
+
+    .challenge-titel,
+    .kasten-challenge p {
+      color: white;
+    }
+
+    /*
+      BUTTONS
+    */
+
+    .button {
       display: block;
       width: 100%;
-      padding: 14px 15px;
+      padding: 15px 18px;
+      border: 0;
       border-radius: 12px;
       font-size: 17px;
       font-weight: bold;
-      text-align: center;
-      text-decoration: none;
     }
 
-    .strecken-button {
-      margin-top: 12px;
-      border: 2px solid var(--dunkelblau);
-      color: var(--dunkelblau);
+    .button-weiter {
+      margin-top: 20px;
       background: white;
-    }
-
-    .strecken-button span {
-      display: block;
-      margin-top: 4px;
-      font-size: 14px;
-      font-weight: normal;
-    }
-
-    .weiter-button {
-      margin-top: 18px;
-      border: 2px solid white;
       color: var(--dunkelblau);
-      background: white;
+      box-shadow: 0 3px 8px #004b6e20;
     }
 
-    .zurueck-button {
-      margin-top: 8px;
-      border: 2px solid var(--dunkelblau);
+    .button-zurueck {
+      margin-top: 14px;
+      border: 2px solid var(--hellblau);
+      background: white;
       color: var(--dunkelblau);
-      background: white;
     }
 
-    .quiz-button {
-      margin-top: 9px;
-      border: 2px solid var(--blau);
-      color: var(--dunkelblau);
-      background: white;
-      font-weight: normal;
-      text-align: left;
-    }
+    /*
+      KARTENFENSTER
+    */
 
-    .quiz-button.richtig {
-      border-color: var(--gruen);
-      background: #e2f4df;
-      font-weight: bold;
-    }
-
-    .quiz-button.falsch {
-      border-color: #b84040;
-      background: #fde9e9;
-    }
-
-    .quiz-button:disabled {
-      cursor: default;
-    }
-
-    .quiz-rueckmeldung {
-      margin-top: 12px;
-      padding: 12px;
-      border-radius: 10px;
-      background: white;
-      font-size: 16px;
-      line-height: 1.4;
-    }
-
-    .upload-button {
-      margin-top: 16px;
-      border: 2px solid white;
-      color: var(--dunkelblau);
-      background: white;
-    }
-
-    .upload-hinweis {
-      margin-top: 11px;
-      font-size: 15px;
-      line-height: 1.45;
-    }
-
-    .bildlink {
-      display: inline;
-      padding: 0;
-      border: 0;
-      border-bottom: 2px solid currentColor;
-      color: var(--dunkelblau);
-      background: transparent;
-      font-size: inherit;
-      font-weight: bold;
-      text-decoration: none;
-      cursor: pointer;
-    }
-
-    .bildlink:focus-visible {
-      outline: 3px solid var(--orange);
-      outline-offset: 3px;
-    }
-
-    .versteckt {
-      display: none !important;
-    }
-
-    .overlay {
+    .karte {
+      display: none;
       position: fixed;
       inset: 0;
       z-index: 1000;
-      display: flex;
-      flex-direction: column;
       background: white;
     }
 
-    .overlay-kopf {
+    .karte.offen {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .karte-kopf {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      flex-shrink: 0;
       gap: 10px;
-      padding: 12px;
-      color: white;
+
+      padding: 12px 14px;
+      padding-top: max(
+        12px,
+        env(safe-area-inset-top)
+      );
+
       background: var(--dunkelblau);
+      color: white;
     }
 
-    .overlay-kopf strong {
-      font-size: 17px;
+    .karte-titel {
+      font-size: 15px;
+      font-weight: bold;
+      line-height: 1.3;
     }
 
-    .overlay-schliessen {
-      padding: 10px 12px;
-      border: 2px solid white;
+    .karte-schliessen {
+      flex-shrink: 0;
+      padding: 12px 13px;
+      border: 0;
       border-radius: 10px;
+      background: white;
       color: var(--dunkelblau);
-      background: white;
+      font-size: 14px;
       font-weight: bold;
     }
 
-    #karte {
+    #kartenflaeche {
       flex: 1;
       min-height: 0;
-    }
-
-    .overlay-fuss {
-      padding: 12px;
-      background: white;
-    }
-
-    .overlay-fuss button {
       width: 100%;
-      padding: 13px;
-      border: 2px solid var(--dunkelblau);
+    }
+
+    .karte-fuss {
+      flex-shrink: 0;
+      padding: 12px 14px;
+      padding-bottom: max(
+        12px,
+        env(safe-area-inset-bottom)
+      );
+
+      background: white;
+      border-top: 1px solid var(--hellblau);
+    }
+
+    .karte-zurueck {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      border: 0;
       border-radius: 12px;
-      color: white;
       background: var(--dunkelblau);
+      color: white;
+      font-size: 17px;
       font-weight: bold;
     }
 
-    .bild-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 2000;
-      display: flex;
-      flex-direction: column;
-      background: rgba(0, 30, 45, 0.97);
+    .kartenhinweis {
+      margin-top: 8px;
+      color: var(--blau);
+      font-size: 12px;
+      line-height: 1.35;
+      text-align: center;
     }
 
-    .bild-overlay .overlay-kopf {
-      flex-shrink: 0;
-    }
-
-    .bild-inhalt {
-      display: flex;
-      flex: 1;
-      min-height: 0;
-      align-items: center;
-      justify-content: center;
-      padding: 15px;
-      overflow: auto;
-    }
-
-    .bild-inhalt img {
-      display: block;
-      max-width: 100%;
-      max-height: 100%;
-      width: auto;
-      height: auto;
-      object-fit: contain;
-      border-radius: 8px;
-    }
-
-    .bild-overlay .overlay-fuss {
-      flex-shrink: 0;
-      background: rgba(0, 30, 45, 0.97);
+    @media (min-width: 600px) {
+      .app {
+        box-shadow: 0 0 35px #004b6e22;
+      }
     }
 
     @media (max-width: 360px) {
-      .kopfbereich {
-        height: 132px;
+      .karte-titel {
+        font-size: 13px;
       }
 
-      .karte-button {
-        top: 86px;
-      }
-
-      .kasten {
-        padding: 16px;
-      }
-
-      h1 {
-        font-size: 23px;
+      .karte-schliessen {
+        padding: 11px 9px;
+        font-size: 12px;
       }
     }
   </style>
@@ -397,470 +408,613 @@
 
 <body>
 
-  <div class="app" id="app">
-    <div class="hintergrund-oben"></div>
-    <div class="hintergrund-unten"></div>
+  <main class="app">
 
-    <div class="app-inhalt">
+    <!-- KARTEN-BUTTON -->
 
-      <header class="kopfbereich">
+    <button
+      id="karteButton"
+      class="karte-button"
+      type="button"
+      onclick="karteOeffnen()"
+      hidden
+    >
+      🗺 Karte
+    </button>
+
+    <div class="karte-abstand"></div>
+    <div class="logo-abstand"></div>
+
+    <!-- STARTSEITE -->
+
+    <section id="startseite">
+
+      <div class="kasten kasten-weiss zentriert">
+        <h1>
+          Strecke wählen und Weihnachtsrallye starten
+        </h1>
+      </div>
+
+      <nav class="routen" aria-label="Routenauswahl">
+
         <button
-          id="karteButton"
-          class="karte-button versteckt"
+          class="route"
           type="button"
-          onclick="karteOeffnen()"
+          onclick="routeWaehlen('kurz')"
         >
-          🗺️ Karte öffnen
-        </button>
-      </header>
+          <span class="symbol">❄️</span>
 
-      <main>
-
-        <section id="startseite">
-          <div class="kasten">
-            <h1>Strecke wählen und Weihnachtsrallye starten</h1>
-            <p>
-              Drei Strecken führen über das Gelände der Zeche Zollverein.
-              Unterwegs warten spannende Orte und weihnachtliche
-              Foto-Challenges.
-            </p>
-
-            <button
-              class="strecken-button"
-              type="button"
-              onclick="streckeWaehlen('kurz')"
-            >
+          <span class="route-text">
+            <span class="route-name">
               Die kurze Runde
-              <span>620 m · ca. 20 Min.</span>
-            </button>
+            </span>
 
-            <button
-              class="strecken-button"
-              type="button"
-              onclick="streckeWaehlen('mittel')"
-            >
+            <span class="route-info">
+              620 m · ca. 20 Min.
+            </span>
+          </span>
+
+          <span class="pfeil">›</span>
+        </button>
+
+        <button
+          class="route"
+          type="button"
+          onclick="routeWaehlen('mittel')"
+        >
+          <span class="symbol">🎄</span>
+
+          <span class="route-text">
+            <span class="route-name">
               Die mittlere Runde
-              <span>1,08 km · ca. 30 Min.</span>
-            </button>
+            </span>
 
-            <button
-              class="strecken-button"
-              type="button"
-              onclick="streckeWaehlen('lang')"
-            >
+            <span class="route-info">
+              1,08 km · ca. 30 Min.
+            </span>
+          </span>
+
+          <span class="pfeil">›</span>
+        </button>
+
+        <button
+          class="route"
+          type="button"
+          onclick="routeWaehlen('lang')"
+        >
+          <span class="symbol">⭐</span>
+
+          <span class="route-text">
+            <span class="route-name">
               Die lange Runde
-              <span>2,3 km · ca. 60 Min.</span>
-            </button>
-          </div>
-        </section>
+            </span>
 
-        <section id="platzhalterseite" class="versteckt">
-          <div class="kasten">
-            <h1>🎄 Einen Moment noch</h1>
-            <p>
-              Diese Strecke wird noch vom Schnee geräumt.
-              Bitte noch etwas warten.
-            </p>
-          </div>
+            <span class="route-info">
+              2,3 km · ca. 60 Min.
+            </span>
+          </span>
 
-          <button
-            class="zurueck-button"
-            type="button"
-            onclick="zurStreckenauswahl()"
-          >
-            ← Zur Streckenauswahl
-          </button>
-        </section>
+          <span class="pfeil">›</span>
+        </button>
 
-        <section id="rallyeseite" class="versteckt">
+      </nav>
 
-          <div class="kasten">
-            <div id="stationsnummer" class="stationsnummer"></div>
-            <h1 id="stationstitel"></h1>
+    </section>
 
-            <h3 id="wegtitel" class="weg-titel">
-              🧭 Wegbeschreibung
-            </h3>
+    <!-- WARTESEITE -->
 
-            <p id="wegtext"></p>
+    <section
+      id="warteseite"
+      class="versteckt"
+    >
 
-            <img
-              id="stationsfoto"
-              class="stationsfoto versteckt"
-              src=""
-              alt=""
-            >
-          </div>
+      <div class="kasten kasten-weiss zentriert">
 
-          <div id="faktkasten" class="kasten hellblau versteckt">
-            <h3 id="fakttitel"></h3>
-            <p id="fakttext"></p>
-          </div>
+        <h2>❄️ Noch etwas Geduld!</h2>
 
-          <div id="quizkasten" class="kasten versteckt">
-            <h3>❓ Quizfrage</h3>
-            <p id="quizfrage"></p>
-            <div id="quizantworten"></div>
-            <div
-              id="quizrueckmeldung"
-              class="quiz-rueckmeldung versteckt"
-              aria-live="polite"
-            ></div>
-          </div>
+        <p>
+          Strecke wird noch vom Schnee geräumt.
+          Bitte warten Sie noch etwas.
+        </p>
 
-          <div class="kasten tuerkis">
-            <h3 id="challengetitel"></h3>
-            <p id="challengetext"></p>
+        <button
+          class="button button-zurueck"
+          type="button"
+          onclick="zurStartseite()"
+        >
+          ← Zur Streckenauswahl
+        </button>
 
-            <div id="fotoUpload" class="versteckt">
-              <a
-                class="upload-button"
-                href="https://www.dropbox.com/request/20f8yf4k4lpp2xyn84hs"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                📸 Gruppenfotos hochladen
-              </a>
+      </div>
 
-              <p class="upload-hinweis">
-                Der Button öffnet die Dropbox-Dateianforderung.
-                Dort können die Gruppenfotos abgegeben werden.
-                Fotos anderer Gruppen sind nicht einsehbar.
-              </p>
-            </div>
+    </section>
 
-            <button
-              id="weiterButton"
-              class="weiter-button"
-              type="button"
-              onclick="naechsteStation()"
-            >
-              📸 Foto gemacht · Weiter
-            </button>
-          </div>
+    <!-- STATIONSSEITE -->
 
-          <button
-            id="zurueckButton"
-            class="zurueck-button"
-            type="button"
-            onclick="vorherigeStation()"
-          >
-            ← Zurück
-          </button>
+    <section
+      id="stationsseite"
+      class="versteckt"
+    >
 
-        </section>
+      <!-- WEISSER KASTEN:
+           WEG UND FOTO -->
 
-      </main>
-    </div>
-  </div>
+      <div class="kasten kasten-weiss">
 
-  <!-- Kartenansicht -->
+        <div
+          id="fortschritt"
+          class="fortschritt"
+        ></div>
 
-  <div id="kartenfenster" class="overlay versteckt">
-    <div class="overlay-kopf">
-      <strong>🗺️ Die kurze Runde</strong>
+        <h2
+          id="stationTitel"
+          class="station-titel"
+        ></h2>
+
+        <h3 class="weg-titel">
+          🧭 Wegbeschreibung
+        </h3>
+
+        <div id="stationWeg"></div>
+
+        <div id="stationFoto"></div>
+
+      </div>
+
+      <!-- HELLBLAUER KASTEN:
+           WISSENSFAKT -->
+
+      <div
+        id="faktKasten"
+        class="kasten kasten-fakt versteckt"
+      >
+
+        <h3
+          id="faktTitel"
+          class="fakt-titel"
+        ></h3>
+
+        <div id="stationFakt"></div>
+
+      </div>
+
+      <!-- TÜRKISFARBENER KASTEN:
+           FOTO-CHALLENGE -->
+
+      <div
+        id="challengeKasten"
+        class="kasten kasten-challenge"
+      >
+
+        <h3
+          id="challengeTitel"
+          class="challenge-titel"
+        >
+          📸 Foto-Challenge
+        </h3>
+
+        <div id="stationChallenge"></div>
+
+        <button
+          id="weiterButton"
+          class="button button-weiter"
+          type="button"
+          onclick="naechsteStation()"
+        >
+          📸 Foto gemacht · Weiter
+        </button>
+
+      </div>
+
+      <!-- ZURÜCK-BUTTON -->
 
       <button
-        class="overlay-schliessen"
+        class="button button-zurueck"
+        type="button"
+        onclick="vorherigeStation()"
+      >
+        ← Zurück
+      </button>
+
+    </section>
+
+  </main>
+
+  <!-- INTERAKTIVE KARTE -->
+
+  <div
+    id="kartenfenster"
+    class="karte"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Streckenkarte"
+    aria-hidden="true"
+  >
+
+    <div class="karte-kopf">
+
+      <span class="karte-titel">
+        🗺 Kurze Runde<br>
+        Streckenkarte
+      </span>
+
+      <button
+        id="karteSchliessenOben"
+        class="karte-schliessen"
         type="button"
         onclick="karteSchliessen()"
       >
-        ✕ Zurück
+        ✕ Zurück zur Rallye
       </button>
+
     </div>
 
-    <div id="karte"></div>
+    <div id="kartenflaeche"></div>
 
-    <div class="overlay-fuss">
-      <button type="button" onclick="karteSchliessen()">
-        ← Zurück zur Rallye
-      </button>
-    </div>
-  </div>
-
-  <!-- Bildansicht für die Links in der Wegbeschreibung -->
-
-  <div
-    id="bildfenster"
-    class="bild-overlay versteckt"
-    role="dialog"
-    aria-modal="true"
-    aria-labelledby="bildtitel"
-  >
-    <div class="overlay-kopf">
-      <strong id="bildtitel">Foto</strong>
+    <div class="karte-fuss">
 
       <button
-        id="bildSchliessenOben"
-        class="overlay-schliessen"
+        class="karte-zurueck"
         type="button"
-        onclick="bildSchliessen()"
+        onclick="karteSchliessen()"
       >
-        ✕ Schließen
+        ← Zurück zur Rallye
       </button>
+
+      <div class="kartenhinweis">
+        Die Karte dient zur Orientierung.
+        Bitte vor Ort auf die Wege achten.
+      </div>
+
     </div>
 
-    <div class="bild-inhalt">
-      <img id="grossbild" src="" alt="">
-    </div>
-
-    <div class="overlay-fuss">
-      <button type="button" onclick="bildSchliessen()">
-        ← Zurück zur Station
-      </button>
-    </div>
   </div>
 
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <!-- LEAFLET -->
+
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+  ></script>
 
   <script>
-    "use strict";
 
-    const SPEICHERSCHLUESSEL =
-      "md-bund-weihnachtsrallye-2026";
-
-    let aktuelleStrecke = null;
-    let aktuelleStation = 0;
-    let quizAntworten = {};
-
-    let karte = null;
-    let kartenfensterOffen = false;
-    let bildfensterOffen = false;
-    let bildAusloeser = null;
+    // ==========================================
+    // STATIONEN DER KURZEN RUNDE
+    // ==========================================
 
     const stationen = [
+
+      // ========================================
+      // STATION 1: ROLLTREPPE
+      // ========================================
 
       {
         titel: "Die orangefarbene Rolltreppe",
 
-        weg:
-          "Vom The Mine geht es quer über den Werner-Müller-Platz. " +
-          "Auf der gegenüberliegenden Seite ist die orangefarbene " +
-          "Rolltreppe zu sehen. Am Fuß der Rolltreppe befindet sich " +
-          "der erste Stopp.",
+        weg: `
+          <p>
+            Vom The Mine geht es jetzt quer
+            über den Werner-Müller-Platz.
+          </p>
+
+          <p>
+            Auf der gegenüberliegenden Seite
+            ist die orangefarbene Rolltreppe
+            zu sehen. Am Fuß der Rolltreppe
+            befindet sich unser erster Stopp.
+          </p>
+        `,
 
         foto: "rolltreppe.jpg",
-        fotoAlt: "Die orangefarbene Rolltreppe auf Zollverein",
 
-        faktTitel: "💡 Wer war eigentlich Werner Müller?",
+        fotoAlt:
+          "Die orangefarbene Rolltreppe auf Zollverein",
 
-        fakt:
-          "Der Platz wurde 2020 nach dem Essener Werner Müller " +
-          "(1946–2019) benannt. Als Bundeswirtschaftsminister " +
-          "und späterer RAG-Chef prägte er den Strukturwandel " +
-          "im Ruhrgebiet und den sozialverträglichen Ausstieg " +
-          "aus dem Steinkohlenbergbau.",
+        faktTitel:
+          "Wer war eigentlich Werner Müller?",
 
-        quiz: null,
+        fakt: `
+          <p>
+            Der Platz wurde 2020 nach dem
+            Essener Werner Müller (1946–2019)
+            benannt. Als Bundeswirtschaftsminister
+            und späterer RAG-Chef prägte er
+            den Strukturwandel im Ruhrgebiet
+            und den sozialverträglichen Ausstieg
+            aus dem Steinkohlenbergbau.
+          </p>
+        `,
 
-        challengeTitel: "📸 Foto-Challenge: Karriereleiter",
+        challengeTitel: "📸 Foto-Challenge",
 
-        challenge:
-          "Das Erklimmen der Karriereleiter kann anstrengend sein. " +
-          "Da ist die Rolltreppe doch die angenehmere Wahl. " +
-          "<strong>Fotomotiv:</strong> Ein Gruppenfoto auf der " +
-          "Rolltreppe, möglichst auf unterschiedlichen Stufen."
+        challenge: `
+          <p>
+            Das Erklimmen der Karriereleiter
+            kann anstrengend sein, nehmen wir
+            lieber die Rolltreppe.
+          </p>
+
+          <p>
+            <strong>Fotomotiv:</strong>
+            Gruppenfoto auf der Rolltreppe,
+            möglichst auf unterschiedlichen Stufen.
+          </p>
+        `
       },
+
+      // ========================================
+      // STATION 2: GLASMODELL
+      // ========================================
 
       {
         titel: "Zollverein aus der Vogelperspektive",
 
-        weg:
-          "Oben angekommen befindet sich das gläserne Modell " +
-          "der Zeche Zollverein. Es zeigt das Gelände aus " +
-          "der Vogelperspektive.",
+        weg: `
+          <p>
+            Oben angekommen wartet das gläserne
+            Modell der Zeche Zollverein.
+          </p>
+
+          <p>
+            Hier lässt sich das Gelände aus
+            einer ganz anderen Perspektive
+            betrachten.
+          </p>
+        `,
 
         foto: "glasmodell.jpg",
-        fotoAlt: "Gläsernes Modell der Zeche Zollverein",
+
+        fotoAlt:
+          "Gläsernes Modell der Zeche Zollverein",
 
         faktTitel: "",
         fakt: "",
 
-        quiz: null,
+        challengeTitel:
+          "📸 Mit den Augen des Weihnachtsmanns",
 
-        challengeTitel: "📸 Mit den Augen des Weihnachtsmanns",
+        challenge: `
+          <p>
+            So ungefähr sieht der Weihnachtsmann
+            Zollverein, wenn er mit seinem
+            Schlitten darüberfliegt.
+          </p>
 
-        challenge:
-          "So ungefähr sieht der Weihnachtsmann Zollverein, " +
-          "wenn er mit seinem Schlitten darüberfliegt. " +
-          "<strong>Fotomotiv:</strong> Ein Gruppenfoto mit " +
-          "dem Modell. Vielleicht entsteht dabei sogar eine " +
-          "kleine Besprechung der nächsten Schlittenroute."
+          <p>
+            Fotografiert eure Gruppe mit dem
+            Modell. Wer möchte, kann so tun,
+            als würde er gerade die Flugroute
+            für den Schlitten planen.
+          </p>
+        `
       },
+
+      // ========================================
+      // STATION 3: HISTORISCHE RÄDER
+      // ========================================
 
       {
         titel: "Das Rad nicht neu erfinden",
 
-        /*
-          KORREKTUR:
-          Die Links stehen in der Wegbeschreibung.
-          Der Infokasten bleibt unverändert.
-        */
+        weg: `
+          <p>
+            Mit der Rolltreppe geht es
+            wieder hinunter.
+          </p>
 
-        weg:
-          "Mit der Rolltreppe geht es wieder hinunter. " +
-          "Unten links halten, auf das Gebäude zugehen und " +
-          "links daran vorbeilaufen. Dort stehen zwei große " +
-          "historische Räder. " +
-          "Zur Orientierung können der " +
-          '<button type="button" class="bildlink" ' +
-          'onclick="bildOeffnen(\'infostand.jpg\', \'Infostand\', this)">' +
-          "Infostand</button> und die " +
-          '<button type="button" class="bildlink" ' +
-          'onclick="bildOeffnen(\'halle.jpg\', \'Halle\', this)">' +
-          "Halle</button> " +
-          "auf den Fotos angesehen werden.",
+          <p>
+            Unten links halten, auf das
+            Gebäude zugehen und links
+            daran vorbeilaufen.
+          </p>
+
+          <p>
+            Dort stehen zwei große
+            historische Räder.
+          </p>
+        `,
 
         foto: "rad.jpg",
-        fotoAlt: "Zwei große historische Räder auf Zollverein",
 
-        faktTitel:
-          "💡 Wozu brauchte eine Zeche solche riesigen Räder?",
-
-        fakt:
-          "Im Bergbau kamen große Seilscheiben zum Einsatz. " +
-          "Über sie liefen die Stahlseile der Förderanlagen. " +
-          "Mit dieser Technik wurden Kohle, Material und " +
-          "Bergleute zwischen der Tiefe und der Oberfläche " +
-          "transportiert.",
-
-        quiz: null,
-
-        challengeTitel: "📸 Das Rad nicht neu erfinden",
-
-        challenge:
-          "Warum das Rad neu erfinden, wenn hier schon ziemlich " +
-          "beeindruckende Exemplare stehen? " +
-          "<strong>Fotomotiv:</strong> Ein Gruppenfoto rund um " +
-          "eines der historischen Räder. Besonders wirkungsvoll: " +
-          "gemeinsam so tun, als würde das Rad mit vereinten " +
-          "Kräften in Bewegung gesetzt."
-      },
-
-      {
-        titel: "Red Dot Design Museum",
-
-        weg:
-          "Dem Weg bis zum Ende des Gebäudes folgen und " +
-          "rechts abbiegen. Auf der linken Seite befindet " +
-          "sich das Red Dot Design Museum.",
-
-        foto: "reddot.jpg",
-        fotoAlt: "Red Dot Design Museum Essen",
-
-        faktTitel: "💡 Was ist das Red Dot Design Museum?",
-
-        fakt:
-          "Im ehemaligen Kesselhaus der Zeche Zollverein " +
-          "werden preisgekrönte Designprodukte aus aller Welt " +
-          "ausgestellt. Von Möbeln und Leuchten über " +
-          "Haushaltsgeräte bis hin zu Fahrrädern und " +
-          "technischen Innovationen: Die Exponate wurden " +
-          "für ihre Gestaltung mit dem Red Dot Award " +
-          "ausgezeichnet.",
-
-        quiz: {
-          frage:
-            "Wie viele Ausstellungsstücke gibt es ungefähr " +
-            "im Red Dot Design Museum Essen?",
-
-          antworten: [
-            "Etwa 200",
-            "Etwa 2.000",
-            "Etwa 20.000"
-          ],
-
-          richtig: 1,
-
-          erklaerung:
-            "Im Red Dot Design Museum Essen sind rund " +
-            "2.000 Designobjekte ausgestellt."
-        },
-
-        challengeTitel: "📸 Ausgezeichnetes Design",
-
-        challenge:
-          "<strong>Fotomotiv:</strong> Ein kreatives " +
-          "Gruppenfoto vor dem Red Dot Design Museum, " +
-          "das selbst einen Designpreis verdient hätte. " +
-          "Ungewöhnliche Perspektiven und kreative Posen " +
-          "sind ausdrücklich erwünscht."
-      },
-
-      {
-        titel: "Die Engel am Casino",
-
-        weg:
-          "Weiter bis zur nächsten Querstraße. " +
-          "Dort führt ein kurzer Abstecher nach links " +
-          "zum Casino Zollverein. Hier stehen zwei " +
-          "Engelsfiguren ohne Köpfe.",
-
-        foto: "engel.jpg",
-        fotoAlt: "Zwei Engelsfiguren am Casino Zollverein",
+        fotoAlt:
+          "Große historische Räder auf dem Zollverein-Gelände",
 
         faktTitel: "",
         fakt: "",
 
-        quiz: null,
+        challengeTitel:
+          "📸 Das Rad nicht neu erfinden",
 
-        challengeTitel: "📸 Engel mit Köpfchen",
+        challenge: `
+          <p>
+            Warum das Rad neu erfinden,
+            wenn hier schon ziemlich
+            beeindruckende Exemplare stehen?
+          </p>
 
-        challenge:
-          "Den beiden Engeln fehlt offensichtlich etwas. " +
-          "<strong>Fotomotiv:</strong> Zwei Personen stehen " +
-          "so hinter den Figuren, dass ihre Köpfe auf dem " +
-          "Foto zu den Engelskörpern passen."
+          <p>
+            <strong>Euer Auftrag:</strong>
+            Versammelt euch für ein Gruppenfoto
+            rund um das historische Rad.
+            Wer möchte, kann so tun,
+            als würde er es mit vereinten
+            Kräften in Bewegung setzen.
+          </p>
+        `
       },
+
+      // ========================================
+      // STATION 4: RED DOT
+      // ========================================
+
+      {
+        titel: "Red Dot Design Museum",
+
+        weg: `
+          <p>
+            Dem Weg bis zum Ende des Gebäudes
+            folgen und rechts abbiegen.
+          </p>
+
+          <p>
+            Auf der linken Seite befindet
+            sich das Red Dot Design Museum.
+          </p>
+        `,
+
+        foto: "reddot.jpg",
+
+        fotoAlt:
+          "Red Dot Design Museum auf Zollverein",
+
+        faktTitel: "",
+        fakt: "",
+
+        challengeTitel:
+          "📸 Ausgezeichnetes Design",
+
+        challenge: `
+          <p>
+            Für ein gutes Gruppenfoto braucht
+            es nicht unbedingt einen Designpreis.
+            Aber ein bisschen Kreativität
+            schadet nicht.
+          </p>
+
+          <p>
+            Gestaltet ein Gruppenfoto,
+            das auch in einer Designausstellung
+            bestehen könnte.
+          </p>
+        `
+      },
+
+      // ========================================
+      // STATION 5: ENGEL
+      // ========================================
+
+      {
+        titel: "Die Engel am Casino",
+
+        weg: `
+          <p>
+            Weiter geht es bis zur nächsten
+            Querstraße.
+          </p>
+
+          <p>
+            Dort führt ein kurzer Abstecher
+            nach links zum Casino Zollverein.
+          </p>
+
+          <p>
+            Hier stehen zwei Engelsfiguren
+            ohne Köpfe.
+          </p>
+        `,
+
+        foto: "engel.jpg",
+
+        fotoAlt:
+          "Zwei kopflose Engelsfiguren am Casino Zollverein",
+
+        faktTitel: "",
+        fakt: "",
+
+        challengeTitel:
+          "📸 Engel mit Köpfchen",
+
+        challenge: `
+          <p>
+            Die beiden Engel könnten etwas
+            Unterstützung gebrauchen.
+          </p>
+
+          <p>
+            Positioniert zwei Personen so
+            hinter den Figuren, dass deren
+            Köpfe auf dem Foto zu den
+            Engelskörpern passen.
+          </p>
+        `
+      },
+
+      // ========================================
+      // STATION 6: DOPPELBOCK
+      // ========================================
 
       {
         titel: "Das Doppelbock-Fördergerüst",
 
-        weg:
-          "Zurück zur Querstraße und dem Weg weiter folgen. " +
-          "Vor dem nächsten Stopp erhebt sich das " +
-          "Doppelbock-Fördergerüst, das bekannteste " +
-          "Wahrzeichen der Zeche Zollverein.",
+        weg: `
+          <p>
+            Zurück zur Querstraße und
+            dem Weg weiter folgen.
+          </p>
+
+          <p>
+            Vor uns erhebt sich das
+            Doppelbock-Fördergerüst,
+            das Wahrzeichen von Zollverein.
+          </p>
+        `,
 
         foto: "doppelbock.jpg",
-        fotoAlt: "Das Doppelbock-Fördergerüst der Zeche Zollverein",
 
-        faktTitel:
-          "💡 Warum ist der Doppelbock das Wahrzeichen von Essen?",
+        fotoAlt:
+          "Das Doppelbock-Fördergerüst der Zeche Zollverein",
 
-        fakt:
-          "Das 55 Meter hohe Doppelbock-Fördergerüst wurde " +
-          "1932 in Betrieb genommen. Über seine großen " +
-          "Seilscheiben liefen die Förderseile, mit denen " +
-          "Kohle aus der Tiefe nach oben transportiert wurde. " +
-          "Die leistungsfähige Fördertechnik machte Zollverein " +
-          "zu einer der bedeutendsten Zechen ihrer Zeit. " +
-          "Heute steht die markante Stahlkonstruktion für " +
-          "die Bergbaugeschichte und den Strukturwandel " +
-          "des Ruhrgebiets. Sie gilt als eines der " +
-          "bekanntesten Wahrzeichen Essens.",
+        faktTitel: "",
+        fakt: "",
 
-        quiz: null,
+        challengeTitel:
+          "📸 Ein starkes Team",
 
-        challengeTitel: "📸 Ein starkes Team",
+        challenge: `
+          <p>
+            Ein gemeinsames Gruppenfoto
+            vor dem berühmtesten Motiv
+            der Zeche darf natürlich
+            nicht fehlen.
+          </p>
 
-        challenge:
-          "<strong>Fotomotiv:</strong> Ein gemeinsames " +
-          "Gruppenfoto vor dem berühmten Fördergerüst. " +
-          "Das Fördergerüst sollte möglichst vollständig " +
-          "zu erkennen sein. Die Gruppe natürlich auch."
+          <p>
+            Sucht euch einen schönen
+            Bildausschnitt, auf dem sowohl
+            die Gruppe als auch das
+            Fördergerüst zu sehen sind.
+          </p>
+        `
       },
+
+      // ========================================
+      // ZIEL: THE MINE
+      // ========================================
 
       {
         titel: "Geschafft! 🎄",
 
-        weg:
-          "Links am Doppelbock-Fördergerüst vorbei " +
-          "geht es zurück zum großen Platz. " +
-          "Auf der linken Seite befindet sich wieder " +
-          "<strong>The Mine</strong>. " +
-          "Die kurze Weihnachtsrallye ist geschafft. " +
-          "Viel Spaß bei der Weihnachtsfeier!",
+        weg: `
+          <p>
+            Links am Doppelbock-Fördergerüst
+            vorbei geht es zurück zum
+            großen Platz.
+          </p>
+
+          <p>
+            Auf der linken Seite befindet
+            sich wieder <strong>The Mine</strong>.
+          </p>
+
+          <p>
+            Die kurze Weihnachtsrallye
+            ist damit beendet.
+          </p>
+
+          <p>
+            Viel Spaß bei der Weihnachtsfeier!
+          </p>
+        `,
 
         foto: "",
         fotoAlt: "",
@@ -868,52 +1022,72 @@
         faktTitel: "",
         fakt: "",
 
-        quiz: null,
-
-        challengeTitel: "🎄 Rallye beendet",
-
-        challenge:
-          "Schön, dass alle dabei waren!"
+        challengeTitel: "",
+        challenge: ""
       }
-
     ];
 
-    function element(id) {
-      return document.getElementById(id);
-    }
 
-    function speichern() {
+    // ==========================================
+    // FORTSCHRITT SPEICHERN
+    // ==========================================
+
+    const SPEICHER_SCHLUESSEL =
+      "md-bund-weihnachtsrallye-2026";
+
+    let aktuelleRoute = null;
+    let aktuelleStation = 0;
+
+    function fortschrittSpeichern() {
+
+      if (!aktuelleRoute) {
+        return;
+      }
+
       try {
+
         localStorage.setItem(
-          SPEICHERSCHLUESSEL,
+          SPEICHER_SCHLUESSEL,
           JSON.stringify({
-            route: aktuelleStrecke,
-            station: aktuelleStation,
-            quizAntworten: quizAntworten
+            route: aktuelleRoute,
+            station: aktuelleStation
           })
         );
+
       } catch (fehler) {
+
         console.warn(
-          "Rallye-Fortschritt konnte nicht gespeichert werden.",
+          "Fortschritt konnte nicht gespeichert werden:",
           fehler
         );
       }
     }
 
-    function gespeichertenFortschrittLaden() {
+    function fortschrittLaden() {
+
       try {
+
         const gespeichert =
-          localStorage.getItem(SPEICHERSCHLUESSEL);
+          localStorage.getItem(
+            SPEICHER_SCHLUESSEL
+          );
 
         if (!gespeichert) {
-          startseiteAnzeigen();
-          return;
+          return false;
         }
 
         const daten = JSON.parse(gespeichert);
 
-        if (daten.route === "kurz") {
-          aktuelleStrecke = "kurz";
+        if (
+          !daten ||
+          !["kurz", "mittel", "lang"].includes(daten.route)
+        ) {
+          return false;
+        }
+
+        aktuelleRoute = daten.route;
+
+        if (aktuelleRoute === "kurz") {
 
           const nummer = Number(daten.station);
 
@@ -921,548 +1095,594 @@
             Number.isInteger(nummer)
               ? Math.max(
                   0,
-                  Math.min(nummer, stationen.length - 1)
+                  Math.min(
+                    nummer,
+                    stationen.length - 1
+                  )
                 )
               : 0;
 
-          quizAntworten =
-            daten.quizAntworten &&
-            typeof daten.quizAntworten === "object"
-              ? daten.quizAntworten
-              : {};
-
           stationAnzeigen();
-          return;
+
+        } else {
+
+          seitenAusblenden();
+
+          document.getElementById("warteseite")
+            .classList.remove("versteckt");
+
+          document.getElementById("karteButton")
+            .hidden = true;
         }
 
-        startseiteAnzeigen();
+        return true;
 
       } catch (fehler) {
+
         console.warn(
-          "Gespeicherter Fortschritt konnte nicht geladen werden.",
+          "Gespeicherter Fortschritt ungültig:",
           fehler
         );
 
-        startseiteAnzeigen();
+        return false;
       }
     }
 
-    function alleSeitenAusblenden() {
-      element("startseite").classList.add("versteckt");
-      element("platzhalterseite").classList.add("versteckt");
-      element("rallyeseite").classList.add("versteckt");
-      element("karteButton").classList.add("versteckt");
+
+    // ==========================================
+    // SEITENSTEUERUNG
+    // ==========================================
+
+    function seitenAusblenden() {
+
+      document.getElementById("startseite")
+        .classList.add("versteckt");
+
+      document.getElementById("warteseite")
+        .classList.add("versteckt");
+
+      document.getElementById("stationsseite")
+        .classList.add("versteckt");
     }
 
-    function startseiteAnzeigen() {
-      alleSeitenAusblenden();
+    function routeWaehlen(route) {
 
-      element("startseite").classList.remove("versteckt");
-
-      window.scrollTo(0, 0);
-    }
-
-    function streckeWaehlen(strecke) {
-      aktuelleStrecke = strecke;
+      aktuelleRoute = route;
       aktuelleStation = 0;
-      quizAntworten = {};
 
-      if (strecke === "kurz") {
-        speichern();
+      fortschrittSpeichern();
+      seitenAusblenden();
+
+      if (route === "kurz") {
+
         stationAnzeigen();
-        return;
+
+      } else {
+
+        document.getElementById("warteseite")
+          .classList.remove("versteckt");
+
+        document.getElementById("karteButton")
+          .hidden = true;
       }
-
-      alleSeitenAusblenden();
-
-      element("platzhalterseite").classList.remove(
-        "versteckt"
-      );
 
       window.scrollTo(0, 0);
-    }
-
-    function zurStreckenauswahl() {
-      aktuelleStrecke = null;
-      aktuelleStation = 0;
-      quizAntworten = {};
-
-      try {
-        localStorage.removeItem(SPEICHERSCHLUESSEL);
-      } catch (fehler) {
-        console.warn(
-          "Fortschritt konnte nicht gelöscht werden.",
-          fehler
-        );
-      }
-
-      startseiteAnzeigen();
     }
 
     function stationAnzeigen() {
-      if (aktuelleStrecke !== "kurz") {
-        startseiteAnzeigen();
-        return;
-      }
+
+      seitenAusblenden();
+
+      document.getElementById("stationsseite")
+        .classList.remove("versteckt");
 
       const station = stationen[aktuelleStation];
+
       const istAbschluss =
         aktuelleStation === stationen.length - 1;
 
-      alleSeitenAusblenden();
+      // TITEL UND STATIONSNUMMER
 
-      element("rallyeseite").classList.remove("versteckt");
+      document.getElementById("stationTitel")
+        .textContent = station.titel;
 
-      element("stationsnummer").textContent =
-        istAbschluss
+      document.getElementById("fortschritt")
+        .textContent = istAbschluss
           ? "Ziel erreicht"
-          : "Station " +
-            (aktuelleStation + 1) +
-            " von " +
-            (stationen.length - 1);
+          : "Station " + (aktuelleStation + 1) +
+            " von " + (stationen.length - 1);
 
-      element("stationstitel").textContent = station.titel;
-      element("wegtext").innerHTML = station.weg;
+      // WEGBESCHREIBUNG
 
-      element("wegtitel").textContent =
-        istAbschluss
-          ? "🧭 Rückweg zur Weihnachtsfeier"
-          : "🧭 Wegbeschreibung";
+      document.getElementById("stationWeg")
+        .innerHTML = station.weg;
 
-      const foto = element("stationsfoto");
+      // STATIONSFOTO
+
+      const fotoBereich =
+        document.getElementById("stationFoto");
+
+      fotoBereich.innerHTML = "";
 
       if (station.foto) {
-        foto.src = station.foto;
-        foto.alt = station.fotoAlt;
-        foto.classList.remove("versteckt");
-      } else {
-        foto.removeAttribute("src");
-        foto.alt = "";
-        foto.classList.add("versteckt");
+
+        const bild = document.createElement("img");
+
+        bild.className = "stationsfoto";
+        bild.src = station.foto;
+        bild.alt = station.fotoAlt || station.titel;
+        bild.loading = "lazy";
+
+        fotoBereich.appendChild(bild);
       }
 
-      const faktkasten = element("faktkasten");
+      // FAKTENKASTEN
+
+      const faktKasten =
+        document.getElementById("faktKasten");
 
       if (station.fakt) {
-        element("fakttitel").textContent = station.faktTitel;
-        element("fakttext").innerHTML = station.fakt;
-        faktkasten.classList.remove("versteckt");
+
+        faktKasten.classList.remove("versteckt");
+
+        document.getElementById("faktTitel")
+          .textContent =
+            "💡 " + station.faktTitel;
+
+        document.getElementById("stationFakt")
+          .innerHTML = station.fakt;
+
       } else {
-        faktkasten.classList.add("versteckt");
+
+        faktKasten.classList.add("versteckt");
       }
 
-      quizAnzeigen(station);
+      // FOTO-CHALLENGE
 
-      element("challengetitel").textContent =
-        station.challengeTitel;
+      const challengeTitel =
+        document.getElementById("challengeTitel");
 
-      element("challengetext").innerHTML =
-        station.challenge;
+      const challengeInhalt =
+        document.getElementById("stationChallenge");
 
-      element("fotoUpload").classList.toggle(
-        "versteckt",
-        !istAbschluss
-      );
+      if (station.challenge) {
 
-      const weiterButton = element("weiterButton");
+        challengeTitel.textContent =
+          station.challengeTitel ||
+          "📸 Foto-Challenge";
 
-      if (istAbschluss) {
-        weiterButton.textContent =
-          "Zur Streckenauswahl";
+        challengeInhalt.innerHTML =
+          station.challenge;
+
       } else {
-        weiterButton.textContent =
-          "📸 Foto gemacht · Weiter";
+
+        challengeTitel.textContent =
+          "🎄 Rallye beendet";
+
+        challengeInhalt.innerHTML = `
+          <p>
+            Schön, dass ihr dabei wart!
+          </p>
+        `;
       }
 
-      element("karteButton").classList.toggle(
-        "versteckt",
-        istAbschluss
-      );
+      // WEITER-BUTTON
 
-      element("zurueckButton").textContent =
-        aktuelleStation === 0
-          ? "← Zur Streckenauswahl"
-          : "← Zurück";
+      const weiter =
+        document.getElementById("weiterButton");
 
-      speichern();
+      weiter.textContent = istAbschluss
+        ? "Zur Streckenauswahl"
+        : "📸 Foto gemacht · Weiter";
+
+      // KARTEN-BUTTON
+
+      document.getElementById("karteButton")
+        .hidden = false;
+
+      // FORTSCHRITT SPEICHERN
+
+      fortschrittSpeichern();
 
       window.scrollTo(0, 0);
     }
 
     function naechsteStation() {
-      if (aktuelleStation >= stationen.length - 1) {
-        zurStreckenauswahl();
-        return;
-      }
 
-      aktuelleStation++;
-      stationAnzeigen();
+      if (
+        aktuelleStation <
+        stationen.length - 1
+      ) {
+
+        aktuelleStation++;
+        stationAnzeigen();
+
+      } else {
+
+        zurStartseite();
+      }
     }
 
     function vorherigeStation() {
-      if (aktuelleStation === 0) {
-        zurStreckenauswahl();
-        return;
-      }
 
-      aktuelleStation--;
-      stationAnzeigen();
+      if (aktuelleStation > 0) {
+
+        aktuelleStation--;
+        stationAnzeigen();
+
+      } else {
+
+        zurStartseite();
+      }
     }
 
-    function quizAnzeigen(station) {
-      const quizkasten = element("quizkasten");
-      const antwortenBereich = element("quizantworten");
-      const rueckmeldung = element("quizrueckmeldung");
+    function zurStartseite() {
 
-      antwortenBereich.innerHTML = "";
-      rueckmeldung.innerHTML = "";
-      rueckmeldung.classList.add("versteckt");
+      if (karteIstOffen()) {
+        karteSchliessen();
+      }
 
-      if (!station.quiz) {
-        quizkasten.classList.add("versteckt");
+      aktuelleRoute = null;
+      aktuelleStation = 0;
+
+      try {
+
+        localStorage.removeItem(
+          SPEICHER_SCHLUESSEL
+        );
+
+      } catch (fehler) {
+
+        console.warn(fehler);
+      }
+
+      seitenAusblenden();
+
+      document.getElementById("startseite")
+        .classList.remove("versteckt");
+
+      document.getElementById("karteButton")
+        .hidden = true;
+
+      window.scrollTo(0, 0);
+    }
+
+
+    // ==========================================
+    // INTERAKTIVE KARTE
+    // ==========================================
+
+    let karte = null;
+    let streckeGeladen = false;
+    let streckeWirdGeladen = false;
+
+    let scrollpositionVorKarte = 0;
+    let kartenVerlaufAktiv = false;
+
+    function karteIstOffen() {
+
+      return document.getElementById(
+        "kartenfenster"
+      ).classList.contains("offen");
+    }
+
+    async function karteOeffnen() {
+
+      if (karteIstOffen()) {
         return;
       }
 
-      quizkasten.classList.remove("versteckt");
+      scrollpositionVorKarte = window.scrollY;
 
-      element("quizfrage").textContent =
-        station.quiz.frage;
+      const fenster =
+        document.getElementById("kartenfenster");
 
-      const gespeicherteAntwort =
-        quizAntworten[aktuelleStation];
+      fenster.classList.add("offen");
 
-      const bereitsBeantwortet =
-        Number.isInteger(gespeicherteAntwort);
-
-      station.quiz.antworten.forEach(
-        (antwort, antwortIndex) => {
-          const button = document.createElement("button");
-
-          button.type = "button";
-          button.className = "quiz-button";
-          button.textContent = antwort;
-
-          if (bereitsBeantwortet) {
-            button.disabled = true;
-
-            if (antwortIndex === station.quiz.richtig) {
-              button.classList.add("richtig");
-            } else if (
-              antwortIndex === gespeicherteAntwort
-            ) {
-              button.classList.add("falsch");
-            }
-          } else {
-            button.addEventListener("click", () => {
-              quizAntwortSpeichern(antwortIndex);
-            });
-          }
-
-          antwortenBereich.appendChild(button);
-        }
+      fenster.setAttribute(
+        "aria-hidden",
+        "false"
       );
 
-      if (bereitsBeantwortet) {
-        const richtig =
-          gespeicherteAntwort === station.quiz.richtig;
+      document.body.style.overflow = "hidden";
 
-        rueckmeldung.innerHTML =
-          "<strong>" +
-          (richtig
-            ? "✅ Richtig!"
-            : "💡 Nicht ganz richtig.") +
-          "</strong> " +
-          station.quiz.erklaerung;
+      // Zusätzlicher Verlaufseintrag:
+      // Die Zurück-Taste schließt die Karte.
 
-        rueckmeldung.classList.remove("versteckt");
-      }
-    }
+      history.pushState(
+        { weihnachtsrallyeKarte: true },
+        "",
+        window.location.href
+      );
 
-    function quizAntwortSpeichern(antwortIndex) {
-      const station = stationen[aktuelleStation];
+      kartenVerlaufAktiv = true;
 
-      if (!station.quiz) {
+      document.getElementById(
+        "karteSchliessenOben"
+      ).focus();
+
+      if (typeof L === "undefined") {
+
+        alert(
+          "Die Kartenbibliothek konnte nicht " +
+          "geladen werden. Bitte die " +
+          "Internetverbindung prüfen."
+        );
+
         return;
       }
 
+      if (!karte) {
+
+        karte = L.map("kartenflaeche");
+
+        L.tileLayer(
+          "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+          {
+            maxZoom: 19,
+            attribution: "&copy; OpenStreetMap"
+          }
+        ).addTo(karte);
+
+        karte.setView(
+          [51.486, 7.043],
+          16
+        );
+      }
+
+      setTimeout(() => {
+
+        karte.invalidateSize();
+
+      }, 150);
+
       if (
-        Number.isInteger(
-          quizAntworten[aktuelleStation]
-        )
+        streckeGeladen ||
+        streckeWirdGeladen
       ) {
         return;
       }
 
-      quizAntworten[aktuelleStation] = antwortIndex;
+      streckeWirdGeladen = true;
 
-      speichern();
-      quizAnzeigen(station);
+      try {
+
+        const antwort = await fetch(
+          "kurz.gpx",
+          { cache: "no-store" }
+        );
+
+        if (!antwort.ok) {
+
+          throw new Error(
+            "GPX-Datei nicht erreichbar: HTTP " +
+            antwort.status
+          );
+        }
+
+        const gpxText = await antwort.text();
+
+        const xml = new DOMParser()
+          .parseFromString(
+            gpxText,
+            "application/xml"
+          );
+
+        if (
+          xml.getElementsByTagName(
+            "parsererror"
+          ).length > 0
+        ) {
+
+          throw new Error(
+            "Die GPX-Datei enthält ungültiges XML."
+          );
+        }
+
+        // GPX-Trackpunkte oder Routenpunkte
+
+        let elemente = Array.from(
+          xml.getElementsByTagName("trkpt")
+        );
+
+        if (elemente.length < 2) {
+
+          elemente = Array.from(
+            xml.getElementsByTagName("rtept")
+          );
+        }
+
+        const punkte = elemente
+          .map(element => [
+
+            Number(
+              element.getAttribute("lat")
+            ),
+
+            Number(
+              element.getAttribute("lon")
+            )
+
+          ])
+          .filter(punkt =>
+
+            Number.isFinite(punkt[0]) &&
+            Number.isFinite(punkt[1]) &&
+            Math.abs(punkt[0]) <= 90 &&
+            Math.abs(punkt[1]) <= 180
+
+          );
+
+        if (punkte.length < 2) {
+
+          throw new Error(
+            "Die GPX-Datei enthält keine " +
+            "ausreichenden Streckenpunkte."
+          );
+        }
+
+        const linie = L.polyline(
+          punkte,
+          {
+            color: "#0099c6",
+            weight: 6,
+            opacity: 0.95
+          }
+        ).addTo(karte);
+
+        L.circleMarker(
+          punkte[0],
+          {
+            radius: 8,
+            color: "#004b6e",
+            fillColor: "#3e8825",
+            fillOpacity: 1
+          }
+        )
+        .addTo(karte)
+        .bindPopup("Start: The Mine");
+
+        L.circleMarker(
+          punkte[punkte.length - 1],
+          {
+            radius: 7,
+            color: "#004b6e",
+            fillColor: "#d96b24",
+            fillOpacity: 1
+          }
+        )
+        .addTo(karte)
+        .bindPopup("Ziel der Route");
+
+        karte.fitBounds(
+          linie.getBounds(),
+          {
+            padding: [30, 30]
+          }
+        );
+
+        streckeGeladen = true;
+
+      } catch (fehler) {
+
+        console.error(
+          "Fehler beim Laden der GPX-Strecke:",
+          fehler
+        );
+
+        alert(
+          "Die Strecke konnte nicht geladen werden.\n\n" +
+          fehler.message +
+          "\n\nBitte prüfen, ob kurz.gpx " +
+          "im GitHub-Repository liegt."
+        );
+
+      } finally {
+
+        streckeWirdGeladen = false;
+      }
     }
 
-    function bildOeffnen(dateiname, titel, ausloeser) {
-      const erlaubteBilder = {
-        "infostand.jpg": "Infostand",
-        "halle.jpg": "Halle"
-      };
+    function kartenansichtAusblenden() {
 
-      if (!Object.prototype.hasOwnProperty.call(
-        erlaubteBilder,
-        dateiname
-      )) {
-        return;
-      }
+      const fenster =
+        document.getElementById("kartenfenster");
 
-      bildAusloeser = ausloeser || null;
+      fenster.classList.remove("offen");
 
-      element("bildtitel").textContent = titel;
-      element("grossbild").src = dateiname;
-      element("grossbild").alt = titel;
-
-      element("bildfenster").classList.remove(
-        "versteckt"
+      fenster.setAttribute(
+        "aria-hidden",
+        "true"
       );
 
-      bildfensterOffen = true;
+      document.body.style.overflow = "";
 
-      document.body.style.overflow = "hidden";
-
-      element("bildSchliessenOben").focus();
-    }
-
-    function bildSchliessen() {
-      element("bildfenster").classList.add(
-        "versteckt"
+      window.scrollTo(
+        0,
+        scrollpositionVorKarte
       );
 
-      element("grossbild").removeAttribute("src");
+      const kartenButton =
+        document.getElementById("karteButton");
 
-      bildfensterOffen = false;
-
-      if (!kartenfensterOffen) {
-        document.body.style.overflow = "";
+      if (!kartenButton.hidden) {
+        kartenButton.focus();
       }
-
-      if (bildAusloeser) {
-        bildAusloeser.focus();
-      }
-
-      bildAusloeser = null;
-    }
-
-    function karteOeffnen() {
-      if (aktuelleStrecke !== "kurz") {
-        return;
-      }
-
-      element("kartenfenster").classList.remove(
-        "versteckt"
-      );
-
-      kartenfensterOffen = true;
-
-      document.body.style.overflow = "hidden";
-
-      if (!karte) {
-        karteInitialisieren();
-      } else {
-        setTimeout(() => {
-          karte.invalidateSize();
-        }, 100);
-      }
-
-      history.pushState(
-        { rallyeKarte: true },
-        "",
-        window.location.href
-      );
     }
 
     function karteSchliessen() {
-      if (!kartenfensterOffen) {
+
+      if (!karteIstOffen()) {
         return;
       }
 
-      element("kartenfenster").classList.add(
-        "versteckt"
-      );
+      kartenansichtAusblenden();
 
-      kartenfensterOffen = false;
+      if (
+        kartenVerlaufAktiv &&
+        history.state &&
+        history.state.weihnachtsrallyeKarte
+      ) {
 
-      if (!bildfensterOffen) {
-        document.body.style.overflow = "";
-      }
-
-      if (history.state && history.state.rallyeKarte) {
+        kartenVerlaufAktiv = false;
         history.back();
+
+      } else {
+
+        kartenVerlaufAktiv = false;
       }
     }
 
-    function karteInitialisieren() {
-      if (typeof L === "undefined") {
-        alert(
-          "Die Karte konnte nicht geladen werden. " +
-          "Bitte die Wegbeschreibung verwenden."
-        );
-        return;
-      }
+    window.addEventListener(
+      "popstate",
+      function (ereignis) {
 
-      karte = L.map("karte");
+        if (karteIstOffen()) {
 
-      L.tileLayer(
-        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-        {
-          attribution:
-            '&copy; <a href="https://www.openstreetmap.org/copyright">' +
-            "OpenStreetMap</a>",
-          maxZoom: 19
-        }
-      ).addTo(karte);
+          if (
+            !ereignis.state ||
+            !ereignis.state.weihnachtsrallyeKarte
+          ) {
 
-      karte.setView([51.486, 7.044], 16);
-
-      fetch("kurz.gpx")
-        .then(antwort => {
-          if (!antwort.ok) {
-            throw new Error(
-              "GPX-Datei nicht gefunden."
-            );
+            kartenVerlaufAktiv = false;
+            kartenansichtAusblenden();
           }
 
-          return antwort.text();
-        })
-        .then(gpxText => {
-          const dokument =
-            new DOMParser().parseFromString(
-              gpxText,
-              "application/xml"
-            );
+        } else {
 
-          let punkte = Array.from(
-            dokument.querySelectorAll("trkpt")
-          );
-
-          if (punkte.length === 0) {
-            punkte = Array.from(
-              dokument.querySelectorAll("rtept")
-            );
-          }
-
-          const koordinaten = punkte
-            .map(punkt => [
-              Number(punkt.getAttribute("lat")),
-              Number(punkt.getAttribute("lon"))
-            ])
-            .filter(
-              punkt =>
-                Number.isFinite(punkt[0]) &&
-                Number.isFinite(punkt[1])
-            );
-
-          if (koordinaten.length === 0) {
-            throw new Error(
-              "Keine Streckenpunkte in der GPX-Datei."
-            );
-          }
-
-          const streckenlinie = L.polyline(
-            koordinaten,
-            {
-              color: "#06688f",
-              weight: 5,
-              opacity: 0.95
-            }
-          ).addTo(karte);
-
-          L.marker(koordinaten[0])
-            .addTo(karte)
-            .bindPopup("Start: The Mine");
-
-          L.marker(
-            koordinaten[koordinaten.length - 1]
-          )
-            .addTo(karte)
-            .bindPopup("Ziel: The Mine");
-
-          karte.fitBounds(
-            streckenlinie.getBounds(),
-            { padding: [25, 25] }
-          );
-
-          setTimeout(() => {
-            karte.invalidateSize();
-          }, 100);
-        })
-        .catch(fehler => {
-          console.error(
-            "GPX-Strecke konnte nicht geladen werden:",
-            fehler
-          );
-
-          alert(
-            "Die Strecke konnte nicht geladen werden. " +
-            "Bitte prüfen, ob die Datei kurz.gpx " +
-            "im GitHub-Repository liegt."
-          );
-        });
-    }
-
-    window.addEventListener("popstate", () => {
-      if (kartenfensterOffen) {
-        element("kartenfenster").classList.add(
-          "versteckt"
-        );
-
-        kartenfensterOffen = false;
-
-        if (!bildfensterOffen) {
-          document.body.style.overflow = "";
+          kartenVerlaufAktiv = false;
         }
       }
-    });
+    );
 
-    document.addEventListener("keydown", ereignis => {
-      if (ereignis.key === "Escape") {
-        if (bildfensterOffen) {
-          bildSchliessen();
-        } else if (kartenfensterOffen) {
+    document.addEventListener(
+      "keydown",
+      function (ereignis) {
+
+        if (
+          ereignis.key === "Escape" &&
+          karteIstOffen()
+        ) {
+
           karteSchliessen();
         }
       }
-    });
+    );
 
-    function hintergrundEinrichten() {
-      const bild = new Image();
 
-      bild.onload = () => {
-        const appBreite =
-          element("app").getBoundingClientRect().width;
-
-        const bildHoehe =
-          appBreite *
-          bild.naturalHeight /
-          bild.naturalWidth;
-
-        element("app").style.setProperty(
-          "--hintergrund-hoehe",
-          bildHoehe + "px"
-        );
-      };
-
-      bild.src = "hintergrund.png";
-    }
+    // ==========================================
+    // WEBSITE STARTEN
+    // ==========================================
 
     document.addEventListener(
       "DOMContentLoaded",
-      () => {
-        hintergrundEinrichten();
-        gespeichertenFortschrittLaden();
+      function () {
+
+        fortschrittLaden();
+
       }
     );
 
-    window.addEventListener(
-      "resize",
-      hintergrundEinrichten
-    );
   </script>
 
 </body>
