@@ -173,6 +173,46 @@ p:last-child { margin-bottom: 0; }
   background: white;
   color: var(--dunkelblau);
   box-shadow: 0 3px 8px #00334d20;
+  min-height: 54px;
+  overflow-wrap: anywhere;
+}
+
+/* Abstand zwischen Foto-Challenge und Weiter-Button */
+#challengetext + #weiterbutton {
+  margin-top: 22px;
+}
+
+@media (max-width: 360px) {
+  #weiterbutton {
+    padding: 14px 8px;
+    font-size: 15px;
+  }
+}
+
+/* Kurzer Kamerablitz beim Wechsel zur nächsten Station */
+.kamerablitz {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  background: #fff;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.kamerablitz.aktiv {
+  visibility: visible;
+  animation: kamerablitz-animation 230ms ease-out forwards;
+}
+
+@keyframes kamerablitz-animation {
+  0% { opacity: 0; }
+  28% { opacity: .82; }
+  100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kamerablitz.aktiv { animation: none; }
 }
 
 /* Zurück: 50 % breit, links unten */
@@ -535,7 +575,7 @@ p:last-child { margin-bottom: 0; }
         <button
           id="weiterbutton"
           class="hauptbutton"
-          onclick="naechsteStation()"
+          onclick="fotoGemachtWeiter()"
         >
           📸 Foto gemacht · Weiter
         </button>
@@ -646,6 +686,8 @@ p:last-child { margin-bottom: 0; }
 
   </main>
 </div>
+
+<div id="kamerablitz" class="kamerablitz" aria-hidden="true"></div>
 
 <!-- KARTE -->
 <div
@@ -980,43 +1022,66 @@ const stationen = {
     `
   },
 
-  /*
-    MITTLERE RUNDE: PACT
-    Noch nicht ausgearbeitet
-  */
+  /* MITTLERE RUNDE: PACT */
   pact: {
     titel: "PACT Zollverein",
 
     weg: `
-      <div class="platzhalter">
-        <p><strong>Wegbeschreibung folgt.</strong></p>
-        <p>
-          Hier wird später der Weg von den
-          historischen Seilscheiben zu
-          PACT Zollverein beschrieben.
-        </p>
-      </div>
+      <p>
+        Von den historischen Rädern aus geht es quer über
+        den Parkplatz A2. Am Ende des Parkplatzes befindet
+        sich mittig ein schmaler
+        <button type="button" class="fotolink"
+          data-foto="verbindungsweg.jpg"
+          data-beschriftung="Verbindungsweg">Verbindungsweg</button>,
+        der zu PACT Zollverein führt. Zwischen der
+        Fördermaschinenhalle und Halle 22 am
+        <button type="button" class="fotolink"
+          data-foto="tor.jpg"
+          data-beschriftung="Tor">Tor</button>
+        vorbei in Richtung Haupteingang des PACT gehen.
+      </p>
+      <p>
+        Vor dem Gebäude liegen große metallene Gebilde,
+        die mit etwas Fantasie wie überdimensionale
+        Tannenzapfen aussehen. Hier befindet sich
+        der nächste Fotospot.
+      </p>
     `,
 
-    foto: "",
-    fotoAlt: "",
+    foto: "pact.jpg",
+    fotoAlt: "PACT Zollverein mit metallischem Schneidwerkzeug auf dem Vorplatz",
 
-    faktTitel: "💡 Wissenswertes über PACT Zollverein",
+    faktTitel: "💡 Tannenzapfen mit Biss",
 
     fakt: `
-      <div class="platzhalter">
-        Fakten über PACT Zollverein folgen.
-      </div>
+      <p>
+        PACT Zollverein ist ein internationales Zentrum
+        für Tanz, Performance und darstellende Kunst
+        in einer ehemaligen Fördermaschinenhalle.
+      </p>
+      <p>
+        Und die vermeintlichen Tannenzapfen vor dem Gebäude?
+        Dahinter steckt vermutlich Bergbautechnik:
+        Die spitzen Meißel solcher Schneidwerkzeuge
+        dienten dazu, Kohle oder Gestein herauszubrechen.
+      </p>
     `,
 
     quiz: null,
 
-    challengeTitel: "📸 Foto-Challenge folgt",
+    challengeTitel: "📸 Ein ziemlich harter Tannenzapfen",
 
     challenge: `
       <p>
-        Die Foto-Aufgabe für PACT Zollverein
-        wird noch ausgearbeitet.
+        Ein Tannenzapfen aus Metall? Auf Zollverein ist
+        offenbar selbst die Weihnachtsdekoration industriefest.
+      </p>
+      <p>
+        <strong>Fotomotiv:</strong>
+        Ein kreatives Gruppenfoto rund um den metallenen
+        Tannenzapfen vor PACT Zollverein. Vielleicht entsteht
+        daraus eine besonders ungewöhnliche Weihnachtsbescherung.
       </p>
     `
   },
@@ -1659,6 +1724,30 @@ function quizAntwortSpeichern(id, index) {
 /*
   VOR / ZURÜCK
 */
+
+let fotoWechselLaeuft = false;
+
+function fotoGemachtWeiter() {
+  if (fotoWechselLaeuft) return;
+  fotoWechselLaeuft = true;
+
+  const blitz = el("kamerablitz");
+  const reduzierteBewegung = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches;
+
+  if (!reduzierteBewegung) {
+    blitz.classList.remove("aktiv");
+    void blitz.offsetWidth;
+    blitz.classList.add("aktiv");
+  }
+
+  window.setTimeout(function() {
+    blitz.classList.remove("aktiv");
+    fotoWechselLaeuft = false;
+    naechsteStation();
+  }, reduzierteBewegung ? 0 : 230);
+}
 
 function naechsteStation() {
   const liste = aktuelleStationsListe();
