@@ -547,6 +547,7 @@ p:last-child { margin-bottom: 0; }
         <div class="stationsnummer">Lange Runde · Wegentscheidung</div>
         <h1 class="bruecken-titel">Mut zur L<s>Br</s>ücke?</h1>
         <p>Welche Variante passt zur Gruppe? Beide Wege führen anschließend zur gleichen nächsten Station.</p>
+        <img class="wegbild" src="mannschaftsbrückennah.jpg" alt="Nahaufnahme der Mannschaftsbrücke, damit der Weg über die Brücke vor der Entscheidung eingeschätzt werden kann" loading="lazy">
         <button type="button" class="wegauswahl-button" onclick="brueckenWegWaehlen('oben')">
           👟 Feste Schuhe und keine Höhenangst
           <small>Über die Mannschaftsbrücke gehen</small>
@@ -569,8 +570,11 @@ p:last-child { margin-bottom: 0; }
         <img id="brueckenwegfoto" class="wegbild" alt="">
       </div>
       <div class="kasten kasten-tuerkis">
-        <p>Beide Varianten führen anschließend weiter zur Station Humanitas.</p>
-        <button type="button" class="hauptbutton" onclick="brueckenWegWeiter()">Weiter zu Humanitas →</button>
+        <h3>📸 Foto-Challenge: Liebe auf zwei Ebenen</h3>
+        <p>Oben auf der Brücke oder unten auf dem Weg: Jetzt ist ein bisschen großes Kino gefragt.</p>
+        <p><strong>Fotomotiv:</strong> Die Gruppe kann sich aufteilen: Ein Teil steht auf der Mannschaftsbrücke, der andere darunter. Fotografiert euch gegenseitig und tut so, als würdet ihr eure Verwandten an Weihnachten endlich wiedersehen. Große Gesten, ausgebreitete Arme und überschwängliche Freude sind ausdrücklich erwünscht.</p>
+        <p>Wer gemeinsam oben oder unten bleibt, kann die Szene natürlich auch auf einer Ebene nachstellen.</p>
+        <button type="button" class="hauptbutton" onclick="brueckenFotoWeiter()">📸 Foto gemacht · Weiter zu Humanitas</button>
       </div>
       <button type="button" class="zurueckbutton" onclick="brueckenWahlAnzeigen()">← Zurück</button>
     </section>
@@ -641,7 +645,7 @@ p:last-child { margin-bottom: 0; }
         <h1>Fast geschafft! 🎄</h1>
         <h3>🧭 Wegbeschreibung</h3>
 
-        <p>
+        <p id="abschlussweg">
           Links am Doppelbock-Fördergerüst vorbei
           geht es zurück zum großen Platz.
           Auf der linken Seite befindet sich
@@ -928,6 +932,7 @@ const stationen = {
   /* STATION 3 */
   raeder: {
     titel: "Am Rad drehen",
+    wegLang: `<p>Von The Mine geht es quer über den Werner-Müller-Platz.</p><p>Mit Blick auf die Rolltreppe rechts in Richtung <button type="button" class="fotolink" data-foto="infostand.jpg" data-beschriftung="Infostand">Infostand</button> und Halle 12 gehen. Anschließend links am Eingang der <button type="button" class="fotolink" data-foto="halle.jpg" data-beschriftung="Halle">Halle</button> vorbei und dem Gebäude folgen. Dort stehen zwei große historische „Räder“.</p>`,
 
     weg: `
       <p>
@@ -1070,17 +1075,17 @@ const stationen = {
   /* LANGE RUNDE: NEUE STATIONEN */
   humanitas: {
     titel: "Humanitas",
-    weg: `<p>Nach der Mannschaftsbrücke beziehungsweise dem Weg darunter führt die lange Runde zur Station Humanitas. Die genaue Wegbeschreibung wird noch ergänzt.</p>`,
+    weg: `<p>Nach der Mannschaftsbrücke beziehungsweise dem Weg darunter führt die lange Runde zu Humanitas. Die genaue Wegbeschreibung wird noch ergänzt.</p>`,
     foto: "humanitas.jpg", fotoAlt: "Humanitas auf Zollverein",
     faktTitel: "💡 Humanitas",
     fakt: `<p>Weitere Informationen zu diesem Fotospot werden noch ergänzt.</p>`,
     quiz: null,
     challengeTitel: "📸 Foto-Challenge: Humanitas",
-    challenge: `<p><strong>Fotomotiv:</strong> Ein Gruppenfoto am Motiv Humanitas.</p>`
+    challenge: `<p><strong>Fotomotiv:</strong> Ein Gruppenfoto bei Humanitas.</p>`
   },
   lokomotive: {
     titel: "Die Lokomotive",
-    weg: `<p>Von Humanitas geht es weiter in Richtung Kokerei Zollverein zur Lokomotive. Die genaue Wegbeschreibung wird noch ergänzt.</p>`,
+    weg: `<p>Von Humanitas geht es weiter zur Lokomotive. Die genaue Wegbeschreibung wird noch ergänzt.</p>`,
     foto: "lokomotive.jpg", fotoAlt: "Lokomotive auf Zollverein",
     faktTitel: "💡 Eisenbahngeschichte",
     fakt: `<p>Informationen zur Lokomotive werden noch ergänzt.</p>`,
@@ -1089,8 +1094,8 @@ const stationen = {
     challenge: `<p><strong>Fotomotiv:</strong> Ein gemeinsames Foto mit der Lokomotive.</p>`
   },
   kokerei: {
-    titel: "Die Kokerei Zollverein",
-    weg: `<p>Von der Lokomotive geht es weiter zur Kokerei Zollverein. Die genaue Wegbeschreibung und der Weiterweg zu PACT werden noch ergänzt.</p>`,
+    titel: "Die Kokerei Zollverein mit Eislaufbahn",
+    weg: `<p>Von der Lokomotive geht es zur Kokerei mit Eislaufbahn. Anschließend führt die lange Runde zurück zu PACT Zollverein. Die genaue Wegführung wird noch ergänzt.</p>`,
     foto: "kokerei.jpg", fotoAlt: "Kokerei Zollverein",
     faktTitel: "💡 Was ist eine Kokerei?",
     fakt: `<p>In einer Kokerei wird Steinkohle unter Luftabschluss stark erhitzt, um daraus unter anderem Koks herzustellen.</p>`,
@@ -1102,6 +1107,7 @@ const stationen = {
   /* MITTLERE RUNDE: PACT */
   pact: {
     titel: "PACT Zollverein",
+    wegLang: `<p>Von der Kokerei mit Eislaufbahn geht es zurück zu PACT Zollverein. Die genaue Wegführung zum Haupteingang wird noch ergänzt.</p><p>Vor dem Gebäude liegen große metallene Gebilde, die mit etwas Fantasie wie überdimensionale Tannenzapfen aussehen. Hier befindet sich der nächste Fotospot.</p>`,
 
     weg: `
       <p>
@@ -1170,6 +1176,7 @@ const stationen = {
     Blick vom Hauptweg, kein Abstecher
   */
   sanaa: {
+    wegLang: `<p>Von PACT Zollverein geht es weiter zum SANAA-Gebäude. Die genaue Wegbeschreibung wird noch ergänzt.</p>`,
     titel: "Das SANAA-Gebäude aus der Ferne",
 
     weg: `
@@ -1254,6 +1261,7 @@ const stationen = {
   /* GEMEINSAMER ABSCHLUSS: CASINO */
   casino: {
     titel: "Wenn Engel speisen",
+    wegLang: `<p>Vom SANAA-Gebäude führt die lange Runde weiter zum Casino Zollverein. Die genaue Wegführung wird noch ergänzt.</p><p>Vor dem ehemaligen Kompressorenhaus stehen zwei Engelsfiguren ohne Köpfe.</p>`,
 
     weg: `
       <p>
@@ -1444,9 +1452,8 @@ const routen = {
   ],
 
   lang: [
-    "rolltreppe", "glasmodell", "raeder", "humanitas",
-    "lokomotive", "kokerei", "pact", "sanaa", "oktogon",
-    "casino", "doppelbock"
+    "raeder", "humanitas", "lokomotive", "kokerei",
+    "pact", "sanaa", "casino", "doppelbock"
   ]
 };
 
@@ -1585,6 +1592,9 @@ function fortschrittLaden() {
     }
 
     if (daten.seite === "upload") {
+      el("abschlussweg").innerHTML = aktuelleRoute === "lang"
+        ? "Vom Doppelbock geht es zurück zu The Mine. Die genaue Wegbeschreibung wird noch ergänzt."
+        : "Links am Doppelbock-Fördergerüst vorbei geht es zurück zum großen Platz. Auf der linken Seite befindet sich wieder <strong>The Mine</strong>.";
       aktuelleSeite = "upload";
       seiteAnzeigen("uploadseite");
       return true;
@@ -1650,12 +1660,29 @@ function brueckenWegAnzeigen() {
   el("brueckenwegtitel").textContent = oben
     ? "Über die Mannschaftsbrücke" : "Unterhalb der Mannschaftsbrücke";
   el("brueckenwegtext").textContent = oben
-    ? "Der Weg führt über die begehbare Mannschaftsbrücke. Auf festes Schuhwerk achten und auf der Brücke vorsichtig gehen."
-    : "Der Weg führt unterhalb der Mannschaftsbrücke entlang. Dieser Weg ist für Gruppen mit Höhenangst oder Schuhen mit Absatz vorgesehen.";
+    ? "Der Weg führt über die begehbare Mannschaftsbrücke. Anschließend geht es weiter zu Humanitas. Auf festes Schuhwerk achten und auf der Brücke vorsichtig gehen."
+    : "Der Weg führt unterhalb der Mannschaftsbrücke entlang. Anschließend geht es weiter zu Humanitas. Dieser Weg ist für Gruppen mit Höhenangst oder Schuhen mit Absatz vorgesehen.";
   el("brueckenwegfoto").src = oben ? "mannschaftbrücke.jpg" : "wegmannschaftsbrücke.jpg";
   el("brueckenwegfoto").alt = oben ? "Weg über die Mannschaftsbrücke" : "Weg unterhalb der Mannschaftsbrücke";
   speichern();
   seiteAnzeigen("brueckenwegseite");
+}
+
+function brueckenFotoWeiter() {
+  if (fotoWechselLaeuft) return;
+  fotoWechselLaeuft = true;
+  const blitz = el("kamerablitz");
+  const reduzierteBewegung = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!reduzierteBewegung) {
+    blitz.classList.remove("aktiv");
+    void blitz.offsetWidth;
+    blitz.classList.add("aktiv");
+  }
+  window.setTimeout(function() {
+    blitz.classList.remove("aktiv");
+    fotoWechselLaeuft = false;
+    brueckenWegWeiter();
+  }, reduzierteBewegung ? 0 : 230);
 }
 
 function brueckenWegWeiter() {
@@ -1899,6 +1926,9 @@ function vorherigeStation() {
 }
 
 function uploadAnzeigen() {
+  el("abschlussweg").innerHTML = aktuelleRoute === "lang"
+    ? "Vom Doppelbock geht es zurück zu The Mine. Die genaue Wegbeschreibung wird noch ergänzt."
+    : "Links am Doppelbock-Fördergerüst vorbei geht es zurück zum großen Platz. Auf der linken Seite befindet sich wieder <strong>The Mine</strong>.";
   aktuelleSeite = "upload";
   speichern();
   seiteAnzeigen("uploadseite");
