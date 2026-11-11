@@ -1085,11 +1085,16 @@ const stationen = {
     titel: "Humanitas",
     weg: `<p>Nach der Mannschaftsbrücke beziehungsweise dem Weg darunter führt die lange Runde zu Humanitas. Die genaue Wegbeschreibung wird noch ergänzt.</p>`,
     foto: "humanitas.jpg", fotoAlt: "Humanitas auf Zollverein",
-    faktTitel: "💡 Humanitas",
-    fakt: `<p>Weitere Informationen zu diesem Fotospot werden noch ergänzt.</p>`,
-    quiz: null,
-    challengeTitel: "📸 Foto-Challenge: Humanitas",
-    challenge: `<p><strong>Fotomotiv:</strong> Ein Gruppenfoto bei Humanitas.</p>`
+    faktTitel: "💡 Humanitas: QPR auf dem kurzen Dienstweg",
+    fakt: `<p>Falls noch jemand zufällig eine frisch aktualisierte Qualitätsprüfungs-Richtlinie (QPR) in der Jackentasche hat, kann diese bei Humanitas gerne direkt eingeworfen werden. Spart Porto und verkürzt vielleicht den Dienstweg. 🎄</p><p><small>Natürlich nur ein Scherz: Bitte nichts tatsächlich einwerfen.</small></p>`,
+    quiz: {
+      frage: "Wie viele ambulante Pflege- und Betreuungsdienste gibt es ungefähr in Deutschland, für deren Qualitätsprüfungen die QPR ambulante Pflege die Grundlage bilden?",
+      antworten: ["Rund 5.000", "Rund 15.500", "Rund 35.000"],
+      richtig: 1,
+      erklaerung: "Richtig sind rund 15.500. Laut Pflegestatistik gab es Ende 2023 in Deutschland 15.549 ambulante Pflege- und Betreuungsdienste."
+    },
+    challengeTitel: "🎄 Geschafft!",
+    challenge: `<p>Nach der richtigen Antwort geht es weiter zur Lokomotive.</p>`
   },
   lokomotive: {
     titel: "Die Lokomotive",
@@ -1774,10 +1779,21 @@ function stationAnzeigen() {
   const letzteStation =
     aktuelleStation === liste.length - 1;
 
-  el("weiterbutton").textContent =
-    letzteStation
-      ? "📸 Foto gemacht · Zum Abschluss"
-      : "📸 Foto gemacht · Weiter";
+  const humanitasQuiz = aktuelleRoute === "lang" && id === "humanitas";
+  el("challengetitel").textContent = humanitasQuiz ? "🎄 Weiter zur Lokomotive" : station.challengeTitel;
+  el("challengetext").classList.toggle("versteckt", humanitasQuiz);
+  el("weiterbutton").textContent = humanitasQuiz
+    ? "Weiter zur Lokomotive →"
+    : (letzteStation ? "📸 Foto gemacht · Zum Abschluss" : "📸 Foto gemacht · Weiter");
+  if (humanitasQuiz) {
+    const key = quizSchluessel(id);
+    const freigeschaltet = quizAntworten[key] === station.quiz.richtig;
+    el("weiterbutton").disabled = !freigeschaltet;
+    el("weiterbutton").classList.toggle("versteckt", !freigeschaltet);
+  } else {
+    el("weiterbutton").disabled = false;
+    el("weiterbutton").classList.remove("versteckt");
+  }
 
   speichern();
   seiteAnzeigen("stationsseite");
@@ -1829,7 +1845,7 @@ function quizAnzeigen(quiz, id) {
     button.className = "quiz-option";
     button.textContent = antwort;
 
-    if (gespeichert !== null) {
+    if (gespeichert !== null && !(id === "humanitas" && gespeichert !== quiz.richtig)) {
       button.disabled = true;
 
       if (gespeichert === index) {
@@ -1867,10 +1883,8 @@ function quizAntwortSpeichern(id, index) {
   const schluessel = quizSchluessel(id);
 
   if (
-    Object.prototype.hasOwnProperty.call(
-      quizAntworten,
-      schluessel
-    )
+    Object.prototype.hasOwnProperty.call(quizAntworten, schluessel) &&
+    !(id === "humanitas" && quizAntworten[schluessel] !== quiz.richtig)
   ) {
     return;
   }
@@ -1879,6 +1893,11 @@ function quizAntwortSpeichern(id, index) {
 
   speichern();
   quizAnzeigen(quiz, id);
+  if (id === "humanitas" && aktuelleStationsID() === "humanitas") {
+    const freigeschaltet = index === quiz.richtig;
+    el("weiterbutton").disabled = !freigeschaltet;
+    el("weiterbutton").classList.toggle("versteckt", !freigeschaltet);
+  }
 }
 
 /*
@@ -1888,7 +1907,10 @@ function quizAntwortSpeichern(id, index) {
 let fotoWechselLaeuft = false;
 
 function fotoGemachtWeiter() {
+  if (aktuelleStationsID() === "humanitas" &&
+      quizAntworten[quizSchluessel("humanitas")] !== stationen.humanitas.quiz.richtig) return;
   if (fotoWechselLaeuft) return;
+  if (aktuelleStationsID() === "humanitas") { naechsteStation(); return; }
   fotoWechselLaeuft = true;
 
   const blitz = el("kamerablitz");
