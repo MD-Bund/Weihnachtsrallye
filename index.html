@@ -215,6 +215,17 @@ p:last-child { margin-bottom: 0; }
   .kamerablitz.aktiv { animation: none; }
 }
 
+/* Verzweigung der langen Route */
+.wegauswahl-button {
+  width: 100%; min-height: 72px; padding: 16px;
+  margin: 12px 0; border: 2px solid var(--dunkelblau);
+  border-radius: 14px; background: white; color: var(--dunkelblau);
+  text-align: left; font-weight: bold;
+}
+.wegauswahl-button small { display: block; font-weight: normal; margin-top: 5px; }
+.bruecken-titel s { text-decoration-thickness: 3px; text-decoration-color: #cf4e46; }
+.wegbild { width: 100%; height: auto; max-height: 340px; object-fit: contain; border-radius: 12px; background: #eaf6fa; }
+
 /* Zurück: 50 % breit, links unten */
 .zurueckbutton {
   width: 50%;
@@ -528,6 +539,40 @@ p:last-child { margin-bottom: 0; }
       >
         ← Zurück
       </button>
+    </section>
+
+    <!-- LANGE ROUTE: WAHL NACH DEN RÄDERN -->
+    <section id="brueckenwahlseite" class="versteckt">
+      <div class="kasten">
+        <div class="stationsnummer">Lange Runde · Wegentscheidung</div>
+        <h1 class="bruecken-titel">Mut zur L<s>Br</s>ücke?</h1>
+        <p>Welche Variante passt zur Gruppe? Beide Wege führen anschließend zur gleichen nächsten Station.</p>
+        <button type="button" class="wegauswahl-button" onclick="brueckenWegWaehlen('oben')">
+          👟 Feste Schuhe und keine Höhenangst
+          <small>Über die Mannschaftsbrücke gehen</small>
+        </button>
+        <button type="button" class="wegauswahl-button" onclick="brueckenWegWaehlen('unten')">
+          👠 Schuhe mit Absatz und/oder Höhenangst
+          <small>Den Weg unterhalb der Mannschaftsbrücke nehmen</small>
+        </button>
+      </div>
+      <button type="button" class="zurueckbutton" onclick="zurueckVonBrueckenwahl()">← Zurück</button>
+    </section>
+
+    <!-- LANGE ROUTE: GEWÄHLTE BRÜCKENVARIANTE -->
+    <section id="brueckenwegseite" class="versteckt">
+      <div class="kasten">
+        <div class="stationsnummer">Lange Runde · Weg zur nächsten Station</div>
+        <h2 class="bruecken-titel">Mut zur L<s>Br</s>ücke?</h2>
+        <h3 id="brueckenwegtitel"></h3>
+        <p id="brueckenwegtext"></p>
+        <img id="brueckenwegfoto" class="wegbild" alt="">
+      </div>
+      <div class="kasten kasten-tuerkis">
+        <p>Beide Varianten führen anschließend weiter zur Station Humanitas.</p>
+        <button type="button" class="hauptbutton" onclick="brueckenWegWeiter()">Weiter zu Humanitas →</button>
+      </div>
+      <button type="button" class="zurueckbutton" onclick="brueckenWahlAnzeigen()">← Zurück</button>
     </section>
 
     <!-- STATION -->
@@ -1022,6 +1067,38 @@ const stationen = {
     `
   },
 
+  /* LANGE RUNDE: NEUE STATIONEN */
+  humanitas: {
+    titel: "Humanitas",
+    weg: `<p>Nach der Mannschaftsbrücke beziehungsweise dem Weg darunter führt die lange Runde zur Station Humanitas. Die genaue Wegbeschreibung wird noch ergänzt.</p>`,
+    foto: "humanitas.jpg", fotoAlt: "Humanitas auf Zollverein",
+    faktTitel: "💡 Humanitas",
+    fakt: `<p>Weitere Informationen zu diesem Fotospot werden noch ergänzt.</p>`,
+    quiz: null,
+    challengeTitel: "📸 Foto-Challenge: Humanitas",
+    challenge: `<p><strong>Fotomotiv:</strong> Ein Gruppenfoto am Motiv Humanitas.</p>`
+  },
+  lokomotive: {
+    titel: "Die Lokomotive",
+    weg: `<p>Von Humanitas geht es weiter in Richtung Kokerei Zollverein zur Lokomotive. Die genaue Wegbeschreibung wird noch ergänzt.</p>`,
+    foto: "lokomotive.jpg", fotoAlt: "Lokomotive auf Zollverein",
+    faktTitel: "💡 Eisenbahngeschichte",
+    fakt: `<p>Informationen zur Lokomotive werden noch ergänzt.</p>`,
+    quiz: null,
+    challengeTitel: "📸 Foto-Challenge: Lokomotive",
+    challenge: `<p><strong>Fotomotiv:</strong> Ein gemeinsames Foto mit der Lokomotive.</p>`
+  },
+  kokerei: {
+    titel: "Die Kokerei Zollverein",
+    weg: `<p>Von der Lokomotive geht es weiter zur Kokerei Zollverein. Die genaue Wegbeschreibung und der Weiterweg zu PACT werden noch ergänzt.</p>`,
+    foto: "kokerei.jpg", fotoAlt: "Kokerei Zollverein",
+    faktTitel: "💡 Was ist eine Kokerei?",
+    fakt: `<p>In einer Kokerei wird Steinkohle unter Luftabschluss stark erhitzt, um daraus unter anderem Koks herzustellen.</p>`,
+    quiz: null,
+    challengeTitel: "📸 Foto-Challenge: Kokerei",
+    challenge: `<p><strong>Fotomotiv:</strong> Ein Gruppenfoto vor der Industriekulisse der Kokerei.</p>`
+  },
+
   /* MITTLERE RUNDE: PACT */
   pact: {
     titel: "PACT Zollverein",
@@ -1048,6 +1125,8 @@ const stationen = {
         der nächste Fotospot.
       </p>
     `,
+
+    wegLang: `<p>Von der Kokerei geht es weiter zu PACT Zollverein. Die genaue Wegführung wird noch ergänzt.</p><p>Vor dem Gebäude liegen große metallene Gebilde, die mit etwas Fantasie wie überdimensionale Tannenzapfen aussehen. Hier befindet sich der nächste Fotospot.</p>`,
 
     foto: "pact.jpg",
     fotoAlt: "PACT Zollverein mit metallischem Schneidwerkzeug auf dem Vorplatz",
@@ -1364,7 +1443,11 @@ const routen = {
     "doppelbock"
   ],
 
-  lang: []
+  lang: [
+    "rolltreppe", "glasmodell", "raeder", "humanitas",
+    "lokomotive", "kokerei", "pact", "sanaa", "oktogon",
+    "casino", "doppelbock"
+  ]
 };
 
 const routenDateien = {
@@ -1380,6 +1463,7 @@ let aktuelleRoute = null;
 let aktuelleStation = 0;
 let aktuelleSeite = "start";
 let quizAntworten = {};
+let brueckenWeg = null;
 
 let karte = null;
 let kartenLinie = null;
@@ -1409,6 +1493,8 @@ function seiteAnzeigen(id) {
   [
     "startseite",
     "platzhalterseite",
+    "brueckenwahlseite",
+    "brueckenwegseite",
     "stationsseite",
     "uploadseite",
     "abschlussseite"
@@ -1440,7 +1526,8 @@ function speichern() {
         route: aktuelleRoute,
         station: aktuelleStation,
         seite: aktuelleSeite,
-        quizAntworten: quizAntworten
+        quizAntworten: quizAntworten,
+        brueckenWeg: brueckenWeg
       })
     );
   } catch (fehler) {
@@ -1463,6 +1550,7 @@ function fortschrittLaden() {
     }
 
     aktuelleRoute = daten.route;
+    brueckenWeg = ["oben", "unten"].includes(daten.brueckenWeg) ? daten.brueckenWeg : null;
 
     const liste = aktuelleStationsListe();
 
@@ -1480,9 +1568,13 @@ function fortschrittLaden() {
         ? daten.quizAntworten
         : {};
 
-    if (aktuelleRoute === "lang") {
-      aktuelleSeite = "platzhalter";
-      seiteAnzeigen("platzhalterseite");
+    if (aktuelleRoute === "lang" && daten.seite === "brueckenwahl") {
+      brueckenWahlAnzeigen();
+      return true;
+    }
+    if (aktuelleRoute === "lang" && daten.seite === "brueckenweg") {
+      if (brueckenWeg) brueckenWegAnzeigen();
+      else brueckenWahlAnzeigen();
       return true;
     }
 
@@ -1512,13 +1604,7 @@ function routeStarten(route) {
   aktuelleStation = 0;
   aktuelleSeite = "station";
   quizAntworten = {};
-
-  if (route === "lang") {
-    aktuelleSeite = "platzhalter";
-    speichern();
-    seiteAnzeigen("platzhalterseite");
-    return;
-  }
+  brueckenWeg = null;
 
   stationAnzeigen();
 }
@@ -1528,6 +1614,7 @@ function zurStreckenauswahl() {
   aktuelleStation = 0;
   aktuelleSeite = "start";
   quizAntworten = {};
+  brueckenWeg = null;
 
   try {
     localStorage.removeItem(
@@ -1543,6 +1630,43 @@ function zurStreckenauswahl() {
 /*
   STATION ANZEIGEN
 */
+
+function brueckenWahlAnzeigen() {
+  aktuelleSeite = "brueckenwahl";
+  speichern();
+  seiteAnzeigen("brueckenwahlseite");
+}
+
+function brueckenWegWaehlen(variante) {
+  if (variante !== "oben" && variante !== "unten") return;
+  brueckenWeg = variante;
+  brueckenWegAnzeigen();
+}
+
+function brueckenWegAnzeigen() {
+  if (!brueckenWeg) { brueckenWahlAnzeigen(); return; }
+  aktuelleSeite = "brueckenweg";
+  const oben = brueckenWeg === "oben";
+  el("brueckenwegtitel").textContent = oben
+    ? "Über die Mannschaftsbrücke" : "Unterhalb der Mannschaftsbrücke";
+  el("brueckenwegtext").textContent = oben
+    ? "Der Weg führt über die begehbare Mannschaftsbrücke. Auf festes Schuhwerk achten und auf der Brücke vorsichtig gehen."
+    : "Der Weg führt unterhalb der Mannschaftsbrücke entlang. Dieser Weg ist für Gruppen mit Höhenangst oder Schuhen mit Absatz vorgesehen.";
+  el("brueckenwegfoto").src = oben ? "mannschaftbrücke.jpg" : "wegmannschaftsbrücke.jpg";
+  el("brueckenwegfoto").alt = oben ? "Weg über die Mannschaftsbrücke" : "Weg unterhalb der Mannschaftsbrücke";
+  speichern();
+  seiteAnzeigen("brueckenwegseite");
+}
+
+function brueckenWegWeiter() {
+  aktuelleStation = aktuelleStationsListe().indexOf("humanitas");
+  stationAnzeigen();
+}
+
+function zurueckVonBrueckenwahl() {
+  aktuelleStation = aktuelleStationsListe().indexOf("raeder");
+  stationAnzeigen();
+}
 
 function stationAnzeigen() {
   aktuelleSeite = "station";
@@ -1571,12 +1695,13 @@ function stationAnzeigen() {
     eine eigene Wegbeschreibung.
   */
   const weg =
-    aktuelleRoute === "mittel" &&
+    (aktuelleRoute === "mittel" || aktuelleRoute === "lang") &&
     station.wegMittel
       ? station.wegMittel
       : station.weg;
 
-  el("wegbeschreibung").innerHTML = weg;
+  el("wegbeschreibung").innerHTML =
+    aktuelleRoute === "lang" && station.wegLang ? station.wegLang : weg;
 
   const foto = el("stationsfoto");
 
@@ -1752,7 +1877,9 @@ function fotoGemachtWeiter() {
 function naechsteStation() {
   const liste = aktuelleStationsListe();
 
-  if (aktuelleStation < liste.length - 1) {
+  if (aktuelleRoute === "lang" && aktuelleStationsID() === "raeder") {
+    brueckenWahlAnzeigen();
+  } else if (aktuelleStation < liste.length - 1) {
     aktuelleStation++;
     stationAnzeigen();
   } else {
@@ -1761,7 +1888,9 @@ function naechsteStation() {
 }
 
 function vorherigeStation() {
-  if (aktuelleStation > 0) {
+  if (aktuelleRoute === "lang" && aktuelleStationsID() === "humanitas") {
+    brueckenWegAnzeigen();
+  } else if (aktuelleStation > 0) {
     aktuelleStation--;
     stationAnzeigen();
   } else {
