@@ -226,6 +226,20 @@ p:last-child { margin-bottom: 0; }
 .bruecken-titel s { text-decoration-thickness: 3px; text-decoration-color: #cf4e46; }
 .wegbild { width: 100%; height: auto; max-height: 340px; object-fit: contain; border-radius: 12px; background: #eaf6fa; }
 
+/* Auffällige Etappen- und Treffpunktbuttons für die lange Route */
+.etappenbutton {
+  margin-top: 22px;
+  background: #ffcf57;
+  color: #003b59;
+  border: 3px solid #003b59;
+  box-shadow: 0 5px 0 #003b59, 0 8px 16px #00334d30;
+  font-size: 17px;
+}
+.etappenbutton:active { transform: translateY(2px); box-shadow: 0 3px 0 #003b59; }
+.orientierungsfoto { margin: 14px 0 18px; }
+.bild-fehler { padding: 10px 12px; background: #fff3df; color: #714400; border-radius: 10px; font-size: 14px; }
+.quiz-hinweis { padding: 12px; background: #eaf6fa; border-radius: 10px; font-weight: bold; }
+
 /* Zurück: 50 % breit, links unten */
 .zurueckbutton {
   width: 50%;
@@ -505,7 +519,7 @@ p:last-child { margin-bottom: 0; }
         class="routenbutton"
         onclick="routeStarten('kurz')"
       >
-        <span class="routenname">Die kurze Runde</span>
+        <span class="routenname">Die kurze Route</span>
         <span class="routeninfo">620 m · ca. 20 Min.</span>
       </button>
 
@@ -513,7 +527,7 @@ p:last-child { margin-bottom: 0; }
         class="routenbutton"
         onclick="routeStarten('mittel')"
       >
-        <span class="routenname">Die mittlere Runde</span>
+        <span class="routenname">Die mittlere Route</span>
         <span class="routeninfo">1,08 km · ca. 30 Min.</span>
       </button>
 
@@ -521,7 +535,7 @@ p:last-child { margin-bottom: 0; }
         class="routenbutton"
         onclick="routeStarten('lang')"
       >
-        <span class="routenname">Die lange Runde</span>
+        <span class="routenname">Die lange Route</span>
         <span class="routeninfo">2,3 km · ca. 60 Min.</span>
       </button>
     </section>
@@ -547,10 +561,11 @@ p:last-child { margin-bottom: 0; }
     <!-- LANGE ROUTE: WAHL NACH DEN RÄDERN -->
     <section id="brueckenwahlseite" class="versteckt">
       <div class="kasten">
-        <div class="stationsnummer">Lange Runde · Wegentscheidung</div>
+        <div class="stationsnummer">Auf dem Weg zu Station 2 von 8 · HUMANITAS</div>
         <h1 class="bruecken-titel">Mut zur L<s>Br</s>ücke?</h1>
         <p>Welche Variante passt zur Gruppe? Beide Wege führen anschließend zur gleichen nächsten Station.</p>
-        <img class="wegbild" src="mannschaftsbrueckenah.jpg" alt="Nahaufnahme der Mannschaftsbrücke, damit der Weg über die Brücke vor der Entscheidung eingeschätzt werden kann" loading="lazy">
+        <img id="mannschaftsbrueckenah" class="wegbild" src="./mannschaftsbrueckenah.jpg" alt="Nahaufnahme der Mannschaftsbrücke" loading="eager" decoding="async" onerror="brueckenNahaufnahmeFehler(this)">
+        <p id="brueckenfotoFehler" class="bild-fehler versteckt" role="status">Die Nahaufnahme konnte nicht geladen werden. Bitte prüfen, ob <strong>mannschaftsbrueckenah.jpg</strong> im Hauptverzeichnis des GitHub-Repositories liegt.</p>
         <button type="button" class="wegauswahl-button" onclick="brueckenWegWaehlen('oben')">
           👟 Feste Schuhe und keine Höhenangst
           <small>Über die Mannschaftsbrücke gehen</small>
@@ -566,7 +581,7 @@ p:last-child { margin-bottom: 0; }
     <!-- LANGE ROUTE: GEWÄHLTE BRÜCKENVARIANTE -->
     <section id="brueckenwegseite" class="versteckt">
       <div class="kasten">
-        <div class="stationsnummer">Lange Runde · Weg zur nächsten Station</div>
+        <div class="stationsnummer">Auf dem Weg zu Station 2 von 8 · HUMANITAS</div>
         <h2 class="bruecken-titel">Mut zur L<s>Br</s>ücke?</h2>
         <h3 id="brueckenwegtitel"></h3>
         <div id="brueckenwegtext"></div>
@@ -577,7 +592,7 @@ p:last-child { margin-bottom: 0; }
         <p>Oben auf der Brücke oder unten auf dem Weg: Jetzt ist ein bisschen großes Kino gefragt.</p>
         <p><strong>Fotomotiv:</strong> Die Gruppe kann sich aufteilen: Ein Teil steht auf der Mannschaftsbrücke, der andere darunter. Fotografiert euch gegenseitig und tut so, als würdet ihr eure Verwandten an Weihnachten endlich wiedersehen. Große Gesten, ausgebreitete Arme und überschwängliche Freude sind ausdrücklich erwünscht.</p>
         <p>Wer gemeinsam oben oder unten bleibt, kann die Szene natürlich auch auf einer Ebene nachstellen.</p>
-        <button type="button" class="hauptbutton" onclick="brueckenFotoWeiter()">📸 Foto gemacht · Weiter zum Treffpunkt</button>
+        <button type="button" class="hauptbutton" onclick="brueckenFotoWeiter()">📸 Foto gemacht</button>
       </div>
       <button type="button" class="zurueckbutton" onclick="brueckenWahlAnzeigen()">← Zurück</button>
     </section>
@@ -585,10 +600,10 @@ p:last-child { margin-bottom: 0; }
     <!-- LANGE ROUTE: GEMEINSAMER TREFFPUNKT -->
     <section id="brueckentreffseite" class="versteckt">
       <div class="kasten">
-        <div class="stationsnummer">Lange Runde · Treffpunkt</div>
+        <div class="stationsnummer">Auf dem Weg zu Station 2 von 8 · HUMANITAS</div>
         <h2>Alle wieder beisammen?</h2>
         <p>Beide Wege führen zur rot beleuchteten Ringpromenade. Falls die Gruppe sich aufgeteilt hat, hier wieder zusammenfinden und auf alle warten.</p>
-        <button type="button" class="hauptbutton" onclick="brueckenWegWeiter()">✓ Gruppe vollzählig · Weiter zu Station 2: HUMANITAS</button>
+        <button type="button" class="hauptbutton etappenbutton" onclick="brueckenWegWeiter()">✓ Gruppe vollzählig · Weiter zu Station 2: HUMANITAS</button>
       </div>
       <button type="button" class="zurueckbutton" onclick="brueckenWegAnzeigen()">← Zurück</button>
     </section>
@@ -596,14 +611,17 @@ p:last-child { margin-bottom: 0; }
     <!-- LANGE ROUTE: KOKEREI ZUR MANNSCHAFTSBRÜCKE -->
     <section id="kokereirueckwegseite" class="versteckt">
       <div class="kasten">
-        <div class="stationsnummer">Lange Runde · Längster Routenabschnitt</div>
+        <div class="stationsnummer">Auf dem Weg zu Station 5 von 8 · PACT</div>
         <h2>Von der Kokerei zurück zur Mannschaftsbrücke</h2>
+        <p><strong>Etappe 1: Von der Kokerei zum Parkplatz</strong></p>
         <p>Von der Kokerei geht es hinunter zur Straße und über die <button type="button" class="fotolink" data-foto="ampelkokerei.jpg" data-beschriftung="Ampel">Ampel</button> auf die andere Straßenseite.</p>
         <p>Nach dem Überqueren der Straße hinter der Mauer den <button type="button" class="fotolink" data-foto="wegkokerei.jpg" data-beschriftung="linken Weg">linken Weg</button> nehmen. Diesem bis zum großen, beleuchteten <button type="button" class="fotolink" data-foto="parkplatzkokerei.jpg" data-beschriftung="Parkplatz">Parkplatz</button> folgen.</p>
+        <img class="wegbild orientierungsfoto" src="parkplatzkokerei.jpg" alt="Beleuchteter Parkplatz auf dem Rückweg von der Kokerei" loading="lazy">
+        <p><strong>Etappe 2: Zurück auf die Ringpromenade</strong></p>
         <p>Den Parkplatz bis zum Ende durchqueren, bis zur riesigen Stahlkonstruktion. Dort <button type="button" class="fotolink" data-foto="abbiegungpact.jpg" data-beschriftung="links abbiegen">links abbiegen</button>, den Treppenaufgang hinaufgehen und weiter geradeaus laufen.</p>
         <p>Sobald die rot beleuchtete Ringpromenade wieder erreicht ist, wird ein <button type="button" class="fotolink" data-foto="kleinerfoerderturm.jpg" data-beschriftung="kleiner Förderturm">kleiner Förderturm</button> sichtbar.</p>
-        <p>Der Ringpromenade folgen und unter der Mannschaftsbrücke hindurchgehen.</p>
-        <button type="button" class="hauptbutton" onclick="kokereiRueckwegWeiter()">✓ Mannschaftsbrücke erreicht · Weiter zu Station 5: PACT</button>
+        <p>Der rot beleuchteten Ringpromenade folgen und unter der Mannschaftsbrücke hindurchgehen. Dort beginnt die nächste Wegbeschreibung zum PACT.</p>
+        <button type="button" class="hauptbutton etappenbutton" onclick="kokereiRueckwegWeiter()">✓ Mannschaftsbrücke erreicht · Weiter zu Station 5: PACT</button>
       </div>
       <button type="button" class="zurueckbutton" onclick="stationAnzeigen()">← Zurück zu Station 4: Kokerei</button>
     </section>
@@ -638,6 +656,7 @@ p:last-child { margin-bottom: 0; }
         class="kasten kasten-umrandet versteckt"
       >
         <h3>❓ Schätzfrage</h3>
+        <p id="humanitasQuizHinweis" class="quiz-hinweis versteckt">Nur mit der richtigen Antwort geht es automatisch weiter zur Lokomotive. Bei einer falschen Antwort ist ein neuer Versuch möglich.</p>
         <p id="quizfrage"></p>
         <div id="quizantworten"></div>
         <div
@@ -655,7 +674,7 @@ p:last-child { margin-bottom: 0; }
           class="hauptbutton"
           onclick="fotoGemachtWeiter()"
         >
-          📸 Foto gemacht · Weiter
+          📸 Foto gemacht
         </button>
       </div>
 
@@ -1028,7 +1047,7 @@ const stationen = {
     `
   },
 
-  /* KURZE RUNDE: RED DOT */
+  /* KURZE ROUTE: RED DOT */
   reddot: {
     titel: "Red Dot Design Museum",
 
@@ -1109,7 +1128,7 @@ const stationen = {
     `
   },
 
-  /* LANGE RUNDE: NEUE STATIONEN */
+  /* LANGE ROUTE: NEUE STATIONEN */
   humanitas: {
     titel: "HUMANITAS",
     weg: `<p>Der rot beleuchteten Ringpromenade nach links folgen und die kleine Brücke mit dem roten Geländer überqueren.</p><p>Auf der rechten Seite erscheint ein Gebäude mit einer Uhr. Dort befindet sich HUMANITAS.</p>`,
@@ -1146,7 +1165,7 @@ const stationen = {
     challenge: `<p>Lichter, Eisbahn, Weihnachtsstimmung: Hier ist Kreativität gefragt! Gesucht wird ein möglichst weihnachtliches Gruppenfoto. Ob festlich, lustig oder herrlich kitschig, Hauptsache Weihnachten!</p><div id="gluehweinHinweis" class="gluehwein-hinweis"></div>`
   },
 
-  /* MITTLERE RUNDE: PACT */
+  /* MITTLERE ROUTE: PACT */
   pact: {
     titel: "PACT Zollverein",
     wegLang: `<p>Von der Mannschaftsbrücke aus der rot beleuchteten Ringpromenade weiter folgen.</p><p>Zwischen der Fördermaschinenhalle und Halle 22 am <button type="button" class="fotolink" data-foto="tor.jpg" data-beschriftung="Tor">Tor</button> vorbei in Richtung Haupteingang des PACT gehen.</p><p>Vor dem Gebäude liegen große metallene Gebilde, die mit etwas Fantasie wie überdimensionale Tannenzapfen aussehen. Hier befindet sich der nächste Fotospot.</p>`,
@@ -1212,7 +1231,7 @@ const stationen = {
   },
 
   /*
-    MITTLERE RUNDE: SANAA
+    MITTLERE ROUTE: SANAA
     Blick vom Hauptweg, kein Abstecher
   */
   sanaa: {
@@ -1594,6 +1613,18 @@ function zurRoutenauswahl() {
   STATION ANZEIGEN
 */
 
+function brueckenNahaufnahmeFehler(bild) {
+  const meldung = el("brueckenfotoFehler");
+  if (meldung) meldung.classList.remove("versteckt");
+  // Falls das neue Bild auf GitHub fehlt, wenigstens das vorhandene Brückenfoto zeigen.
+  if (bild.dataset.fallback !== "1") {
+    bild.dataset.fallback = "1";
+    bild.src = "mannschaftbrücke.jpg";
+  } else {
+    bild.classList.add("versteckt");
+  }
+}
+
 function brueckenWahlAnzeigen() {
   aktuelleSeite = "brueckenwahl";
   speichern();
@@ -1736,16 +1767,13 @@ function stationAnzeigen() {
     aktuelleStation === liste.length - 1;
 
   const humanitasQuiz = aktuelleRoute === "lang" && id === "humanitas";
-  el("challengetitel").textContent = humanitasQuiz ? "🎄 Weiter zur Lokomotive" : station.challengeTitel;
+  el("challengetitel").textContent = station.challengeTitel;
   el("challengetext").classList.toggle("versteckt", humanitasQuiz);
-  el("weiterbutton").textContent = humanitasQuiz
-    ? "Weiter zu Station 3: Lokomotive →"
-    : (letzteStation ? "📸 Foto gemacht · Weiter zum Abschluss"
-      : aktuelleRoute === "lang" && id === "raeder"
-        ? "📸 Foto gemacht · Weiter zur Mannschaftsbrücke"
-      : aktuelleRoute === "lang" && id === "kokerei"
-        ? "📸 Foto gemacht · Weiter zum Rückweg"
-      : "📸 Foto gemacht · Weiter zu Station " + (aktuelleStation + 2) + ": " + stationen[liste[aktuelleStation + 1]].titel);
+  el("weiterbutton").textContent = "📸 Foto gemacht";
+  // HUMANITAS hat keine Foto-Challenge und keinen Weiter-Button.
+  // Die richtige Quizantwort führt unmittelbar zur Lokomotive.
+  const challengeKasten = el("challengetitel").closest(".kasten");
+  challengeKasten.classList.toggle("versteckt", humanitasQuiz);
   if (humanitasQuiz) {
     const key = quizSchluessel(id);
     const freigeschaltet = quizAntworten[key] === station.quiz.richtig;
@@ -1800,6 +1828,7 @@ function quizAnzeigen(quiz, id) {
   }
 
   kasten.classList.remove("versteckt");
+  el("humanitasQuizHinweis").classList.toggle("versteckt", id !== "humanitas");
   el("quizfrage").textContent = quiz.frage;
 
   const schluessel = quizSchluessel(id);
