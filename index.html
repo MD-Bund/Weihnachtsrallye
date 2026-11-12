@@ -566,7 +566,7 @@ p:last-child { margin-bottom: 0; }
         <div class="stationsnummer">Lange Runde · Weg zur nächsten Station</div>
         <h2 class="bruecken-titel">Mut zur L<s>Br</s>ücke?</h2>
         <h3 id="brueckenwegtitel"></h3>
-        <p id="brueckenwegtext"></p>
+        <div id="brueckenwegtext"></div>
         <img id="brueckenwegfoto" class="wegbild" alt="">
       </div>
       <div class="kasten kasten-tuerkis">
@@ -574,9 +574,20 @@ p:last-child { margin-bottom: 0; }
         <p>Oben auf der Brücke oder unten auf dem Weg: Jetzt ist ein bisschen großes Kino gefragt.</p>
         <p><strong>Fotomotiv:</strong> Die Gruppe kann sich aufteilen: Ein Teil steht auf der Mannschaftsbrücke, der andere darunter. Fotografiert euch gegenseitig und tut so, als würdet ihr eure Verwandten an Weihnachten endlich wiedersehen. Große Gesten, ausgebreitete Arme und überschwängliche Freude sind ausdrücklich erwünscht.</p>
         <p>Wer gemeinsam oben oder unten bleibt, kann die Szene natürlich auch auf einer Ebene nachstellen.</p>
-        <button type="button" class="hauptbutton" onclick="brueckenFotoWeiter()">📸 Foto gemacht · Weiter zu Humanitas</button>
+        <button type="button" class="hauptbutton" onclick="brueckenFotoWeiter()">📸 Foto gemacht · Weiter zum Treffpunkt</button>
       </div>
       <button type="button" class="zurueckbutton" onclick="brueckenWahlAnzeigen()">← Zurück</button>
+    </section>
+
+    <!-- LANGE ROUTE: GEMEINSAMER TREFFPUNKT -->
+    <section id="brueckentreffseite" class="versteckt">
+      <div class="kasten">
+        <div class="stationsnummer">Lange Runde · Treffpunkt</div>
+        <h2>Alle wieder beisammen?</h2>
+        <p>Beide Wege führen zur rot beleuchteten Ringpromenade. Falls die Gruppe sich aufgeteilt hat, hier wieder zusammenfinden und auf alle warten.</p>
+        <button type="button" class="hauptbutton" onclick="brueckenWegWeiter()">✓ Gruppe vollzählig</button>
+      </div>
+      <button type="button" class="zurueckbutton" onclick="brueckenWegAnzeigen()">← Zurück</button>
     </section>
 
     <!-- STATION -->
@@ -1083,7 +1094,7 @@ const stationen = {
   /* LANGE RUNDE: NEUE STATIONEN */
   humanitas: {
     titel: "Humanitas",
-    weg: `<p>Nach der Mannschaftsbrücke beziehungsweise dem Weg darunter führt die lange Runde zu Humanitas. Die genaue Wegbeschreibung wird noch ergänzt.</p>`,
+    weg: `<p>Der rot beleuchteten Ringpromenade nach links folgen und die kleine Brücke mit dem roten Geländer überqueren.</p><p>Auf der rechten Seite erscheint ein Gebäude mit einer Uhr. Dort befindet sich Humanitas.</p>`,
     foto: "humanitas.jpg", fotoAlt: "Humanitas auf Zollverein",
     faktTitel: "💡 Humanitas: QPR auf dem kurzen Dienstweg",
     fakt: `<p>Falls noch jemand zufällig eine frisch aktualisierte Qualitätsprüfungs-Richtlinie (QPR) in der Jackentasche hat, kann diese bei Humanitas gerne direkt eingeworfen werden. Spart Porto und verkürzt vielleicht den Dienstweg. 🎄</p><p><small>Natürlich nur ein Scherz: Bitte nichts tatsächlich einwerfen.</small></p>`,
@@ -1252,7 +1263,7 @@ const stationen = {
   /* GEMEINSAMER ABSCHLUSS: DOPPELBOCK */
   doppelbock: {
     titel: "Das Doppelbock-Fördergerüst",
-    wegMittel: `<p>Vom Casino geht es weiter zum Wahrzeichen von Essen – einfach dem Weg weiter folgen.</p><p>Von hier aus ist es schon zu sehen: der Doppelbock mit der Aufschrift „Zeche Zollverein“.</p>`,
+    wegMittel: `<p>Vom Casino geht es weiter zum Wahrzeichen von Essen – einfach dem Weg weiter folgen.</p><p>Von hier aus ist es schon zu sehen: der Doppelbock mit der Aufschrift „Zollverein“.</p>`,
 
     weg: `
       <p>
@@ -1370,7 +1381,8 @@ const routen = {
 
 const routenDateien = {
   kurz: "kurz.gpx",
-  mittel: "mittel.gpx"
+  mittel: "mittel.gpx",
+  lang: "lang.gpx"
 };
 
 /*
@@ -1413,6 +1425,7 @@ function seiteAnzeigen(id) {
     "platzhalterseite",
     "brueckenwahlseite",
     "brueckenwegseite",
+    "brueckentreffseite",
     "stationsseite",
     "uploadseite",
     "abschlussseite"
@@ -1426,7 +1439,8 @@ function seiteAnzeigen(id) {
   const karteErlaubt =
     aktuelleSeite === "station" &&
     (aktuelleRoute === "kurz" ||
-     aktuelleRoute === "mittel");
+     aktuelleRoute === "mittel" ||
+     aktuelleRoute === "lang");
 
   el("karteButton").classList.toggle(
     "versteckt",
@@ -1493,6 +1507,11 @@ function fortschrittLaden() {
     if (aktuelleRoute === "lang" && daten.seite === "brueckenweg") {
       if (brueckenWeg) brueckenWegAnzeigen();
       else brueckenWahlAnzeigen();
+      return true;
+    }
+
+    if (aktuelleRoute === "lang" && daten.seite === "brueckentreff") {
+      brueckenTreffAnzeigen();
       return true;
     }
 
@@ -1570,10 +1589,10 @@ function brueckenWegAnzeigen() {
   const oben = brueckenWeg === "oben";
   el("brueckenwegtitel").textContent = oben
     ? "Über die Mannschaftsbrücke" : "Unterhalb der Mannschaftsbrücke";
-  el("brueckenwegtext").textContent = oben
-    ? "Der Weg führt über die begehbare Mannschaftsbrücke. Anschließend geht es weiter zu Humanitas. Auf festes Schuhwerk achten und auf der Brücke vorsichtig gehen."
-    : "Der Weg führt unterhalb der Mannschaftsbrücke entlang. Anschließend geht es weiter zu Humanitas. Dieser Weg ist für Gruppen mit Höhenangst oder Schuhen mit Absatz vorgesehen.";
-  el("brueckenwegfoto").src = oben ? "mannschaftbrücke.jpg" : "wegmannschaftsbrücke.jpg";
+  el("brueckenwegtext").innerHTML = oben
+    ? `<p>Nach den historischen Rädern hinter Halle 12 rechts abbiegen. Am <button type="button" class="fotolink" data-foto="glasgebaeude.jpg" data-beschriftung="Treppenhaus aus Glas">Treppenhaus aus Glas</button> die <button type="button" class="fotolink" data-foto="treppemannschaftsbruecke.jpg" data-beschriftung="Treppe zur Mannschaftsbrücke">Treppe</button> nehmen und dem Steg bis zur Gabelung folgen. Dort rechts abbiegen.</p><p>Nach etwa 200 Metern führt ein <button type="button" class="fotolink" data-foto="abgangringpromenade.jpg" data-beschriftung="Abgang zur Ringpromenade">Abgang</button> hinunter auf die rot beleuchtete Ringpromenade.</p>`
+    : `<p>Von den historischen Rädern geradeaus weitergehen. Oben ist die Mannschaftsbrücke zu sehen. Rechts davon verläuft ein <button type="button" class="fotolink" data-foto="wegmannschaftsbruecke.jpg" data-beschriftung="Fußweg unterhalb der Mannschaftsbrücke">Fußweg</button> parallel zur Brücke.</p><p>Dem Fußweg etwa 200 Meter folgen, bis die rot beleuchtete Ringpromenade erreicht ist.</p>`;
+  el("brueckenwegfoto").src = oben ? "mannschaftbrücke.jpg" : "wegmannschaftsbruecke.jpg";
   el("brueckenwegfoto").alt = oben ? "Weg über die Mannschaftsbrücke" : "Weg unterhalb der Mannschaftsbrücke";
   speichern();
   seiteAnzeigen("brueckenwegseite");
@@ -1592,8 +1611,14 @@ function brueckenFotoWeiter() {
   window.setTimeout(function() {
     blitz.classList.remove("aktiv");
     fotoWechselLaeuft = false;
-    brueckenWegWeiter();
+    brueckenTreffAnzeigen();
   }, reduzierteBewegung ? 0 : 230);
+}
+
+function brueckenTreffAnzeigen() {
+  aktuelleSeite = "brueckentreff";
+  speichern();
+  seiteAnzeigen("brueckentreffseite");
 }
 
 function brueckenWegWeiter() {
@@ -1849,7 +1874,7 @@ function naechsteStation() {
 
 function vorherigeStation() {
   if (aktuelleRoute === "lang" && aktuelleStationsID() === "humanitas") {
-    brueckenWegAnzeigen();
+    brueckenTreffAnzeigen();
   } else if (aktuelleStation > 0) {
     aktuelleStation--;
     stationAnzeigen();
