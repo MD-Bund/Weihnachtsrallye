@@ -1,4 +1,91 @@
 
+Schreib am besten auf der linken Seite liegt auf der anderen Straßenseite ein Parkplatz über den später der Rückweg führt. Und dann machst du eine Absatz und schreibst. Zunächst geht es aber weiter zur historischen Lokomotive.
+Vorgemerkt. Die Wegbeschreibung bei Station 3: Lokomotive lautet künftig:
+
+Von HUMANITAS aus den Abzweig links nehmen, weg von der Ringpromenade.
+
+Auf der linken Seite liegt auf der anderen Straßenseite ein Parkplatz, über den später der Rückweg führt.
+
+Zunächst geht es aber weiter zur historischen Lokomotive.
+
+Die Fotolinks bei „Abzweig“ und „Parkplatz“ bleiben erhalten.
+
+Die index.html bleibt vorerst unverändert.
+
+Benutzeranhang
+Hier im Fakt das vermutlich rausnehmen
+Vorgemerkt. Im Fakt „💡 Tannenzapfen mit Biss“ bei PACT wird das Wort „vermutlich“ gestrichen.
+
+Der Satz lautet künftig:
+
+Und die vermeintlichen Tannenzapfen vor dem Gebäude? Dahinter steckt Bergbautechnik: Die spitzen Meißel solcher Schneidwerkzeuge dienten dazu, Kohle oder Gestein herauszubrechen.
+
+Der restliche Text bleibt unverändert.
+
+Noch keine Änderung an der index.html.
+
+Benutzeranhang
+Je nachdem, welche Route man nimmt, stimmt das mit der Station drei und den Rädern beziehungsweise Seilscheiben ja nicht vielleicht nicht die Stations Nummer nennen, sondern einfach sagen, die wir bereits am Anfang der Tour schon gesehen haben oder so
+Stimmt. Die historischen Räder haben je nach Route eine andere Stationsnummer. Deshalb sollte im Doppelbock-Fakt keine feste Nummer stehen.
+
+Ich würde den Satz so formulieren:
+
+Aus dieser Entfernung wirken sie deutlich kleiner als die Seilscheibe, die bereits zu Beginn der Route aus der Nähe zu sehen war.
+
+Das funktioniert auf allen drei Routen und klingt natürlicher.
+
+Für die nächste index.html vorgemerkt: Die feste Angabe „Station 3“ wird durch diese Formulierung ersetzt. Der übrige Faktentext bleibt unverändert.
+
+Okay, dann jetzt eine neue index dateibitte
+
+40s nachgedacht
+Die neue index.html ist fertig. Ich habe die drei zuletzt vereinbarten Änderungen in die bestehende Datei übernommen.
+
+Weihnachtsrallye · index.html
+
+Vollständige HTML-Datei · 66 KB
+
+ Neue index.html herunterladen
+
+Änderungen
+Lokomotive: Der Parkplatz liegt nun ausdrücklich „auf der anderen Straßenseite“. Der Satz „Zunächst geht es aber weiter zur historischen Lokomotive“ steht in einem eigenen Absatz. Beide Fotolinks bleiben erhalten.
+
+PACT: Im Fakt „Tannenzapfen mit Biss“ ist das Wort „vermutlich“ gestrichen.
+
+Doppelbock: Statt „Station 3“ steht nun „die bereits zu Beginn der Route aus der Nähe zu sehen war“. Damit passt der Text zu allen drei Routen.
+
+Alle anderen Inhalte habe ich unverändert gelassen.
+
+Die JavaScript-Syntaxprüfung war erfolgreich. Ein vollständiger Browsertest steht weiterhin aus.
+
+Die Datei kann die bisherige index.html auf GitHub ersetzen.
+
+
+index.html
+HTML
+wieder das gleiche Problem mit dem Download
+
+20s nachgedacht
+Das ist inzwischen wirklich lästig. Die Datei ist vorhanden und vollständig, aber ChatGPT bekommt den Download offenbar nicht zuverlässig hin.
+
+Ich habe deshalb zwei andere Dateiformate erstellt:
+
+HTML-Code als TXT herunterladen
+
+66 KB · vollständiger Code zum Kopieren
+
+ZIP mit index.html herunterladen
+
+18 KB · enthält die fertige index.html
+
+Versuche zuerst die ZIP-Datei. Darin liegt die index.html bereits mit dem richtigen Namen.
+
+Falls auch das fehlschlägt, machen wir es ohne weitere Downloads: Dann gebe ich dir die drei konkreten Codeänderungen für den GitHub-Editor direkt hier zum Kopieren. So müssen wir nicht jedes Mal 66 KB übertragen, nur weil drei Sätze geändert wurden.
+
+
+weihnachtsrallye_code.txt
+Dokument
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -1151,7 +1238,7 @@ const stationen = {
   },
   lokomotive: {
     titel: "Die Lokomotive",
-    weg: `<p>Von HUMANITAS aus den <button type="button" class="fotolink" data-foto="abzweighumanitas.jpg" data-beschriftung="Abzweig">Abzweig</button> links nehmen, weg von der Ringpromenade.</p><p>Auf der linken Seite liegt ein <button type="button" class="fotolink" data-foto="parkplatzrueckweg.jpg" data-beschriftung="Parkplatz">Parkplatz</button>, über den später der Rückweg führt. Zunächst geht es weiter zur historischen Lokomotive.</p>`,
+    weg: `<p>Von HUMANITAS aus den <button type="button" class="fotolink" data-foto="abzweighumanitas.jpg" data-beschriftung="Abzweig">Abzweig</button> links nehmen, weg von der Ringpromenade.</p><p>Auf der linken Seite liegt auf der anderen Straßenseite ein <button type="button" class="fotolink" data-foto="parkplatzrueckweg.jpg" data-beschriftung="Parkplatz">Parkplatz</button>, über den später der Rückweg führt.</p><p>Zunächst geht es aber weiter zur historischen Lokomotive.</p>`,
     foto: "lokomotive.jpg", fotoAlt: "Lokomotive auf Zollverein",
     faktTitel: "💡 Ein heißer Arbeitsplatz",
     fakt: `<p>Die Lokomotive gehörte zum Betrieb der Kokerei Zollverein. Mit solchen Spezialfahrzeugen wurde glühend heißer Koks von den Koksöfen zum Löschturm transportiert. Dort wurde der Koks mit großen Mengen Wasser abgekühlt.</p>`,
@@ -1211,7 +1298,7 @@ const stationen = {
       </p>
       <p>
         Und die vermeintlichen Tannenzapfen vor dem Gebäude?
-        Dahinter steckt vermutlich Bergbautechnik:
+        Dahinter steckt Bergbautechnik:
         Die spitzen Meißel solcher Schneidwerkzeuge
         dienten dazu, Kohle oder Gestein herauszubrechen.
       </p>
@@ -1340,7 +1427,7 @@ const stationen = {
         <strong>6,5 Metern Durchmesser</strong>.
         Aus dieser Entfernung wirken sie
         deutlich kleiner als die Seilscheibe,
-        die bereits an Station 3 aus der
+        die bereits zu Beginn der Route aus der
         Nähe zu sehen war.
       </p>
       <p>
@@ -2382,3 +2469,7 @@ document.addEventListener("DOMContentLoaded", function() {
 </body>
 </html>
 <!-- GitHub Pages Neuveröffentlichung 12.11.2026 -->
+
+
+
+
