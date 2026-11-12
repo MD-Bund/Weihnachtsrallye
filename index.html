@@ -376,6 +376,9 @@ p:last-child { margin-bottom: 0; }
 
 .abschluss-hinweis h2 { font-size: 22px; }
 
+/* Luft zwischen dem letzten Hinweiskasten und dem Rückweg zur Routenauswahl */
+.abschlusskarte .hauptbutton { margin-top: 26px; }
+
 /* Kartenfenster */
 .kartenfenster {
   position: fixed;
@@ -488,12 +491,12 @@ p:last-child { margin-bottom: 0; }
       </button>
     </header>
 
-    <!-- STRECKENAUSWAHL -->
+    <!-- ROUTENAUSWAHL -->
     <section id="startseite">
       <div class="kasten">
-        <h1>Strecke wählen und Weihnachtsrallye starten</h1>
+        <h1>Route wählen und Weihnachtsrallye starten</h1>
         <p>
-          Drei Strecken, jede Menge Weihnachtsstimmung
+          Drei Routen, jede Menge Weihnachtsstimmung
           und gemeinsame Foto-Challenges auf Zollverein.
         </p>
       </div>
@@ -523,19 +526,19 @@ p:last-child { margin-bottom: 0; }
       </button>
     </section>
 
-    <!-- LANGE STRECKE -->
+    <!-- LANGE ROUTE -->
     <section id="platzhalterseite" class="versteckt">
       <div class="kasten">
         <h1>❄️ Bitte noch etwas Geduld</h1>
         <p>
-          Diese Strecke wird noch vom Schnee geräumt.
+          Diese Route wird noch vom Schnee geräumt.
           Bitte noch etwas warten.
         </p>
       </div>
 
       <button
         class="zurueckbutton"
-        onclick="zurStreckenauswahl()"
+        onclick="zurRoutenauswahl()"
       >
         ← Zurück
       </button>
@@ -547,7 +550,7 @@ p:last-child { margin-bottom: 0; }
         <div class="stationsnummer">Lange Runde · Wegentscheidung</div>
         <h1 class="bruecken-titel">Mut zur L<s>Br</s>ücke?</h1>
         <p>Welche Variante passt zur Gruppe? Beide Wege führen anschließend zur gleichen nächsten Station.</p>
-        <img class="wegbild" src="mannschaftsbrückennah.jpg" alt="Nahaufnahme der Mannschaftsbrücke, damit der Weg über die Brücke vor der Entscheidung eingeschätzt werden kann" loading="lazy">
+        <img class="wegbild" src="mannschaftsbrueckenah.jpg" alt="Nahaufnahme der Mannschaftsbrücke, damit der Weg über die Brücke vor der Entscheidung eingeschätzt werden kann" loading="lazy">
         <button type="button" class="wegauswahl-button" onclick="brueckenWegWaehlen('oben')">
           👟 Feste Schuhe und keine Höhenangst
           <small>Über die Mannschaftsbrücke gehen</small>
@@ -557,7 +560,7 @@ p:last-child { margin-bottom: 0; }
           <small>Den Weg unterhalb der Mannschaftsbrücke nehmen</small>
         </button>
       </div>
-      <button type="button" class="zurueckbutton" onclick="zurueckVonBrueckenwahl()">← Zurück</button>
+      <button type="button" class="zurueckbutton" onclick="zurueckVonBrueckenwahl()">← Zurück zu Station 1: Historische Räder</button>
     </section>
 
     <!-- LANGE ROUTE: GEWÄHLTE BRÜCKENVARIANTE -->
@@ -570,7 +573,7 @@ p:last-child { margin-bottom: 0; }
         <img id="brueckenwegfoto" class="wegbild" alt="">
       </div>
       <div class="kasten kasten-tuerkis">
-        <h3>📸 Foto-Challenge: Liebe auf zwei Ebenen</h3>
+        <h3>📸 Foto-Challenge: Wiedersehensfreude</h3>
         <p>Oben auf der Brücke oder unten auf dem Weg: Jetzt ist ein bisschen großes Kino gefragt.</p>
         <p><strong>Fotomotiv:</strong> Die Gruppe kann sich aufteilen: Ein Teil steht auf der Mannschaftsbrücke, der andere darunter. Fotografiert euch gegenseitig und tut so, als würdet ihr eure Verwandten an Weihnachten endlich wiedersehen. Große Gesten, ausgebreitete Arme und überschwängliche Freude sind ausdrücklich erwünscht.</p>
         <p>Wer gemeinsam oben oder unten bleibt, kann die Szene natürlich auch auf einer Ebene nachstellen.</p>
@@ -585,7 +588,7 @@ p:last-child { margin-bottom: 0; }
         <div class="stationsnummer">Lange Runde · Treffpunkt</div>
         <h2>Alle wieder beisammen?</h2>
         <p>Beide Wege führen zur rot beleuchteten Ringpromenade. Falls die Gruppe sich aufgeteilt hat, hier wieder zusammenfinden und auf alle warten.</p>
-        <button type="button" class="hauptbutton" onclick="brueckenWegWeiter()">✓ Gruppe vollzählig</button>
+        <button type="button" class="hauptbutton" onclick="brueckenWegWeiter()">✓ Gruppe vollzählig · Weiter zu Station 2: HUMANITAS</button>
       </div>
       <button type="button" class="zurueckbutton" onclick="brueckenWegAnzeigen()">← Zurück</button>
     </section>
@@ -593,16 +596,16 @@ p:last-child { margin-bottom: 0; }
     <!-- LANGE ROUTE: KOKEREI ZUR MANNSCHAFTSBRÜCKE -->
     <section id="kokereirueckwegseite" class="versteckt">
       <div class="kasten">
-        <div class="stationsnummer">Lange Runde · Längster Streckenabschnitt</div>
+        <div class="stationsnummer">Lange Runde · Längster Routenabschnitt</div>
         <h2>Von der Kokerei zurück zur Mannschaftsbrücke</h2>
         <p>Von der Kokerei geht es hinunter zur Straße und über die <button type="button" class="fotolink" data-foto="ampelkokerei.jpg" data-beschriftung="Ampel">Ampel</button> auf die andere Straßenseite.</p>
         <p>Nach dem Überqueren der Straße hinter der Mauer den <button type="button" class="fotolink" data-foto="wegkokerei.jpg" data-beschriftung="linken Weg">linken Weg</button> nehmen. Diesem bis zum großen, beleuchteten <button type="button" class="fotolink" data-foto="parkplatzkokerei.jpg" data-beschriftung="Parkplatz">Parkplatz</button> folgen.</p>
         <p>Den Parkplatz bis zum Ende durchqueren, bis zur riesigen Stahlkonstruktion. Dort <button type="button" class="fotolink" data-foto="abbiegungpact.jpg" data-beschriftung="links abbiegen">links abbiegen</button>, den Treppenaufgang hinaufgehen und weiter geradeaus laufen.</p>
         <p>Sobald die rot beleuchtete Ringpromenade wieder erreicht ist, wird ein <button type="button" class="fotolink" data-foto="kleinerfoerderturm.jpg" data-beschriftung="kleiner Förderturm">kleiner Förderturm</button> sichtbar.</p>
         <p>Der Ringpromenade folgen und unter der Mannschaftsbrücke hindurchgehen.</p>
-        <button type="button" class="hauptbutton" onclick="kokereiRueckwegWeiter()">✓ Mannschaftsbrücke erreicht</button>
+        <button type="button" class="hauptbutton" onclick="kokereiRueckwegWeiter()">✓ Mannschaftsbrücke erreicht · Weiter zu Station 5: PACT</button>
       </div>
-      <button type="button" class="zurueckbutton" onclick="stationAnzeigen()">← Zurück zur Kokerei</button>
+      <button type="button" class="zurueckbutton" onclick="stationAnzeigen()">← Zurück zu Station 4: Kokerei</button>
     </section>
 
     <!-- STATION -->
@@ -759,9 +762,9 @@ p:last-child { margin-bottom: 0; }
         <button
           type="button"
           class="hauptbutton"
-          onclick="zurStreckenauswahl()"
+          onclick="zurRoutenauswahl()"
         >
-          ← Zurück zur Streckenübersicht
+          ← Zurück zur Routenübersicht
         </button>
 
       </div>
@@ -778,7 +781,7 @@ p:last-child { margin-bottom: 0; }
   class="kartenfenster versteckt"
   role="dialog"
   aria-modal="true"
-  aria-label="Streckenkarte"
+  aria-label="Routenkarte"
 >
   <div class="kartenkopf">
     <button onclick="karteSchliessen()">
@@ -1108,11 +1111,11 @@ const stationen = {
 
   /* LANGE RUNDE: NEUE STATIONEN */
   humanitas: {
-    titel: "Humanitas",
-    weg: `<p>Der rot beleuchteten Ringpromenade nach links folgen und die kleine Brücke mit dem roten Geländer überqueren.</p><p>Auf der rechten Seite erscheint ein Gebäude mit einer Uhr. Dort befindet sich Humanitas.</p>`,
-    foto: "humanitas.jpg", fotoAlt: "Humanitas auf Zollverein",
-    faktTitel: "💡 Humanitas: QPR auf dem kurzen Dienstweg",
-    fakt: `<p>Falls noch jemand zufällig eine frisch aktualisierte Qualitätsprüfungs-Richtlinie (QPR) in der Jackentasche hat, kann diese bei Humanitas gerne direkt eingeworfen werden. Spart Porto und verkürzt vielleicht den Dienstweg. 🎄</p><p><small>Natürlich nur ein Scherz: Bitte nichts tatsächlich einwerfen.</small></p>`,
+    titel: "HUMANITAS",
+    weg: `<p>Der rot beleuchteten Ringpromenade nach links folgen und die kleine Brücke mit dem roten Geländer überqueren.</p><p>Auf der rechten Seite erscheint ein Gebäude mit einer Uhr. Dort befindet sich HUMANITAS.</p>`,
+    foto: "humanitas.jpg", fotoAlt: "HUMANITAS auf Zollverein",
+    faktTitel: "😉 HUMANITAS: QPR auf dem kurzen Dienstweg",
+    fakt: `<p>Falls noch jemand zufällig eine frisch aktualisierte Qualitätsprüfungs-Richtlinie (QPR) in der Jackentasche hat, kann diese bei HUMANITAS gerne direkt eingeworfen werden. Spart Porto und verkürzt vielleicht den Dienstweg. 🎄</p>`,
     quiz: {
       frage: "Wie viele ambulante Pflege- und Betreuungsdienste gibt es ungefähr in Deutschland, für deren Qualitätsprüfungen die QPR ambulante Pflege die Grundlage bilden?",
       antworten: ["Rund 5.000", "Rund 15.500", "Rund 35.000"],
@@ -1124,7 +1127,7 @@ const stationen = {
   },
   lokomotive: {
     titel: "Die Lokomotive",
-    weg: `<p>Von Humanitas aus den <button type="button" class="fotolink" data-foto="abzweighumanitas.jpg" data-beschriftung="Abzweig">Abzweig</button> links nehmen, weg von der Ringpromenade.</p><p>Auf der linken Seite liegt ein <button type="button" class="fotolink" data-foto="parkplatzrueckweg.jpg" data-beschriftung="Parkplatz">Parkplatz</button>, über den später der Rückweg führt. Zunächst geht es weiter zur historischen Lokomotive.</p>`,
+    weg: `<p>Von HUMANITAS aus den <button type="button" class="fotolink" data-foto="abzweighumanitas.jpg" data-beschriftung="Abzweig">Abzweig</button> links nehmen, weg von der Ringpromenade.</p><p>Auf der linken Seite liegt ein <button type="button" class="fotolink" data-foto="parkplatzrueckweg.jpg" data-beschriftung="Parkplatz">Parkplatz</button>, über den später der Rückweg führt. Zunächst geht es weiter zur historischen Lokomotive.</p>`,
     foto: "lokomotive.jpg", fotoAlt: "Lokomotive auf Zollverein",
     faktTitel: "💡 Ein heißer Arbeitsplatz",
     fakt: `<p>Die Lokomotive gehörte zum Betrieb der Kokerei Zollverein. Mit solchen Spezialfahrzeugen wurde glühend heißer Koks von den Koksöfen zum Löschturm transportiert. Dort wurde der Koks mit großen Mengen Wasser abgekühlt.</p>`,
@@ -1440,6 +1443,7 @@ function seiteAnzeigen(id) {
     "brueckenwahlseite",
     "brueckenwegseite",
     "brueckentreffseite",
+    "kokereirueckwegseite",
     "stationsseite",
     "uploadseite",
     "abschlussseite"
@@ -1568,7 +1572,7 @@ function routeStarten(route) {
   stationAnzeigen();
 }
 
-function zurStreckenauswahl() {
+function zurRoutenauswahl() {
   aktuelleRoute = null;
   aktuelleStation = 0;
   aktuelleSeite = "start";
@@ -1659,7 +1663,7 @@ function stationAnzeigen() {
 
   if (!station) {
     console.error("Station nicht gefunden:", id);
-    zurStreckenauswahl();
+    zurRoutenauswahl();
     return;
   }
 
@@ -1735,8 +1739,13 @@ function stationAnzeigen() {
   el("challengetitel").textContent = humanitasQuiz ? "🎄 Weiter zur Lokomotive" : station.challengeTitel;
   el("challengetext").classList.toggle("versteckt", humanitasQuiz);
   el("weiterbutton").textContent = humanitasQuiz
-    ? "Weiter zur Lokomotive →"
-    : (letzteStation ? "📸 Foto gemacht · Zum Abschluss" : "📸 Foto gemacht · Weiter");
+    ? "Weiter zu Station 3: Lokomotive →"
+    : (letzteStation ? "📸 Foto gemacht · Weiter zum Abschluss"
+      : aktuelleRoute === "lang" && id === "raeder"
+        ? "📸 Foto gemacht · Weiter zur Mannschaftsbrücke"
+      : aktuelleRoute === "lang" && id === "kokerei"
+        ? "📸 Foto gemacht · Weiter zum Rückweg"
+      : "📸 Foto gemacht · Weiter zu Station " + (aktuelleStation + 2) + ": " + stationen[liste[aktuelleStation + 1]].titel);
   if (humanitasQuiz) {
     const key = quizSchluessel(id);
     const freigeschaltet = quizAntworten[key] === station.quiz.richtig;
@@ -1747,6 +1756,19 @@ function stationAnzeigen() {
     el("weiterbutton").classList.remove("versteckt");
   }
 
+  const zurueckButton = document.querySelector("#stationsseite > .zurueckbutton");
+  if (zurueckButton) {
+    if (aktuelleStation === 0) {
+      zurueckButton.textContent = "← Zurück zur Routenauswahl";
+    } else if (aktuelleRoute === "lang" && id === "humanitas") {
+      zurueckButton.textContent = "← Zurück zum Treffpunkt";
+    } else if (aktuelleRoute === "lang" && id === "pact") {
+      zurueckButton.textContent = "← Zurück zum Rückweg";
+    } else {
+      const vorherige = stationen[liste[aktuelleStation - 1]];
+      zurueckButton.textContent = "← Zurück zu Station " + aktuelleStation + ": " + vorherige.titel;
+    }
+  }
   speichern();
   seiteAnzeigen("stationsseite");
 }
@@ -1924,7 +1946,7 @@ function vorherigeStation() {
     aktuelleStation--;
     stationAnzeigen();
   } else {
-    zurStreckenauswahl();
+    zurRoutenauswahl();
   }
 }
 
@@ -2197,7 +2219,7 @@ function gpxLaden(route) {
 
       if (koordinaten.length < 2) {
         throw new Error(
-          "Die GPX-Datei enthält keine nutzbare Strecke."
+          "Die GPX-Datei enthält keine nutzbare Route."
         );
       }
 
@@ -2257,7 +2279,7 @@ function gpxLaden(route) {
       console.error("Kartenfehler:", fehler);
 
       alert(
-        "Die Strecke konnte nicht geladen werden. " +
+        "Die Route konnte nicht geladen werden. " +
         "Bitte prüfen, ob die Datei „" +
         datei +
         "“ im GitHub-Repository liegt."
