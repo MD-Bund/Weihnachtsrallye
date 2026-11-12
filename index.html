@@ -590,6 +590,21 @@ p:last-child { margin-bottom: 0; }
       <button type="button" class="zurueckbutton" onclick="brueckenWegAnzeigen()">← Zurück</button>
     </section>
 
+    <!-- LANGE ROUTE: KOKEREI ZUR MANNSCHAFTSBRÜCKE -->
+    <section id="kokereirueckwegseite" class="versteckt">
+      <div class="kasten">
+        <div class="stationsnummer">Lange Runde · Längster Streckenabschnitt</div>
+        <h2>Von der Kokerei zurück zur Mannschaftsbrücke</h2>
+        <p>Von der Kokerei geht es hinunter zur Straße und über die <button type="button" class="fotolink" data-foto="ampelkokerei.jpg" data-beschriftung="Ampel">Ampel</button> auf die andere Straßenseite.</p>
+        <p>Nach dem Überqueren der Straße hinter der Mauer den <button type="button" class="fotolink" data-foto="wegkokerei.jpg" data-beschriftung="linken Weg">linken Weg</button> nehmen. Diesem bis zum großen, beleuchteten <button type="button" class="fotolink" data-foto="parkplatzkokerei.jpg" data-beschriftung="Parkplatz">Parkplatz</button> folgen.</p>
+        <p>Den Parkplatz bis zum Ende durchqueren, bis zur riesigen Stahlkonstruktion. Dort <button type="button" class="fotolink" data-foto="abbiegungpact.jpg" data-beschriftung="links abbiegen">links abbiegen</button>, den Treppenaufgang hinaufgehen und weiter geradeaus laufen.</p>
+        <p>Sobald die rot beleuchtete Ringpromenade wieder erreicht ist, wird ein <button type="button" class="fotolink" data-foto="kleinerfoerderturm.jpg" data-beschriftung="kleiner Förderturm">kleiner Förderturm</button> sichtbar.</p>
+        <p>Der Ringpromenade folgen und unter der Mannschaftsbrücke hindurchgehen.</p>
+        <button type="button" class="hauptbutton" onclick="kokereiRueckwegWeiter()">✓ Mannschaftsbrücke erreicht</button>
+      </div>
+      <button type="button" class="zurueckbutton" onclick="stationAnzeigen()">← Zurück zur Kokerei</button>
+    </section>
+
     <!-- STATION -->
     <section id="stationsseite" class="versteckt">
 
@@ -1109,29 +1124,29 @@ const stationen = {
   },
   lokomotive: {
     titel: "Die Lokomotive",
-    weg: `<p>Von Humanitas geht es weiter zur Lokomotive. Die genaue Wegbeschreibung wird noch ergänzt.</p>`,
+    weg: `<p>Von Humanitas aus den <button type="button" class="fotolink" data-foto="abzweighumanitas.jpg" data-beschriftung="Abzweig">Abzweig</button> links nehmen, weg von der Ringpromenade.</p><p>Auf der linken Seite liegt ein <button type="button" class="fotolink" data-foto="parkplatzrueckweg.jpg" data-beschriftung="Parkplatz">Parkplatz</button>, über den später der Rückweg führt. Zunächst geht es weiter zur historischen Lokomotive.</p>`,
     foto: "lokomotive.jpg", fotoAlt: "Lokomotive auf Zollverein",
-    faktTitel: "💡 Eisenbahngeschichte",
-    fakt: `<p>Informationen zur Lokomotive werden noch ergänzt.</p>`,
+    faktTitel: "💡 Ein heißer Arbeitsplatz",
+    fakt: `<p>Die Lokomotive gehörte zum Betrieb der Kokerei Zollverein. Mit solchen Spezialfahrzeugen wurde glühend heißer Koks von den Koksöfen zum Löschturm transportiert. Dort wurde der Koks mit großen Mengen Wasser abgekühlt.</p>`,
     quiz: null,
-    challengeTitel: "📸 Foto-Challenge: Lokomotive",
-    challenge: `<p><strong>Fotomotiv:</strong> Ein gemeinsames Foto mit der Lokomotive.</p>`
+    challengeTitel: "📸 Der etwas andere Weihnachts-Express",
+    challenge: `<p>Zugegeben, der Weihnachtsexpress sieht normalerweise etwas anders aus. Aber eine Lokomotive ist schließlich immer ein schönes Motiv für ein weihnachtliches Gruppenfoto!</p><p><strong>Fotomotiv:</strong> Alle einsteigen und Gruppenfoto machen!</p>`
   },
   kokerei: {
     titel: "Die Kokerei Zollverein mit Eislaufbahn",
-    weg: `<p>Von der Lokomotive geht es zur Kokerei mit Eislaufbahn. Anschließend führt die lange Runde zurück zu PACT Zollverein. Die genaue Wegführung wird noch ergänzt.</p>`,
+    weg: `<p>Von der historischen Lokomotive aus einfach dem Weg weiter folgen. Das Weihnachtsgetümmel sollte bereits zu hören, zu sehen und zu riechen sein.</p><p>Denn im Winter verwandelt sich die Kokerei Zollverein in ein kleines Weihnachtsdorf mit Eislaufbahn.</p>`,
     foto: "kokerei.jpg", fotoAlt: "Kokerei Zollverein",
-    faktTitel: "💡 Was ist eine Kokerei?",
-    fakt: `<p>In einer Kokerei wird Steinkohle unter Luftabschluss stark erhitzt, um daraus unter anderem Koks herzustellen.</p>`,
+    faktTitel: "💡 Vom heißen Koks zum kalten Eis",
+    fakt: `<p>Die Kokerei Zollverein war einst eine der größten und modernsten Kokereien Europas. Hier wurde Steinkohle unter hohen Temperaturen zu Koks verarbeitet, der vor allem in der Stahlindustrie gebraucht wurde. Heute bietet das ehemalige Industriegelände eine außergewöhnliche Kulisse für winterliche Veranstaltungen und die Eisbahn.</p>`,
     quiz: null,
-    challengeTitel: "📸 Foto-Challenge: Kokerei",
-    challenge: `<p><strong>Fotomotiv:</strong> Ein Gruppenfoto vor der Industriekulisse der Kokerei.</p>`
+    challengeTitel: "📸 Weihnachtsstimmung auf Zollverein",
+    challenge: `<p>Lichter, Eisbahn, Weihnachtsstimmung: Hier ist Kreativität gefragt! Gesucht wird ein möglichst weihnachtliches Gruppenfoto. Ob festlich, lustig oder herrlich kitschig, Hauptsache Weihnachten!</p><div id="gluehweinHinweis" class="gluehwein-hinweis"></div>`
   },
 
   /* MITTLERE RUNDE: PACT */
   pact: {
     titel: "PACT Zollverein",
-    wegLang: `<p>Von der Kokerei mit Eislaufbahn geht es zurück zu PACT Zollverein. Die genaue Wegführung zum Haupteingang wird noch ergänzt.</p><p>Vor dem Gebäude liegen große metallene Gebilde, die mit etwas Fantasie wie überdimensionale Tannenzapfen aussehen. Hier befindet sich der nächste Fotospot.</p>`,
+    wegLang: `<p>Von der Mannschaftsbrücke aus der rot beleuchteten Ringpromenade weiter folgen.</p><p>Zwischen der Fördermaschinenhalle und Halle 22 am <button type="button" class="fotolink" data-foto="tor.jpg" data-beschriftung="Tor">Tor</button> vorbei in Richtung Haupteingang des PACT gehen.</p><p>Vor dem Gebäude liegen große metallene Gebilde, die mit etwas Fantasie wie überdimensionale Tannenzapfen aussehen. Hier befindet sich der nächste Fotospot.</p>`,
 
     weg: `
       <p>
@@ -1198,7 +1213,6 @@ const stationen = {
     Blick vom Hauptweg, kein Abstecher
   */
   sanaa: {
-    wegLang: `<p>Von PACT Zollverein geht es weiter zum SANAA-Gebäude. Die genaue Wegbeschreibung wird noch ergänzt.</p>`,
     titel: "Das SANAA-Gebäude aus der Ferne",
     weg: `
       <p>Vom PACT aus geht es zurück am Tor vorbei auf den <button type="button" class="fotolink" data-foto="wegsanaa.jpg" data-beschriftung="Hauptweg">Hauptweg</button>, der mit roten Lichtern beleuchtet ist.</p>
@@ -1500,6 +1514,11 @@ function fortschrittLaden() {
         ? daten.quizAntworten
         : {};
 
+    if (aktuelleRoute === "lang" && daten.seite === "kokereirueckweg") {
+      kokereiRueckwegAnzeigen();
+      return true;
+    }
+
     if (aktuelleRoute === "lang" && daten.seite === "brueckenwahl") {
       brueckenWahlAnzeigen();
       return true;
@@ -1523,7 +1542,7 @@ function fortschrittLaden() {
 
     if (daten.seite === "upload") {
       el("abschlussweg").innerHTML = aktuelleRoute === "lang"
-        ? "Vom Doppelbock geht es zurück zu The Mine. Die genaue Wegbeschreibung wird noch ergänzt."
+        ? "Links am Doppelbock-Fördergerüst vorbei geht es zurück zum großen Platz. Auf der linken Seite befindet sich wieder <strong>The Mine</strong>."
         : "Links am Doppelbock-Fördergerüst vorbei geht es zurück zum großen Platz. Auf der linken Seite befindet sich wieder <strong>The Mine</strong>.";
       aktuelleSeite = "upload";
       seiteAnzeigen("uploadseite");
@@ -1699,6 +1718,16 @@ function stationAnzeigen() {
   el("challengetext").innerHTML =
     station.challenge;
 
+  if (aktuelleRoute === "lang" && id === "kokerei") {
+    const jetzt = new Date();
+    const ende = new Date(jetzt);
+    ende.setHours(18, 0, 0, 0);
+    const pauseMoeglich = ende.getTime() - jetzt.getTime() >= 30 * 60 * 1000;
+    el("gluehweinHinweis").innerHTML = pauseMoeglich
+      ? "<p><strong>Glühweinpause?</strong> Ein kurzer Glühweinumtrunk ist möglich, da bis 18:00 Uhr noch mindestens 30 Minuten bleiben.</p>"
+      : "<p><strong>Keine Zeit für eine Glühweinpause:</strong> Bis 18:00 Uhr bleiben weniger als 30 Minuten. Es geht ohne Pause weiter.</p>";
+  }
+
   const letzteStation =
     aktuelleStation === liste.length - 1;
 
@@ -1859,11 +1888,24 @@ function fotoGemachtWeiter() {
   }, reduzierteBewegung ? 0 : 230);
 }
 
+function kokereiRueckwegAnzeigen() {
+  aktuelleSeite = "kokereirueckweg";
+  speichern();
+  seiteAnzeigen("kokereirueckwegseite");
+}
+
+function kokereiRueckwegWeiter() {
+  aktuelleStation = aktuelleStationsListe().indexOf("pact");
+  stationAnzeigen();
+}
+
 function naechsteStation() {
   const liste = aktuelleStationsListe();
 
   if (aktuelleRoute === "lang" && aktuelleStationsID() === "raeder") {
     brueckenWahlAnzeigen();
+  } else if (aktuelleRoute === "lang" && aktuelleStationsID() === "kokerei") {
+    kokereiRueckwegAnzeigen();
   } else if (aktuelleStation < liste.length - 1) {
     aktuelleStation++;
     stationAnzeigen();
@@ -1873,7 +1915,10 @@ function naechsteStation() {
 }
 
 function vorherigeStation() {
-  if (aktuelleRoute === "lang" && aktuelleStationsID() === "humanitas") {
+  if (aktuelleRoute === "lang" && aktuelleStationsID() === "pact") {
+    aktuelleStation = aktuelleStationsListe().indexOf("kokerei");
+    kokereiRueckwegAnzeigen();
+  } else if (aktuelleRoute === "lang" && aktuelleStationsID() === "humanitas") {
     brueckenTreffAnzeigen();
   } else if (aktuelleStation > 0) {
     aktuelleStation--;
@@ -1885,7 +1930,7 @@ function vorherigeStation() {
 
 function uploadAnzeigen() {
   el("abschlussweg").innerHTML = aktuelleRoute === "lang"
-    ? "Vom Doppelbock geht es zurück zu The Mine. Die genaue Wegbeschreibung wird noch ergänzt."
+    ? "Links am Doppelbock-Fördergerüst vorbei geht es zurück zum großen Platz. Auf der linken Seite befindet sich wieder <strong>The Mine</strong>."
     : "Links am Doppelbock-Fördergerüst vorbei geht es zurück zum großen Platz. Auf der linken Seite befindet sich wieder <strong>The Mine</strong>.";
   aktuelleSeite = "upload";
   speichern();
