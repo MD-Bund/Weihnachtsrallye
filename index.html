@@ -1190,15 +1190,13 @@ const stationen = {
     wegLang: `<p>Von PACT Zollverein geht es weiter zum SANAA-Gebäude. Die genaue Wegbeschreibung wird noch ergänzt.</p>`,
     titel: "Das SANAA-Gebäude aus der Ferne",
     weg: `
-      <div class="platzhalter">
-        <p><strong>Wegbeschreibung folgt.</strong></p>
-        <p>Der Weg bleibt auf dem Hauptweg. Das SANAA-Gebäude wird aus der Ferne betrachtet. Ein Abstecher direkt zum Gebäude ist nicht vorgesehen.</p>
-      </div>
+      <p>Vom PACT aus geht es zurück am Tor vorbei auf den <button type="button" class="fotolink" data-foto="wegsanaa.jpg" data-beschriftung="Hauptweg">Hauptweg</button>, der mit roten Lichtern beleuchtet ist.</p>
+      <p>Dem Hauptweg nach links folgen und an der <button type="button" class="fotolink" data-foto="rechtssanaa.jpg" data-beschriftung="Kreuzung">Kreuzung</button> vor der zweiten Reihe von Pollern rechts abbiegen.</p>
     `,
     foto: "sanaa.jpg",
     fotoAlt: "SANAA-Gebäude auf Zollverein",
     faktTitel: "💡 Ein Adventskalender im XXL-Format",
-    fakt: `<p>Das SANAA-Gebäude verwandelt sich in einen überdimensionalen Adventskalender. Hinter den Fenstern verbergen sich die Türchen der Vorweihnachtszeit.</p>`,
+    fakt: `<p>Das SANAA-Gebäude ist ein markantes Ausbildungs- und Veranstaltungsgebäude auf dem Gelände von Zollverein, entworfen vom japanischen Architekturbüro SANAA.</p><p>In der Adventszeit verwandelt es sich in einen überdimensionalen Adventskalender. Hinter den Fenstern verbergen sich die Türchen der Vorweihnachtszeit.</p>`,
     quiz: null,
     challengeTitel: "📸 Foto-Challenge: Bescherung vorgezogen!",
     challenge: `
@@ -1207,102 +1205,24 @@ const stationen = {
     `
   },
 
-  /*
-    MITTLERE RUNDE: OKTOGON
-    Optionaler Stopp, vorerst eingebaut
-  */
-  oktogon: {
-    titel: "Oktogon / Balkon",
-
-    weg: `
-      <div class="platzhalter">
-        <p><strong>Optionaler Stopp.</strong></p>
-        <p>
-          Ob das Oktogon beziehungsweise
-          der Balkon eine eigene Station wird,
-          wird noch festgelegt.
-          Die Wegbeschreibung folgt.
-        </p>
-      </div>
-    `,
-
-    foto: "",
-    fotoAlt: "",
-
-    faktTitel: "💡 Wissenswertes",
-
-    fakt: `
-      <div class="platzhalter">
-        Fakten folgen, falls dieser Stopp
-        Bestandteil der mittleren Runde bleibt.
-      </div>
-    `,
-
-    quiz: null,
-
-    challengeTitel: "📸 Foto-Challenge folgt",
-
-    challenge: `
-      <p>
-        Eine mögliche Foto-Aufgabe wird
-        noch ausgearbeitet.
-      </p>
-    `
-  },
-
   /* GEMEINSAMER ABSCHLUSS: CASINO */
   casino: {
     titel: "Wenn Engel speisen",
-    wegLang: `<p>Vom SANAA-Gebäude führt die lange Runde weiter zum Casino Zollverein. Die genaue Wegführung wird noch ergänzt.</p><p>Vor dem ehemaligen Kompressorenhaus stehen zwei Engelsfiguren ohne Köpfe.</p>`,
-
     weg: `
-      <p>
-        Vom Red Dot Design Museum aus dem
-        Weg weiter folgen und am Ende links
-        abbiegen.
-        Ein kurzer Abstecher führt zum
-        Casino Zollverein.
-      </p>
-      <p>
-        Das ehemalige Kompressorenhaus
-        beherbergt heute ein Restaurant.
-        Vor dem Gebäude stehen zwei
-        Engelsfiguren ohne Köpfe.
-      </p>
+      <p>Vom Red Dot Design Museum aus dem Weg weiter folgen und am Ende links abbiegen. Ein kurzer Abstecher führt zum Casino Zollverein.</p>
+      <p>Auf der rechten Seite befindet sich das Casino mit zwei Engelsfiguren.</p>
     `,
 
-    /*
-      Die Wegbeschreibung oben gilt für die
-      kurze Runde.
-
-      Für die mittlere Runde wird unten
-      ein eigener Wegtext hinterlegt.
-    */
-
     wegMittel: `
-      <div class="platzhalter">
-        <p>
-          <strong>Wegbeschreibung folgt.</strong>
-        </p>
-        <p>
-          Hier wird später der Weg vom
-          Oktogon beziehungsweise vom Hauptweg
-          zum Casino Zollverein beschrieben.
-        </p>
-      </div>
-      <p>
-        Das ehemalige Kompressorenhaus
-        beherbergt heute ein Restaurant.
-        Vor dem Gebäude stehen zwei
-        Engelsfiguren ohne Köpfe.
-      </p>
+      <p>Den Weg ein Stück weiter am <button type="button" class="fotolink" data-foto="oktogon.jpg" data-beschriftung="Oktogon">Oktogon</button> (ehemaliger Kühlturm, dessen Form aus Stahl nachgebaut wurde) vorbei gehen.</p>
+      <p>Dann befindet sich auf der rechten Seite das Casino mit zwei Engelsfiguren.</p>
     `,
 
     foto: "engel.jpg",
     fotoAlt: "Engelsfiguren am Casino Zollverein",
 
-    faktTitel: "",
-    fakt: "",
+    faktTitel: "💡 Wenn Engel speisen",
+    fakt: `<p>Das Casino Zollverein befindet sich im ehemaligen Kompressorenhaus der Zeche Zollverein. Wo früher Maschinen zum Bergwerksbetrieb gehörten, ist heute ein Restaurant untergebracht.</p><p>Vor dem Gebäude stehen zwei ungewöhnliche Engelsfiguren ohne Köpfe. Bei diesen Weihnachtsengeln ist also etwas Unterstützung gefragt.</p>`,
     quiz: null,
 
     challengeTitel: "📸 Engel mit Köpfchen",
@@ -1332,6 +1252,7 @@ const stationen = {
   /* GEMEINSAMER ABSCHLUSS: DOPPELBOCK */
   doppelbock: {
     titel: "Das Doppelbock-Fördergerüst",
+    wegMittel: `<p>Vom Casino geht es weiter zum Wahrzeichen von Essen – einfach dem Weg weiter folgen.</p><p>Von hier aus ist es schon zu sehen: der Doppelbock mit der Aufschrift „Zeche Zollverein“.</p>`,
 
     weg: `
       <p>
@@ -1417,9 +1338,8 @@ const stationen = {
 
   Die Reihenfolge kann später hier geändert werden.
 
-  Das Oktogon ist in der mittleren Runde
-  vorläufig enthalten. Falls es kein eigener
-  Stopp wird, einfach "oktogon" entfernen.
+  Das Oktogon ist ein Orientierungspunkt auf dem Weg zum Casino,
+  aber keine eigene Station.
 */
 
 const routen = {
@@ -1438,7 +1358,6 @@ const routen = {
     "raeder",
     "pact",
     "sanaa",
-    "oktogon",
     "casino",
     "doppelbock"
   ],
@@ -1847,10 +1766,12 @@ function quizAnzeigen(quiz, id) {
       (richtig ? "" : " falsch");
 
     rueckmeldung.innerHTML =
-      "<strong>" +
-      (richtig ? "Richtig!" : "Nicht ganz.") +
-      "</strong><br>" +
-      quiz.erklaerung;
+      id === "humanitas" && !richtig
+        ? "Das war leider nicht korrekt."
+        : "<strong>" +
+          (richtig ? "Richtig!" : "Nicht ganz.") +
+          "</strong><br>" +
+          quiz.erklaerung;
   }
 }
 
@@ -1871,11 +1792,14 @@ function quizAntwortSpeichern(id, index) {
   quizAntworten[schluessel] = index;
 
   speichern();
+  if (id === "humanitas" && aktuelleStationsID() === "humanitas" && index === quiz.richtig) {
+    naechsteStation();
+    return;
+  }
   quizAnzeigen(quiz, id);
   if (id === "humanitas" && aktuelleStationsID() === "humanitas") {
-    const freigeschaltet = index === quiz.richtig;
-    el("weiterbutton").disabled = !freigeschaltet;
-    el("weiterbutton").classList.toggle("versteckt", !freigeschaltet);
+    el("weiterbutton").disabled = true;
+    el("weiterbutton").classList.add("versteckt");
   }
 }
 
