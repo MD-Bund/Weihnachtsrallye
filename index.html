@@ -563,11 +563,11 @@ p:last-child { margin-bottom: 0; }
     <!-- LANGE ROUTE: WAHL NACH DEN RÄDERN -->
     <section id="brueckenwahlseite" class="versteckt">
       <div class="kasten">
-        <div class="stationsnummer">Auf dem Weg zu Station 2 von 8 · HUMANITAS</div>
+        <div class="stationsnummer">Unterwegs zur nächsten Station</div>
         <h1 class="bruecken-titel">Mut zur L<s>Br</s>ücke?</h1>
         <p><strong>Gemeinsam oder getrennt?</strong></p>
         <p>Die Gruppe kann gemeinsam einen der beiden Wege wählen oder sich aufteilen: Ein Teil geht über die Mannschaftsbrücke, der andere darunter entlang.</p>
-        <p>Am Ende der Brücke treffen sich alle auf der Ringpromenade wieder. Erst wenn die Gruppe vollständig ist, geht es gemeinsam weiter zu HUMANITAS.</p>
+        <p>Am Ende der Brücke treffen sich alle auf der Ringpromenade wieder.</p>
         <img id="mannschaftsbrueckenah" class="wegbild" src="mannschaftsbrueckenah.jpg?v=20261112-2" alt="Nahaufnahme der Mannschaftsbrücke" loading="eager" decoding="async" onerror="brueckenNahaufnahmeFehler(this)">
         <p id="brueckenfotoFehler" class="bild-fehler versteckt" role="status">Die Nahaufnahme konnte nicht geladen werden. Bitte prüfen, ob <strong>mannschaftsbrueckenah.jpg</strong> im Hauptverzeichnis des GitHub-Repositories liegt.</p>
         <button type="button" class="wegauswahl-button" onclick="brueckenWegWaehlen('oben')">
@@ -585,7 +585,7 @@ p:last-child { margin-bottom: 0; }
     <!-- LANGE ROUTE: GEWÄHLTE BRÜCKENVARIANTE -->
     <section id="brueckenwegseite" class="versteckt">
       <div class="kasten">
-        <div class="stationsnummer">Auf dem Weg zu Station 2 von 8 · HUMANITAS</div>
+        <div class="stationsnummer">Unterwegs zur nächsten Station</div>
         <h2 class="bruecken-titel">Mut zur L<s>Br</s>ücke?</h2>
         <h3 id="brueckenwegtitel"></h3>
         <div id="brueckenwegtext"></div>
@@ -604,7 +604,7 @@ p:last-child { margin-bottom: 0; }
     <!-- LANGE ROUTE: GEMEINSAMER TREFFPUNKT -->
     <section id="brueckentreffseite" class="versteckt">
       <div class="kasten">
-        <div class="stationsnummer">Auf dem Weg zu Station 2 von 8 · HUMANITAS</div>
+        <div class="stationsnummer">Unterwegs zur nächsten Station</div>
         <h2>Alle wieder beisammen?</h2>
         <p>Beide Wege führen zur rot beleuchteten Ringpromenade. Falls die Gruppe sich aufgeteilt hat, hier wieder zusammenfinden und auf alle warten.</p>
         <button type="button" class="hauptbutton etappenbutton" onclick="brueckenWegWeiter()">✓ Gruppe vollzählig</button>
@@ -659,7 +659,7 @@ p:last-child { margin-bottom: 0; }
         id="quizkasten"
         class="kasten kasten-umrandet versteckt"
       >
-        <h3>❓ Schätzfrage</h3>
+        <h3 id="quiztitel">❓ Schätzfrage</h3>
         <p id="humanitasQuizHinweis" class="quiz-hinweis versteckt">Die richtige Antwort führt zur nächsten Station.</p>
         <p id="quizfrage"></p>
         <div id="quizantworten"></div>
@@ -1135,8 +1135,8 @@ const stationen = {
 
   /* LANGE ROUTE: NEUE STATIONEN */
   humanitas: {
-    titel: "HUMANITAS",
-    weg: `<p>Der rot beleuchteten Ringpromenade nach links folgen und die kleine Brücke mit dem roten Geländer überqueren.</p><p>Auf der rechten Seite erscheint ein Gebäude mit einer Uhr. Dort befindet sich HUMANITAS.</p>`,
+    titel: "Irren ist menschlich?",
+    weg: `<p>Der rot beleuchteten Ringpromenade nach links folgen und die kleine Brücke mit dem roten Geländer überqueren.</p><p>Auf der rechten Seite erscheint ein Gebäude mit einer Uhr. Dort befindet sich der Pflegedienst HUMANITAS.</p>`,
     foto: "humanitas.jpg", fotoAlt: "HUMANITAS auf Zollverein",
     faktTitel: "😉 HUMANITAS: QPR auf dem kurzen Dienstweg",
     fakt: `<p>Falls noch jemand zufällig eine frisch aktualisierte Qualitätsprüfungs-Richtlinie (QPR) in der Jackentasche hat, kann diese bei HUMANITAS gerne direkt eingeworfen werden. Spart Porto und verkürzt vielleicht den Dienstweg. 🎄</p>`,
@@ -1150,14 +1150,14 @@ const stationen = {
     challenge: `<p>Nach der richtigen Antwort geht es weiter zur Lokomotive.</p>`
   },
   lokomotive: {
-    titel: "Die Lokomotive",
+    titel: "Polar-Express?",
     weg: `<p>Von HUMANITAS aus den <button type="button" class="fotolink" data-foto="abzweighumanitas.jpg" data-beschriftung="Abzweig">Abzweig</button> links nehmen, weg von der Ringpromenade.</p><p>Auf der linken Seite liegt auf der anderen Straßenseite ein <button type="button" class="fotolink" data-foto="parkplatzrueckweg.jpg" data-beschriftung="Parkplatz">Parkplatz</button>, über den später der Rückweg führt.</p><p>Zunächst geht es aber weiter zur historischen Lokomotive.</p>`,
     foto: "lokomotive.jpg", fotoAlt: "Lokomotive auf Zollverein",
     faktTitel: "💡 Ein heißer Arbeitsplatz",
     fakt: `<p>Die Lokomotive gehörte zum Betrieb der Kokerei Zollverein. Mit solchen Spezialfahrzeugen wurde glühend heißer Koks von den Koksöfen zum Löschturm transportiert. Dort wurde der Koks mit großen Mengen Wasser abgekühlt.</p>`,
     quiz: null,
-    challengeTitel: "📸 Der etwas andere Weihnachts-Express",
-    challenge: `<p>Zugegeben, der Weihnachtsexpress sieht normalerweise etwas anders aus. Aber eine Lokomotive ist schließlich immer ein schönes Motiv für ein weihnachtliches Gruppenfoto!</p><p><strong>Fotomotiv:</strong> Alle einsteigen und Gruppenfoto machen!</p>`
+    challengeTitel: "📸 Eiskalt einsteigen!",
+    challenge: `<p>Zugegeben, der Polar-Express sieht normalerweise etwas anders aus. Aber eine Lokomotive ist schließlich immer ein schönes Motiv für ein weihnachtliches Gruppenfoto!</p><p><strong>Fotomotiv:</strong> Alle einsteigen und Gruppenfoto machen!</p>`
   },
   kokerei: {
     titel: "Die Kokerei Zollverein mit Eislaufbahn",
@@ -1273,8 +1273,8 @@ const stationen = {
     foto: "engel.jpg",
     fotoAlt: "Engelsfiguren am Casino Zollverein",
 
-    faktTitel: "💡 Wenn Engel speisen",
-    fakt: `<p>Das Casino Zollverein befindet sich im ehemaligen Kompressorenhaus der Zeche Zollverein. Wo früher Maschinen zum Bergwerksbetrieb gehörten, ist heute ein Restaurant untergebracht.</p><p>Vor dem Gebäude stehen zwei ungewöhnliche Engelsfiguren ohne Köpfe. Bei diesen Weihnachtsengeln ist also etwas Unterstützung gefragt.</p>`,
+    faktTitel: "💡 Nicht nur heiße Luft",
+    fakt: `<p>Wo heute im Casino Zollverein gespeist wird, dröhnten früher riesige Kompressoren. Sie erzeugten Druckluft, mit der unter Tage unter anderem die Abbauhämmer der Bergleute angetrieben wurden.</p><p>Druckluft war im Bergbau besonders wichtig, weil sie den Betrieb von Werkzeugen ohne explosionsgefährliche Verbrennungsmotoren ermöglichte.</p><p>Seit 1996 wird in der ehemaligen Industriehalle nicht mehr Druck gemacht, sondern gekocht und gefeiert.</p>`,
     quiz: null,
 
     challengeTitel: "📸 Engel mit Köpfchen",
@@ -1323,50 +1323,9 @@ const stationen = {
     foto: "doppelbock.jpg",
     fotoAlt: "Doppelbock-Fördergerüst",
 
-    faktTitel:
-      "💡 Warum ist der Doppelbock das Wahrzeichen von Essen?",
+    faktTitel: "💡 Bock auf Doppelbock",
 
-    fakt: `
-      <p>
-        Das 55 Meter hohe Doppelbock-Fördergerüst
-        nahm 1932 seinen Betrieb auf.
-        Am 23. Dezember 1986 endete hier
-        die Kohleförderung.
-      </p>
-      <p>
-        Ein Blick nach oben lohnt sich:
-        Dort befinden sich vier riesige
-        Seilscheiben mit jeweils
-        <strong>6,5 Metern Durchmesser</strong>.
-        Aus dieser Entfernung wirken sie
-        deutlich kleiner als die Seilscheibe,
-        die bereits zu Beginn der Route aus der
-        Nähe zu sehen war.
-      </p>
-      <p>
-        Die besondere Konstruktion ermöglichte
-        den gleichzeitigen Betrieb zweier
-        Förderanlagen.
-        Zollverein Schacht XII galt damals
-        als die leistungsstärkste Zeche der Welt.
-      </p>
-      <p>
-        <strong>Übrigens:</strong>
-        Obwohl die Kohleförderung 1986 endete,
-        drehten sich die Seilscheiben für die
-        Grubenwasserhaltung noch jahrzehntelang
-        weiter.
-        Erst mit der Verfüllung des Schachts
-        im Jahr 2025 kamen sie endgültig
-        zum Stillstand.
-      </p>
-      <p>
-        Heute ist das Fördergerüst eines der
-        bekanntesten Wahrzeichen Essens
-        und ein Symbol für den Wandel
-        des Ruhrgebiets.
-      </p>
-    `,
+    fakt: `<p>Das 55 Meter hohe Doppelbock-Fördergerüst ist eines der bekanntesten Wahrzeichen der Zeche Zollverein und des Ruhrgebiets. Es war von 1932 bis 1986 für die Kohleförderung in Betrieb. Noch bis 2025 drehten sich die Scheiben für die Grubenwasserhaltung weiter, damit Essen nicht zu einem großen See wurde. Nun sind die Schächte verfüllt und die Räder in Rente.</p><p>Ganz oben befinden sich vier riesige Seilscheiben mit jeweils <strong>6,5 Metern Durchmesser</strong>. Es sind die gleichen wie die, die bereits zu Beginn der Route aus der Nähe zu sehen waren.</p>`,
 
     quiz: null,
 
@@ -1817,6 +1776,7 @@ function quizSchluessel(id) {
 }
 
 function quizAnzeigen(quiz, id) {
+  el("quiztitel").textContent = id === "humanitas" ? "❓ Gepflegt geschätzt" : "❓ Schätzfrage";
   const kasten = el("quizkasten");
   const antwortbereich = el("quizantworten");
   const rueckmeldung = el("quizrueckmeldung");
@@ -2138,7 +2098,8 @@ function hintergrundEinrichten() {
 function karteOeffnen() {
   if (
     aktuelleRoute !== "kurz" &&
-    aktuelleRoute !== "mittel"
+    aktuelleRoute !== "mittel" &&
+    aktuelleRoute !== "lang"
   ) {
     return;
   }
