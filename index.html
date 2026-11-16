@@ -733,8 +733,7 @@ p:last-child { margin-bottom: 0; }
           </a>
 
           <p class="upload-hinweis">
-            Die Upload-Seite öffnet sich separat.
-            Fotos anderer Gruppen sind nicht einsehbar.
+            Dropbox öffnet sich in einem neuen Tab. Nach dem Hochladen diesen Tab schließen oder zur Rallye zurückwechseln. Der Fortschritt bleibt erhalten. Fotos anderer Gruppen sind nicht einsehbar.
           </p>
         </div>
 
@@ -781,6 +780,17 @@ p:last-child { margin-bottom: 0; }
             Dann wartet bei <strong>The Mine</strong>
             ein Glühweinempfang auf alle!
           </p>
+        </div>
+
+        <div id="rolltreppenBonus" class="kasten kasten-tuerkis versteckt">
+          <h2>🎸 Stairway to Heaven?</h2>
+          <p>Wer noch Lust und Zeit hat, kann zum Abschluss freiwillig mit der Rolltreppe hinauffahren.</p>
+          <button type="button" class="hauptbutton" onclick="rolltreppenWegUmschalten()">Weg zur Rolltreppe anzeigen</button>
+          <div id="rolltreppenBonusWeg" class="versteckt">
+            <h3>🧭 Wegbeschreibung</h3>
+            <p>Von The Mine geht es quer über den Werner-Müller-Platz. Auf der gegenüberliegenden Seite ist die orangefarbene Rolltreppe zu sehen. Am Fuß der Rolltreppe beginnt die freiwillige Zusatzrunde.</p>
+            <p>Nach der Fahrt geht es zurück zu The Mine.</p>
+          </div>
         </div>
 
         <button
@@ -1524,6 +1534,7 @@ function fortschrittLaden() {
     if (daten.seite === "abschluss") {
       aktuelleSeite = "abschluss";
       seiteAnzeigen("abschlussseite");
+      rolltreppenBonusAktualisieren();
       return true;
     }
 
@@ -1973,10 +1984,23 @@ function zurLetztenStation() {
   stationAnzeigen();
 }
 
+function rolltreppenBonusAktualisieren() {
+  const jetzt = new Date();
+  const vor1750 = jetzt.getHours() < 17 ||
+    (jetzt.getHours() === 17 && jetzt.getMinutes() < 50);
+  el("rolltreppenBonus").classList.toggle("versteckt", aktuelleRoute !== "lang" || !vor1750);
+  el("rolltreppenBonusWeg").classList.add("versteckt");
+}
+
+function rolltreppenWegUmschalten() {
+  el("rolltreppenBonusWeg").classList.toggle("versteckt");
+}
+
 function abschlussAnzeigen() {
   aktuelleSeite = "abschluss";
   speichern();
   seiteAnzeigen("abschlussseite");
+  rolltreppenBonusAktualisieren();
 }
 
 /*
